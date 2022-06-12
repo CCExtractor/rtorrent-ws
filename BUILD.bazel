@@ -77,8 +77,6 @@ cc_library(
         "//conditions:default": [
             "-lpthread",
             "-lstdc++",
-            "-luSockets",
-            "-lz",
         ],
     }),
     deps = [
@@ -87,6 +85,8 @@ cc_library(
         "@json",
         "@xmlrpc",
         "@libtorrent//:torrent",
+        "@uSockets",
+        "@uWebSockets",
     ] + select({
         "@platforms//os:macos": [],
         "//conditions:default": [

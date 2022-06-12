@@ -115,3 +115,20 @@ http_archive(
     strip_prefix = "mimalloc-2.0.6",
     urls = ["https://github.com/microsoft/mimalloc/archive/refs/tags/v2.0.6.zip"],
 )
+
+# websocket dependencies
+http_archive(
+    name = "uWebSockets",
+    build_file = "@rtorrent//:third_party/uWebSockets.BUILD",
+    sha256 = "5083f838e36478ae3f8a946e7d9e002a16091314a3ef7c024b197a6e461fb094",
+    strip_prefix = "uWebSockets-b424a1965ff42f2b88cef2c226baabbb98b7688e",
+    urls = ["https://github.com/Young-Flash/uWebSockets/archive/b424a1965ff42f2b88cef2c226baabbb98b7688e.zip"],
+)
+
+http_archive(
+    name = "uSockets",
+    build_file = "@rtorrent//:third_party/uSockets.BUILD",
+    sha256 = "db67ee3bb9fbd7c1d731658734d2fc747555c967b52d6f17fa3ec6a2e300905a",
+    strip_prefix = "uSockets-865e4935ac47b61be961e8ae042ddf35a519ca60",
+    urls = ["https://github.com/Young-Flash/uSockets/archive/865e4935ac47b61be961e8ae042ddf35a519ca60.zip"],
+)
