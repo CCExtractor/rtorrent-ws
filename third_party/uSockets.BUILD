@@ -8,7 +8,7 @@ cc_library(
         "-std=c17",
         "-flto",
         "-O3",
-        "-DLIBUS_USE_OPENSSL"
+        "-DLIBUS_NO_SSL"
     ],
     strip_include_prefix = "src",
     visibility = ["//visibility:public"]
