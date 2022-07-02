@@ -129,6 +129,31 @@ Dependencies:
 - libxmlrpc-c with development files (optional if USE_XMLRPC=OFF, for XML-RPC support)
 - nlohmann/json with development files (optional if USE_JSONRPC=OFF, for JSON-RPC support)
 - googletest with development files (optional, for unit tests)
+- [uWebSockets](https://github.com/Young-Flash/uWebSockets) and [uSockets](https://github.com/Young-Flash/uSockets)
+
+```sh
+# Install uWebSockets and uSockets into PATH
+
+# Clone repository
+git clone https://github.com/Young-Flash/uWebSockets
+cd uWebSockets
+rm -rf uSockets
+git clone https://github.com/Young-Flash/uSockets
+
+# Build
+make
+
+# Install header files and lib for uSockets
+cd uSockets/src
+sudo cp libusockets.h /usr/local/include/libusockets.h
+
+cd ../
+sudo cp uSockets.a /usr/lib/x86_64-linux-gnu/libuSockets.a
+
+# Install header files for uWebSockets
+cd ../
+sudo make install
+```
 
 ```sh
 # Compile and install libtorrent (matching version required)
