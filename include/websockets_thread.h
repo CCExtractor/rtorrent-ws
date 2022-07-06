@@ -44,6 +44,8 @@ public:
 
   void queue_item(void*) override;
 
+  void publish_ws_topic(std::string_view topic, std::string_view message);
+
 private:
 
   std::unique_ptr<std::thread> m_websockets_thread = nullptr;

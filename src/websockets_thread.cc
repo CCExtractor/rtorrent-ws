@@ -64,10 +64,15 @@ WebsocketsThread::queue_item(void*) {
 void
 WebsocketsThread::start_thread() {
   auto create_ws_server_and_run = [&]() {
+    if (!listen_info) {
+      throw torrent::internal_error("Can't get listen info for websocket, please check network.websockets.open_local or network.websockets.open_port in rtorrent.rc !!!");
+    }
+
     m_websockets_app = new App();
 
     App::WebSocketBehavior<ConnectionData> behavior;
     behavior.open = [&](WebSocket<false, true, ConnectionData>* ws) {
+      ws->subscribe("event.*");
       all_connection.emplace_back(ws);
       ws->getUserData()->address = ws->getRemoteAddressAsText();
     };
@@ -108,4 +113,11 @@ WebsocketsThread::handle_request(const std::string_view& request) {
   rpc::rpc.dispatch(rpc::RpcManager::RPCType::JSON, request.data(), request.length(), [&](const char* response, uint32_t) {
     return m_websocket_connection->send(std::string_view(response), uWS::OpCode::TEXT);
   });
+}
+
+void WebsocketsThread::publish_ws_topic(std::string_view topic, std::string_view message) {
+  // `m_websockets_app` maybe uninitialized when some events happen so null check is required here
+  if (m_websockets_app) {
+    m_websockets_app->publish(topic, message, OpCode::TEXT);
+  }
 }

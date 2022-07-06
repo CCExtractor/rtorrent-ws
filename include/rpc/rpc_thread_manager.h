@@ -28,6 +28,8 @@ public:
     void queue_item(void* newFunc);
 
     torrent::Poll* poll();
+
+    void publish_ws_topic(std::string_view topic, std::string_view message);
     
 private:
 

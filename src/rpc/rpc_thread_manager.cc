@@ -47,3 +47,7 @@ void RpcThreadManager::queue_item(void* newFunc) {
 torrent::Poll* RpcThreadManager::poll() {
   return m_thread_worker->poll();
 }
+
+void RpcThreadManager::publish_ws_topic(std::string_view topic, std::string_view message) {
+  m_websockets_thread->publish_ws_topic(topic, message);
+}

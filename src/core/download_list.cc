@@ -30,14 +30,30 @@
 #include "core/download_list.h"
 #include "core/download_store.h"
 #include "ui/root.h"
+#include "nlohmann/json.hpp"
 
 #define DL_TRIGGER_EVENT(download, event_name)                                 \
   rpc::commands.call_catch(event_name,                                         \
                            rpc::make_target(download),                         \
                            torrent::Object(),                                  \
-                           "Event '" event_name "' failed: ");
+                           "Event '" event_name "' failed: ");                 \
+  publish_topic(download, event_name);
 
 namespace core {
+
+void publish_topic(Download* download, std::string_view topic) {
+  nlohmann::json message = {
+    {"id", nullptr},
+    {"jsonrpc", "2,0"},
+    {"result", {
+                  {"torrent_hash_value", torrent::utils::transform_hex_str(download->info()->hash().str())},
+                  {"event_name", topic},
+                  {"time_stamp", std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count()}
+                }
+    }
+  };
+  worker_thread->publish_ws_topic("event.*", message.dump());
+}
 
 #ifdef RT_USE_EXTRA_DEBUG
 inline void
