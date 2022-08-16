@@ -24,6 +24,7 @@
 #include "rpc/parse_commands.h"
 #include "thread_base.h"
 #include "utils/jsonrpc/common.h"
+#include "globals.h"
 
 using jsonrpccxx::JsonRpcException;
 using nlohmann::json;
@@ -243,8 +244,16 @@ jsonrpc_call_command(const std::string& method, const json& params) {
     torrent::Object  object;
     rpc::target_type target = rpc::make_target();
 
-    torrent::thread_base::acquire_global_lock();
-    torrent::main_thread()->interrupt();
+    std::shared_lock<std::shared_mutex> read_lock;
+    std::unique_lock<std::shared_mutex> write_lock;
+
+    if (readonly_command.count(method)) {
+      read_lock = std::shared_lock(torrent::thread_base::m_global.lock);
+    }
+    else {
+      write_lock = std::unique_lock(torrent::thread_base::m_global.lock);
+      torrent::main_thread()->interrupt();
+    }
 
     if (itr->second.m_flags & CommandMap::flag_no_target) {
       json_to_object(params, command_base::target_generic, &target)
@@ -260,13 +269,10 @@ jsonrpc_call_command(const std::string& method, const json& params) {
 
     const auto& result = rpc::commands.call_command(itr, object, target);
 
-    torrent::thread_base::release_global_lock();
     return object_to_json(result);
   } catch (torrent::input_error& e) {
-    torrent::thread_base::release_global_lock();
     throw JsonRpcException(-32602, e.what());
   } catch (torrent::local_error& e) {
-    torrent::thread_base::release_global_lock();
     throw JsonRpcException(-32000, e.what());
   }
 }

@@ -2,6 +2,9 @@
 // Copyright (C) 2005-2011, Jari Sundell <jaris@ifi.uio.no>
 
 #include "buildinfo.h"
+#include "globals.h"
+#include <torrent/torrent.h>
+
 
 #ifdef HAVE_XMLRPC_C
 
@@ -575,6 +578,9 @@ RpcXml::cleanup() {
 
 bool
 RpcXml::process(const char* inBuffer, uint32_t length, res_callback callback) {
+  std::unique_lock lock(torrent::thread_base::m_global.lock);
+  torrent::main_thread()->interrupt();
+
   xmlrpc_env localEnv;
   xmlrpc_env_init(&localEnv);
 
@@ -607,7 +613,7 @@ RpcXml::insert_command(const char* name, const char* parm, const char* doc) {
                                    doc);
 
   if (localEnv.fault_occurred)
-    throw torrent::internal_error("Fault occured while inserting xmlrpc call.");
+    throw ::torrent::internal_error("Fault occured while inserting xmlrpc call.");
 
   xmlrpc_env_clean(&localEnv);
 }

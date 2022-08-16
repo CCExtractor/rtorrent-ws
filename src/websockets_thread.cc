@@ -36,7 +36,7 @@ void
 WebsocketsThread::set_rpc_log(const std::string &filename) {
   m_rpcLog = filename;
 
-  torrent::thread_base::acquire_global_lock();
+  std::unique_lock lock(torrent::thread_base::m_global.lock);
 
   if (m_log_fd != -1) {
     ::close(m_log_fd);
@@ -53,7 +53,6 @@ WebsocketsThread::set_rpc_log(const std::string &filename) {
   }
   control->core()->push_log_std("Logging RPC events to '" + m_rpcLog + "'.");
 
-  torrent::thread_base::release_global_lock();
 }
 
 void

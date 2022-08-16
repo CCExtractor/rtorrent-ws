@@ -6,5 +6,10 @@
 torrent::utils::priority_queue_default taskScheduler;
 torrent::utils::timer                  cachedTime;
 
-Control*      control       = nullptr;
+Control*          control       = nullptr;
 RpcThreadManager* worker_thread = nullptr;
+
+std::unordered_set<std::string> readonly_command = {
+  "throttle.global_up.rate", "throttle.global_down.rate",
+  "download_list", "d.name"
+};

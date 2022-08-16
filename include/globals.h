@@ -4,6 +4,7 @@
 #ifndef TORRENT_GLOBALS_H
 #define TORRENT_GLOBALS_H
 
+#include <unordered_set>
 #include <torrent/utils/priority_queue_default.h>
 #include <torrent/utils/timer.h>
 
@@ -23,5 +24,7 @@ extern torrent::utils::timer                  cachedTime;
 
 extern Control*      control;
 extern RpcThreadManager* worker_thread;
+
+extern std::unordered_set<std::string> readonly_command;
 
 #endif

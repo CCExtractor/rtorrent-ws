@@ -62,9 +62,8 @@ void
 ThreadWorker::msg_change_rpc_log(ThreadBase* baseThread) {
   ThreadWorker* thread = (ThreadWorker*)baseThread;
 
-  acquire_global_lock();
+  std::unique_lock lock(m_global.lock);
   thread->change_rpc_log();
-  release_global_lock();
 }
 
 void
