@@ -277,14 +277,14 @@ initialize_command_ui() {
     return cmd_ui_unfocus_download(download);
   });
   CMD2_ANY("ui.current_view",
-           [](const auto&, const auto&) { return cmd_ui_current_view(); });
+           [](const auto&, const auto&) { return cmd_ui_current_view(); }, true);
   CMD2_ANY_STRING("ui.current_view.set", [](const auto&, const auto& args) {
     return cmd_ui_set_view(args);
   });
 
   CMD2_ANY("ui.input.history.size", [](const auto&, const auto&) {
     return control->ui()->get_input_history_size();
-  });
+  }, true);
   CMD2_ANY_VALUE_V("ui.input.history.size.set",
                    [](const auto&, const auto& size) {
                      return control->ui()->set_input_history_size(size);
@@ -308,5 +308,5 @@ initialize_command_ui() {
   // TODO: Add 'option_string' for rtorrent-specific options.
   CMD2_VAR_STRING("ui.torrent_list.layout", "full");
 
-  CMD2_ANY("print", &apply_print);
+  CMD2_ANY("print", &apply_print, true);
 }

@@ -45,9 +45,9 @@ mkdir(const torrent::Object::string_type& path, bool recursive, bool nothrow) {
 void
 initialize_command_fs() {
   CMD2_ANY("fs.homedir",
-           [](const auto&, const auto&) { return homedir(false); });
+           [](const auto&, const auto&) { return homedir(false); }, true);
   CMD2_ANY("fs.homedir.nothrow",
-           [](const auto&, const auto&) { return homedir(true); });
+           [](const auto&, const auto&) { return homedir(true); }, true);
 
   CMD2_ANY_STRING("fs.mkdir", [](const auto&, const auto& path) {
     return mkdir(path, false, false);

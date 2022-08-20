@@ -263,9 +263,9 @@ initialize_command_network() {
   CMD2_VAR_STRING("network.port_range", "6881-6999");
 
   CMD2_ANY("network.listen.port",
-           [cm](const auto&, const auto&) { return cm->listen_port(); });
+           [cm](const auto&, const auto&) { return cm->listen_port(); }, true);
   CMD2_ANY("network.listen.backlog",
-           [cm](const auto&, const auto&) { return cm->listen_backlog(); });
+           [cm](const auto&, const auto&) { return cm->listen_backlog(); }, true);
   CMD2_ANY_VALUE_V(
     "network.listen.backlog.set",
     [cm](const auto&, const auto& v) { return cm->set_listen_backlog(v); });
@@ -285,38 +285,38 @@ initialize_command_network() {
 
   CMD2_ANY("network.http.cacert", [httpStack](const auto&, const auto&) {
     return httpStack->http_cacert();
-  });
+  }, true);
   CMD2_ANY_STRING_V("network.http.cacert.set",
                     [httpStack](const auto&, const auto& s) {
                       return httpStack->set_http_cacert(s);
                     });
   CMD2_ANY("network.http.capath", [httpStack](const auto&, const auto&) {
     return httpStack->http_capath();
-  });
+  }, true);
   CMD2_ANY_STRING_V("network.http.capath.set",
                     [httpStack](const auto&, const auto& s) {
                       return httpStack->set_http_capath(s);
                     });
   CMD2_ANY(
     "network.http.dns_cache_timeout",
-    [httpStack](const auto&, const auto&) { return httpStack->dns_timeout(); });
+    [httpStack](const auto&, const auto&) { return httpStack->dns_timeout(); }, true);
   CMD2_ANY_VALUE_V("network.http.dns_cache_timeout.set",
                    [httpStack](const auto&, const auto& timeout) {
                      return httpStack->set_dns_timeout(timeout);
                    });
   CMD2_ANY("network.http.current_open", [httpStack](const auto&, const auto&) {
     return httpStack->active();
-  });
+  }, true);
   CMD2_ANY("network.http.max_open", [httpStack](const auto&, const auto&) {
     return httpStack->max_active();
-  });
+  }, true);
   CMD2_ANY_VALUE_V("network.http.max_open.set",
                    [httpStack](const auto&, const auto& a) {
                      return httpStack->set_max_active(a);
                    });
   CMD2_ANY("network.http.proxy_address", [httpStack](const auto&, const auto&) {
     return httpStack->http_proxy();
-  });
+  }, true);
   CMD2_ANY_STRING_V("network.http.proxy_address.set",
                     [httpStack](const auto&, const auto& s) {
                       return httpStack->set_http_proxy(s);
@@ -324,7 +324,7 @@ initialize_command_network() {
   CMD2_ANY("network.http.ssl_verify_host",
            [httpStack](const auto&, const auto&) {
              return httpStack->ssl_verify_host();
-           });
+           }, true);
   CMD2_ANY_VALUE_V("network.http.ssl_verify_host.set",
                    [httpStack](const auto&, const auto& v) {
                      return httpStack->set_ssl_verify_host(v);
@@ -332,20 +332,20 @@ initialize_command_network() {
   CMD2_ANY("network.http.ssl_verify_peer",
            [httpStack](const auto&, const auto&) {
              return httpStack->ssl_verify_peer();
-           });
+           }, true);
   CMD2_ANY_VALUE_V("network.http.ssl_verify_peer.set",
                    [httpStack](const auto&, const auto& v) {
                      return httpStack->set_ssl_verify_peer(v);
                    });
 
   CMD2_ANY("network.send_buffer.size",
-           [cm](const auto&, const auto&) { return cm->send_buffer_size(); });
+           [cm](const auto&, const auto&) { return cm->send_buffer_size(); }, true);
   CMD2_ANY_VALUE_V(
     "network.send_buffer.size.set",
     [cm](const auto&, const auto& v) { return cm->set_send_buffer_size(v); });
   CMD2_ANY("network.receive_buffer.size", [cm](const auto&, const auto&) {
     return cm->receive_buffer_size();
-  });
+  }, true);
   CMD2_ANY_VALUE_V("network.receive_buffer.size.set",
                    [cm](const auto&, const auto& v) {
                      return cm->set_receive_buffer_size(v);
@@ -355,21 +355,21 @@ initialize_command_network() {
 
   CMD2_ANY("network.bind_address", [](const auto&, const auto&) {
     return control->core()->bind_address();
-  });
+  }, true);
   CMD2_ANY_STRING_V("network.bind_address.set",
                     [](const auto&, const auto& addr) {
                       return control->core()->set_bind_address(addr);
                     });
   CMD2_ANY("network.local_address", [](const auto&, const auto&) {
     return control->core()->local_address();
-  });
+  }, true);
   CMD2_ANY_STRING_V("network.local_address.set",
                     [](const auto&, const auto& addr) {
                       return control->core()->set_local_address(addr);
                     });
   CMD2_ANY("network.proxy_address", [](const auto&, const auto&) {
     return control->core()->proxy_address();
-  });
+  }, true);
   CMD2_ANY_STRING_V("network.proxy_address.set",
                     [](const auto&, const auto& addr) {
                       return control->core()->set_proxy_address(addr);
@@ -377,21 +377,21 @@ initialize_command_network() {
 
   CMD2_ANY("network.open_files", [fileManager](const auto&, const auto&) {
     return fileManager->open_files();
-  });
+  }, true);
   CMD2_ANY("network.max_open_files", [fileManager](const auto&, const auto&) {
     return fileManager->max_open_files();
-  });
+  }, true);
   CMD2_ANY_VALUE_V("network.max_open_files.set",
                    [fileManager](const auto&, const auto& v) {
                      return fileManager->set_max_open_files(v);
                    });
   CMD2_ANY("network.total_handshakes", [](const auto&, const auto&) {
     return torrent::total_handshakes();
-  });
+  }, true);
   CMD2_ANY("network.open_sockets",
-           [cm](const auto&, const auto&) { return cm->size(); });
+           [cm](const auto&, const auto&) { return cm->size(); }, true);
   CMD2_ANY("network.max_open_sockets",
-           [cm](const auto&, const auto&) { return cm->max_size(); });
+           [cm](const auto&, const auto&) { return cm->max_size(); }, true);
   CMD2_ANY_VALUE_V(
     "network.max_open_sockets.set",
     [cm](const auto&, const auto& v) { return cm->set_max_size(v); });
@@ -412,7 +412,7 @@ initialize_command_network() {
 
   CMD2_ANY("network.xmlrpc.size_limit", [](const auto&, const auto&) {
     return std::numeric_limits<size_t>::max();
-  });
+  }, true);
 
   CMD2_REDIRECT_GENERIC("network.xmlrpc.dialect.set", "true");
   CMD2_REDIRECT_GENERIC("network.xmlrpc.size_limit.set", "true");

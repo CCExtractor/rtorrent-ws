@@ -209,8 +209,8 @@ initialize_command_local() {
   torrent::FileManager*  fileManager  = torrent::file_manager();
 
   CMD2_ANY("system.hostname",
-           [](const auto&, const auto&) { return system_hostname(); });
-  CMD2_ANY("system.pid", [](const auto&, const auto&) { return getpid(); });
+           [](const auto&, const auto&) { return system_hostname(); }, true);
+  CMD2_ANY("system.pid", [](const auto&, const auto&) { return getpid(); }, true);
 
   CMD2_VAR_C_STRING("system.api_version", (int64_t)RT_API_VERSION);
   CMD2_VAR_C_STRING("system.client_version", RT_VERSION);
@@ -222,7 +222,7 @@ initialize_command_local() {
 
   CMD2_ANY("system.file_status_cache.size", [](const auto&, const auto&) {
     return control->core()->file_status_cache()->size();
-  });
+  }, true);
   CMD2_ANY_V("system.file_status_cache.prune", [](const auto&, const auto&) {
     return control->core()->file_status_cache()->prune();
   });
@@ -234,27 +234,27 @@ initialize_command_local() {
   CMD2_ANY("system.files.opened_counter",
            [fileManager](const auto&, const auto&) {
              return fileManager->files_opened_counter();
-           });
+           }, true);
   CMD2_ANY("system.files.closed_counter",
            [fileManager](const auto&, const auto&) {
              return fileManager->files_closed_counter();
-           });
+           }, true);
   CMD2_ANY("system.files.failed_counter",
            [fileManager](const auto&, const auto&) {
              return fileManager->files_failed_counter();
-           });
+           }, true);
 
   CMD2_ANY_STRING("system.env",
                   [](const auto&, const auto& arg) { return system_env(arg); });
 
   CMD2_ANY("system.time",
-           [](const auto&, const auto&) { return cachedTime.seconds(); });
+           [](const auto&, const auto&) { return cachedTime.seconds(); }, true);
   CMD2_ANY("system.time_seconds", [](const auto&, const auto&) {
     return torrent::utils::timer::current_seconds();
-  });
+  }, true);
   CMD2_ANY("system.time_usec", [](const auto&, const auto&) {
     return torrent::utils::timer::current_usec();
-  });
+  }, true);
 
   CMD2_ANY_VALUE_V("system.umask.set",
                    [](const auto&, const auto& mode) { return umask(mode); });
@@ -270,14 +270,14 @@ initialize_command_local() {
   CMD2_REDIRECT_GENERIC_NO_EXPORT("system.shutdown", "system.shutdown.normal");
 
   CMD2_ANY("system.cwd",
-           [](const auto&, const auto&) { return system_get_cwd(); });
+           [](const auto&, const auto&) { return system_get_cwd(); }, true);
   CMD2_ANY_STRING("system.cwd.set", [](const auto&, const auto& rawArgs) {
     return system_set_cwd(rawArgs);
   });
 
   CMD2_ANY("pieces.sync.always_safe", [chunkManager](const auto&, const auto&) {
     return chunkManager->safe_sync();
-  });
+  }, true);
   CMD2_ANY_VALUE_V("pieces.sync.always_safe.set",
                    [chunkManager](const auto&, const auto& state) {
                      return chunkManager->set_safe_sync(state);
@@ -285,10 +285,10 @@ initialize_command_local() {
   CMD2_ANY("pieces.sync.safe_free_diskspace",
            [chunkManager](const auto&, const auto&) {
              return chunkManager->safe_free_diskspace();
-           });
+           }, true);
   CMD2_ANY("pieces.sync.timeout", [chunkManager](const auto&, const auto&) {
     return chunkManager->timeout_sync();
-  });
+  }, true);
   CMD2_ANY_VALUE_V("pieces.sync.timeout.set",
                    [chunkManager](const auto&, const auto& seconds) {
                      return chunkManager->set_timeout_sync(seconds);
@@ -296,32 +296,32 @@ initialize_command_local() {
   CMD2_ANY("pieces.sync.timeout_safe",
            [chunkManager](const auto&, const auto&) {
              return chunkManager->timeout_safe_sync();
-           });
+           }, true);
   CMD2_ANY_VALUE_V("pieces.sync.timeout_safe.set",
                    [chunkManager](const auto&, const auto& seconds) {
                      return chunkManager->set_timeout_safe_sync(seconds);
                    });
   CMD2_ANY("pieces.sync.queue_size", [chunkManager](const auto&, const auto&) {
     return chunkManager->sync_queue_size();
-  });
+  }, true);
 
   CMD2_ANY("pieces.preload.type", [chunkManager](const auto&, const auto&) {
     return chunkManager->preload_type();
-  });
+  }, true);
   CMD2_ANY_VALUE_V("pieces.preload.type.set",
                    [chunkManager](const auto&, const auto& t) {
                      return chunkManager->set_preload_type(t);
                    });
   CMD2_ANY("pieces.preload.min_size", [chunkManager](const auto&, const auto&) {
     return chunkManager->preload_min_size();
-  });
+  }, true);
   CMD2_ANY_VALUE_V("pieces.preload.min_size.set",
                    [chunkManager](const auto&, const auto& bytes) {
                      return chunkManager->set_preload_min_size(bytes);
                    });
   CMD2_ANY("pieces.preload.min_rate", [chunkManager](const auto&, const auto&) {
     return chunkManager->preload_required_rate();
-  });
+  }, true);
   CMD2_ANY_VALUE_V("pieces.preload.min_rate.set",
                    [chunkManager](const auto&, const auto& bytes) {
                      return chunkManager->set_preload_required_rate(bytes);
@@ -329,36 +329,36 @@ initialize_command_local() {
 
   CMD2_ANY("pieces.memory.current", [chunkManager](const auto&, const auto&) {
     return chunkManager->memory_usage();
-  });
+  }, true);
   CMD2_ANY("pieces.memory.sync_queue",
            [chunkManager](const auto&, const auto&) {
              return chunkManager->sync_queue_memory_usage();
-           });
+           }, true);
   CMD2_ANY("pieces.memory.block_count",
            [chunkManager](const auto&, const auto&) {
              return chunkManager->memory_block_count();
-           });
+           }, true);
   CMD2_ANY("pieces.memory.max", [chunkManager](const auto&, const auto&) {
     return chunkManager->max_memory_usage();
-  });
+  }, true);
   CMD2_ANY_VALUE_V("pieces.memory.max.set",
                    [chunkManager](const auto&, const auto& bytes) {
                      return chunkManager->set_max_memory_usage(bytes);
                    });
   CMD2_ANY("pieces.stats_preloaded", [chunkManager](const auto&, const auto&) {
     return chunkManager->stats_preloaded();
-  });
+  }, true);
   CMD2_ANY("pieces.stats_not_preloaded",
            [chunkManager](const auto&, const auto&) {
              return chunkManager->stats_not_preloaded();
-           });
+           }, true);
 
   CMD2_ANY("pieces.stats.total_size", [](const auto&, const auto&) {
     return apply_pieces_stats_total_size();
-  });
+  }, true);
 
   CMD2_ANY("pieces.hash.queue_size",
-           [](const auto&, const auto&) { return torrent::hash_queue_size(); });
+           [](const auto&, const auto&) { return torrent::hash_queue_size(); }, true);
   CMD2_VAR_BOOL("pieces.hash.on_completion", false);
 
   CMD2_VAR_STRING("directory.default", "./");
@@ -368,7 +368,7 @@ initialize_command_local() {
   CMD2_VAR_BOOL("session.on_completion", true);
 
   CMD2_ANY("session.path",
-           [dStore](const auto&, const auto&) { return dStore->path(); });
+           [dStore](const auto&, const auto&) { return dStore->path(); }, true);
   CMD2_ANY_STRING_V(
     "session.path.set",
     [dStore](const auto&, const auto& path) { return dStore->set_path(path); });
@@ -380,7 +380,7 @@ initialize_command_local() {
 #define CMD2_EXECUTE(key, flags)                                               \
   CMD2_ANY(key, [](const auto&, const auto& rawArgs) {                         \
     return rpc::execFile.execute_object(rawArgs, flags);                       \
-  });
+  }, false);
 
   CMD2_EXECUTE("execute2",
                rpc::ExecFile::flag_expand_tilde | rpc::ExecFile::flag_throw);

@@ -672,23 +672,23 @@ apply_arith_other(const char* op, const torrent::Object::list_type& args) {
 
 void
 initialize_command_logic() {
-  CMD2_ANY("cat", &apply_cat);
+  CMD2_ANY("cat", &apply_cat, true);
   CMD2_ANY_LIST("value", &apply_value);
-  CMD2_ANY("try", &apply_try);
+  CMD2_ANY("try", &apply_try, true);
   CMD2_ANY("if", [](const auto& target, const auto& rawArgs) {
     return apply_if(target, rawArgs, 0);
-  });
-  CMD2_ANY("not", &apply_not);
-  CMD2_ANY("true", &apply_true);
-  CMD2_ANY("false", &apply_false);
-  CMD2_ANY("and", &apply_and);
-  CMD2_ANY("or", &apply_or);
+  }, true);
+  CMD2_ANY("not", &apply_not, true);
+  CMD2_ANY("true", &apply_true, true);
+  CMD2_ANY("false", &apply_false, true);
+  CMD2_ANY("and", &apply_and, true);
+  CMD2_ANY("or", &apply_or, true);
 
   // A temporary command for handling stuff until we get proper
   // support for seperation of commands and literals.
   CMD2_ANY("branch", [](const auto& target, const auto& rawArgs) {
     return apply_if(target, rawArgs, 1);
-  });
+  }, true);
 
   CMD2_ANY_LIST("less", &apply_less);
   CMD2_ANY_LIST("greater", &apply_greater);

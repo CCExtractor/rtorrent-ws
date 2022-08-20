@@ -337,7 +337,7 @@ options.
 void
 initialize_command_groups() {
   CMD2_ANY("choke_group.list",
-           [](const auto&, const auto&) { return apply_cg_list(); });
+           [](const auto&, const auto&) { return apply_cg_list(); }, true);
   CMD2_ANY_STRING("choke_group.insert", [](const auto&, const auto& arg) {
     return apply_cg_insert(arg);
   });
@@ -353,7 +353,7 @@ initialize_command_groups() {
   apply_cg_insert("default");
 
   CMD2_ANY("choke_group.size",
-           [](const auto&, const auto&) { return cg_list_hack.size(); });
+           [](const auto&, const auto&) { return cg_list_hack.size(); }, true);
   CMD2_ANY_STRING("choke_group.index_of", [](const auto&, const auto& arg) {
     return apply_cg_index_of(arg);
   });
@@ -363,12 +363,12 @@ initialize_command_groups() {
   // name, the index or a negative index.
   CMD2_ANY("choke_group.general.size", [](const auto&, const auto& raw_args) {
     return cg_get_group(raw_args)->size();
-  });
+  }, true);
 
   CMD2_ANY("choke_group.tracker.mode", [](const auto&, const auto& raw_args) {
     return torrent::option_as_string(torrent::OPTION_TRACKER_MODE,
                                      cg_get_group(raw_args)->tracker_mode());
-  });
+  }, true);
   CMD2_ANY_LIST("choke_group.tracker.mode.set",
                 [](const auto&, const auto& args) {
                   return apply_cg_tracker_mode_set(args);
@@ -376,36 +376,36 @@ initialize_command_groups() {
 
   CMD2_ANY("choke_group.up.rate", [](const auto&, const auto& raw_args) {
     return cg_get_group(raw_args)->up_rate();
-  });
+  }, true);
   CMD2_ANY("choke_group.down.rate", [](const auto&, const auto& raw_args) {
     return cg_get_group(raw_args)->down_rate();
-  });
+  }, true);
 
   CMD2_ANY("choke_group.up.max.unlimited",
            [](const auto&, const auto& raw_args) {
              return cg_get_group(raw_args)->up_queue()->is_unlimited();
-           });
+           }, true);
   CMD2_ANY("choke_group.up.max", [](const auto&, const auto& raw_args) {
     return cg_get_group(raw_args)->up_queue()->max_unchoked_signed();
-  });
+  }, true);
   CMD2_ANY_LIST("choke_group.up.max.set", [](const auto&, const auto& args) {
     return apply_cg_max_set(args, true);
   });
 
   CMD2_ANY("choke_group.up.total", [](const auto&, const auto& raw_args) {
     return cg_get_group(raw_args)->up_queue()->size_total();
-  });
+  }, true);
   CMD2_ANY("choke_group.up.queued", [](const auto&, const auto& raw_args) {
     return cg_get_group(raw_args)->up_queue()->size_queued();
-  });
+  }, true);
   CMD2_ANY("choke_group.up.unchoked", [](const auto&, const auto& raw_args) {
     return cg_get_group(raw_args)->up_queue()->size_unchoked();
-  });
+  }, true);
   CMD2_ANY("choke_group.up.heuristics", [](const auto&, const auto& raw_args) {
     return torrent::option_as_string(
       torrent::OPTION_CHOKE_HEURISTICS,
       cg_get_group(raw_args)->up_queue()->heuristics());
-  });
+  }, true);
   CMD2_ANY_LIST("choke_group.up.heuristics.set",
                 [](const auto&, const auto& args) {
                   return apply_cg_heuristics_set(args, true);
@@ -414,29 +414,29 @@ initialize_command_groups() {
   CMD2_ANY("choke_group.down.max.unlimited",
            [](const auto&, const auto& raw_args) {
              return cg_get_group(raw_args)->down_queue()->is_unlimited();
-           });
+           }, true);
   CMD2_ANY("choke_group.down.max", [](const auto&, const auto& raw_args) {
     return cg_get_group(raw_args)->down_queue()->max_unchoked_signed();
-  });
+  }, true);
   CMD2_ANY_LIST("choke_group.down.max.set", [](const auto&, const auto& args) {
     return apply_cg_max_set(args, false);
   });
 
   CMD2_ANY("choke_group.down.total", [](const auto&, const auto& raw_args) {
     return cg_get_group(raw_args)->down_queue()->size_total();
-  });
+  }, true);
   CMD2_ANY("choke_group.down.queued", [](const auto&, const auto& raw_args) {
     return cg_get_group(raw_args)->down_queue()->size_queued();
-  });
+  }, true);
   CMD2_ANY("choke_group.down.unchoked", [](const auto&, const auto& raw_args) {
     return cg_get_group(raw_args)->down_queue()->size_unchoked();
-  });
+  }, true);
   CMD2_ANY("choke_group.down.heuristics",
            [](const auto&, const auto& raw_args) {
              return torrent::option_as_string(
                torrent::OPTION_CHOKE_HEURISTICS,
                cg_get_group(raw_args)->down_queue()->heuristics());
-           });
+           }, true);
   CMD2_ANY_LIST("choke_group.down.heuristics.set",
                 [](const auto&, const auto& args) {
                   return apply_cg_heuristics_set(args, false);

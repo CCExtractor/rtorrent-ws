@@ -412,13 +412,13 @@ initialize_command_events() {
   });
 
   CMD2_ANY("start_tied",
-           [](const auto&, const auto&) { return apply_start_tied(); });
+           [](const auto&, const auto&) { return apply_start_tied(); }, true);
   CMD2_ANY("stop_untied",
-           [](const auto&, const auto&) { return apply_stop_untied(); });
+           [](const auto&, const auto&) { return apply_stop_untied(); }, true);
   CMD2_ANY("close_untied",
-           [](const auto&, const auto&) { return apply_close_untied(); });
+           [](const auto&, const auto&) { return apply_close_untied(); }, true);
   CMD2_ANY("remove_untied",
-           [](const auto&, const auto&) { return apply_remove_untied(); });
+           [](const auto&, const auto&) { return apply_remove_untied(); }, true);
 
   CMD2_ANY_LIST("schedule2", [](const auto&, const auto& args) {
     return apply_schedule(args);

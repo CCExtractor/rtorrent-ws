@@ -237,10 +237,10 @@ initialize_command_tracker() {
   });
   CMD2_ANY("dht.statistics", [](const auto&, const auto&) {
     return control->dht_manager()->dht_statistics();
-  });
+  }, true);
   CMD2_ANY("dht.throttle.name", [](const auto&, const auto&) {
     return control->dht_manager()->throttle_name();
-  });
+  }, true);
   CMD2_ANY_STRING_V(
     "dht.throttle.name.set", [](const auto&, const auto& throttleName) {
       return control->dht_manager()->set_throttle_name(throttleName);

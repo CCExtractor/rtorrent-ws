@@ -163,16 +163,16 @@ void
 initialize_command_throttle() {
   CMD2_ANY("throttle.unchoked_uploads", [](const auto&, const auto&) {
     return torrent::resource_manager()->currently_upload_unchoked();
-  });
+  }, true);
   CMD2_ANY("throttle.max_unchoked_uploads", [](const auto&, const auto&) {
     return torrent::resource_manager()->max_upload_unchoked();
-  });
+  }, true);
   CMD2_ANY("throttle.unchoked_downloads", [](const auto&, const auto&) {
     return torrent::resource_manager()->currently_download_unchoked();
-  });
+  }, true);
   CMD2_ANY("throttle.max_unchoked_downloads", [](const auto&, const auto&) {
     return torrent::resource_manager()->max_download_unchoked();
-  });
+  }, true);
 
   CMD2_VAR_VALUE("throttle.min_peers.normal", 100);
   CMD2_VAR_VALUE("throttle.max_peers.normal", 200);
@@ -217,13 +217,13 @@ initialize_command_throttle() {
 
   // TODO: Move the logic into some libtorrent function.
   CMD2_ANY("throttle.global_up.rate",
-           [](const auto&, const auto&) { return torrent::up_rate()->rate(); });
+           [](const auto&, const auto&) { return torrent::up_rate()->rate(); }, true);
   CMD2_ANY("throttle.global_up.total", [](const auto&, const auto&) {
     return torrent::up_rate()->total();
-  });
+  }, true);
   CMD2_ANY("throttle.global_up.max_rate", [](const auto&, const auto&) {
     return torrent::up_throttle_global()->max_rate();
-  });
+  }, true);
   CMD2_ANY_VALUE_V("throttle.global_up.max_rate.set",
                    [](const auto&, const auto& throttle) {
                      return control->ui()->set_up_throttle_i64(throttle);
@@ -234,15 +234,15 @@ initialize_command_throttle() {
                     });
   CMD2_ANY("throttle.global_down.rate", [](const auto&, const auto&) {
     return torrent::down_rate()->rate();
-  });
+  }, true);
   CMD2_ANY("throttle.global_down.total", [](const auto&, const auto&) {
     return torrent::down_rate()->total();
-  });
+  }, true);
   CMD2_ANY("throttle.global_down.max_rate",
            [down_throttle_global =
               torrent::down_throttle_global()](const auto&, const auto&) {
              return down_throttle_global->max_rate();
-           });
+           }, true);
   CMD2_ANY_VALUE_V("throttle.global_down.max_rate.set",
                    [](const auto&, const auto& throttle) {
                      return control->ui()->set_down_throttle_i64(throttle);

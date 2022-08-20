@@ -510,38 +510,38 @@ initialize_command_dynamic() {
 
   CMD2_ANY("catch", [](const auto& target, const auto& args) {
     return cmd_catch(target, args);
-  });
+  }, true);
 
   CMD2_ANY("strings.choke_heuristics", [](const auto&, const auto&) {
     return torrent::option_list_strings(torrent::OPTION_CHOKE_HEURISTICS);
-  });
+  }, true);
   CMD2_ANY("strings.choke_heuristics.upload", [](const auto&, const auto&) {
     return torrent::option_list_strings(
       torrent::OPTION_CHOKE_HEURISTICS_UPLOAD);
-  });
+  }, true);
   CMD2_ANY("strings.choke_heuristics.download", [](const auto&, const auto&) {
     return torrent::option_list_strings(
       torrent::OPTION_CHOKE_HEURISTICS_DOWNLOAD);
-  });
+  }, true);
   CMD2_ANY("strings.connection_type", [](const auto&, const auto&) {
     return torrent::option_list_strings(torrent::OPTION_CONNECTION_TYPE);
-  });
+  }, true);
   CMD2_ANY("strings.encryption", [](const auto&, const auto&) {
     return torrent::option_list_strings(torrent::OPTION_ENCRYPTION);
-  });
+  }, true);
   CMD2_ANY("strings.ip_filter", [](const auto&, const auto&) {
     return torrent::option_list_strings(torrent::OPTION_IP_FILTER);
-  });
+  }, true);
   CMD2_ANY("strings.ip_tos", [](const auto&, const auto&) {
     return torrent::option_list_strings(torrent::OPTION_IP_TOS);
-  });
+  }, true);
   CMD2_ANY("strings.log_group", [](const auto&, const auto&) {
     return torrent::option_list_strings(torrent::OPTION_LOG_GROUP);
-  });
+  }, true);
   CMD2_ANY("strings.tracker_event", [](const auto&, const auto&) {
     return torrent::option_list_strings(torrent::OPTION_TRACKER_EVENT);
-  });
+  }, true);
   CMD2_ANY("strings.tracker_mode", [](const auto&, const auto&) {
     return torrent::option_list_strings(torrent::OPTION_TRACKER_MODE);
-  });
+  }, true);
 }
