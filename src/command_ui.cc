@@ -275,7 +275,7 @@ initialize_command_ui() {
   // Commands that affect the default rtorrent UI.
   CMD2_DL("ui.unfocus_download", [](const auto& download, const auto&) {
     return cmd_ui_unfocus_download(download);
-  });
+  }, true);
   CMD2_ANY("ui.current_view",
            [](const auto&, const auto&) { return cmd_ui_current_view(); }, true);
   CMD2_ANY_STRING("ui.current_view.set", [](const auto&, const auto& args) {

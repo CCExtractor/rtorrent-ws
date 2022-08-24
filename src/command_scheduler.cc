@@ -92,11 +92,11 @@ initialize_command_scheduler() {
 
   CMD2_DL("scheduler.simple.added", [](const auto& download, const auto&) {
     return cmd_scheduler_simple_added(download);
-  });
+  }, false);
   CMD2_DL("scheduler.simple.removed", [](const auto& download, const auto&) {
     return cmd_scheduler_simple_removed(download);
-  });
+  }, false);
   CMD2_DL("scheduler.simple.update", [](const auto& download, const auto&) {
     return cmd_scheduler_simple_update(download);
-  });
+  }, false);
 }

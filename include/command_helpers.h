@@ -87,8 +87,12 @@ cleanup_commands();
 #define CMD2_ANY_LIST(key, slot)                                               \
   CMD2_A_FUNCTION(key, command_base_call_list<rpc::target_type>, slot, "i:", "")
 
-#define CMD2_DL(key, slot)                                                     \
-  CMD2_A_FUNCTION(key, command_base_call<core::Download*>, slot, "i:", "")
+#define CMD2_DL(key, slot, is_readonly)                                        \
+  do {                                                                         \
+    if (is_readonly) rpc::readonly_command.insert(key);                        \
+    CMD2_A_FUNCTION(key, command_base_call<core::Download*>, slot, "i:", "")   \
+  } while (0)                                                                  \
+
 #define CMD2_DL_V(key, slot)                                                   \
   CMD2_A_FUNCTION(key,                                                         \
                   command_base_call<core::Download*>,                          \
