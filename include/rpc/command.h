@@ -7,6 +7,7 @@
 #include <functional>
 #include <limits>
 #include <tuple>
+#include <unordered_set>
 
 #include <torrent/data/file_list_iterator.h>
 #include <torrent/object.h>
@@ -24,6 +25,8 @@ class Tracker;
 }
 
 namespace rpc {
+
+extern std::unordered_set<std::string> readonly_command;
 
 template<typename Target>
 struct target_wrapper {

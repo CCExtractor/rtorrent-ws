@@ -36,7 +36,7 @@ cleanup_commands();
 #define CMD2_ANY(key, slot, is_readonly)                                       \
   do                                                                           \
   {                                                                            \
-    if (is_readonly) readonly_command.insert(key);                             \
+    if (is_readonly) rpc::readonly_command.insert(key);                        \
     CMD2_A_FUNCTION(key, command_base_call<rpc::target_type>, slot, "i:", "")  \
   } while (0)                                                                  \
 

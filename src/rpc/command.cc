@@ -34,6 +34,8 @@
 
 namespace rpc {
 
+std::unordered_set<std::string> readonly_command = {};
+
 template<typename T>
 const torrent::Object
 command_base_call(command_base*          rawCommand,

@@ -8,5 +8,3 @@ torrent::utils::timer                  cachedTime;
 
 Control*          control       = nullptr;
 RpcThreadManager* worker_thread = nullptr;
-
-std::unordered_set<std::string> readonly_command = {};

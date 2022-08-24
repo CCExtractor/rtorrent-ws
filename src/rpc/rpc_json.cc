@@ -24,7 +24,6 @@
 #include "rpc/parse_commands.h"
 #include "thread_base.h"
 #include "utils/jsonrpc/common.h"
-#include "globals.h"
 
 using jsonrpccxx::JsonRpcException;
 using nlohmann::json;
