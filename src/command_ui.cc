@@ -291,7 +291,7 @@ initialize_command_ui() {
                    });
   CMD2_ANY_V("ui.input.history.clear", [](const auto&, const auto&) {
     return control->ui()->clear_input_history();
-  });
+  }, false);
 
   CMD2_VAR_VALUE("ui.throttle.global.step.small", 5);
   CMD2_VAR_VALUE("ui.throttle.global.step.medium", 50);

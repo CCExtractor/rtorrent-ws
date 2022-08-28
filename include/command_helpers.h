@@ -40,21 +40,30 @@ cleanup_commands();
     CMD2_A_FUNCTION(key, command_base_call<rpc::target_type>, slot, "i:", "")  \
   } while (0)                                                                  \
 
-#define CMD2_ANY_P(key, slot)                                                  \
-  CMD2_A_FUNCTION_PRIVATE(                                                     \
-    key, command_base_call<rpc::target_type>, slot, "i:", "")
+#define CMD2_ANY_P(key, slot, is_readonly)                                     \
+    do {                                                                       \
+      if (is_readonly) rpc::readonly_command.insert(key);                      \
+      CMD2_A_FUNCTION_PRIVATE(                                                 \
+        key, command_base_call<rpc::target_type>, slot, "i:", "")              \
+    } while (0)                                                                \
+
+
 #define CMD2_ANY_VOID(key, slot)                                               \
   CMD2_A_FUNCTION(key,                                                         \
                   command_base_call<rpc::target_type>,                         \
                   object_convert_void(slot),                                   \
                   "i:",                                                        \
                   "")
-#define CMD2_ANY_V(key, slot)                                                  \
-  CMD2_A_FUNCTION(key,                                                         \
+#define CMD2_ANY_V(key, slot, is_readonly)                                     \
+    do {                                                                       \
+      if (is_readonly) rpc::readonly_command.insert(key);                      \
+      CMD2_A_FUNCTION(key,                                                     \
                   command_base_call_list<rpc::target_type>,                    \
                   object_convert_void(slot),                                   \
                   "i:",                                                        \
-                  "")
+                  "")                                                          \
+    } while (0)                                                                \
+
 #define CMD2_ANY_L(key, slot)                                                  \
   CMD2_A_FUNCTION(key, command_base_call_list<rpc::target_type>, slot, "A:", "")
 
@@ -93,12 +102,17 @@ cleanup_commands();
     CMD2_A_FUNCTION(key, command_base_call<core::Download*>, slot, "i:", "")   \
   } while (0)                                                                  \
 
-#define CMD2_DL_V(key, slot)                                                   \
-  CMD2_A_FUNCTION(key,                                                         \
+#define CMD2_DL_V(key, slot, is_readonly)                                      \
+  do {                                                                         \
+    if (is_readonly) rpc::readonly_command.insert(key);                        \
+    CMD2_A_FUNCTION(key,                                                       \
                   command_base_call<core::Download*>,                          \
                   object_convert_void(slot),                                   \
                   "i:",                                                        \
-                  "")
+                  "")                                                          \
+  } while (0)                                                                  \
+
+
 #define CMD2_DL_VALUE(key, slot)                                               \
   CMD2_A_FUNCTION(key, command_base_call_value<core::Download*>, slot, "i:", "")
 #define CMD2_DL_VALUE_V(key, slot)                                             \

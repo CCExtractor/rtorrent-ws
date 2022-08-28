@@ -896,25 +896,25 @@ initialize_command_download() {
 
   CMD2_DL_V("d.resume", [](const auto& download, const auto&) {
     return control->core()->download_list()->resume_default(download);
-  });
+  }, false);
   CMD2_DL_V("d.pause", [](const auto& download, const auto&) {
     return control->core()->download_list()->pause_default(download);
-  });
+  }, false);
   CMD2_DL_V("d.open", [](const auto& download, const auto&) {
     return control->core()->download_list()->open_throw(download);
-  });
+  }, false);
   CMD2_DL_V("d.close", [](const auto& download, const auto&) {
     return control->core()->download_list()->close_throw(download);
-  });
+  }, false);
   CMD2_DL_V("d.close.directly", [](const auto& download, const auto&) {
     return control->core()->download_list()->close_directly(download);
-  });
+  }, false);
   CMD2_DL_V("d.erase", [](const auto& download, const auto&) {
     return control->core()->download_list()->erase_ptr(download);
-  });
+  }, false);
   CMD2_DL_V("d.check_hash", [](const auto& download, const auto&) {
     return control->core()->download_list()->check_hash(download);
-  });
+  }, false);
   CMD2_DL("d.save_resume", [](const auto& download, const auto&) {
     return control->core()->download_store()->save_resume(download);
   }, false);
@@ -922,7 +922,7 @@ initialize_command_download() {
     return control->core()->download_store()->save_full(download);
   }, false);
 
-  CMD2_DL_V("d.update_priorities", CMD2_ON_DL(update_priorities));
+  CMD2_DL_V("d.update_priorities", CMD2_ON_DL(update_priorities), false);
 
   CMD2_DL_STRING_V("add_peer", [](const auto& download, const auto& arg) {
     return apply_d_add_peer(download, arg);
@@ -1133,19 +1133,19 @@ initialize_command_download() {
 
   CMD2_DL_V("d.disconnect.seeders", [](const auto& download, const auto&) {
     return download->connection_list()->erase_seeders();
-  });
+  }, false);
 
   CMD2_DL("d.accepting_seeders", CMD2_ON_INFO(is_accepting_seeders), true);
   CMD2_DL_V("d.accepting_seeders.enable",
             [](const auto& download, const auto&) {
               return download->info()->public_set_flags(
                 torrent::DownloadInfo::flag_accepting_seeders);
-            });
+            }, false);
   CMD2_DL_V("d.accepting_seeders.disable",
             [](const auto& download, const auto&) {
               return download->info()->public_unset_flags(
                 torrent::DownloadInfo::flag_accepting_seeders);
-            });
+            }, false);
 
   CMD2_DL("d.throttle_name", [](const auto& download, const auto&) {
     return download_get_variable(download, "rtorrent", "throttle_name");
@@ -1182,10 +1182,10 @@ initialize_command_download() {
   // Do not exposre d.tracker_announce.force to regular users.
   CMD2_DL_V("d.tracker_announce", [](const auto& download, const auto&) {
     return download->download()->manual_request(false);
-  });
+  }, false);
   CMD2_DL_V("d.tracker_announce.force", [](const auto& download, const auto&) {
     return download->download()->manual_request(true);
-  });
+  }, false);
 
   CMD2_DL("d.tracker_numwant", [](const auto& download, const auto&) {
     return download->tracker_list()->numwant();
@@ -1239,7 +1239,7 @@ initialize_command_download() {
   }, true);
   CMD2_DL_V("d.group.set", [](const auto& download, const auto& arg) {
     return cg_d_group_set(download, arg);
-  });
+  }, false);
 
   CMD2_DL_LIST("f.multicall", [](const auto& download, const auto& args) {
     return f_multicall(download, args);

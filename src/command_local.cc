@@ -225,7 +225,7 @@ initialize_command_local() {
   }, true);
   CMD2_ANY_V("system.file_status_cache.prune", [](const auto&, const auto&) {
     return control->core()->file_status_cache()->prune();
-  });
+  }, false);
 
   CMD2_VAR_BOOL("file.prioritize_toc", 0);
   CMD2_VAR_LIST("file.prioritize_toc.first");
@@ -263,10 +263,10 @@ initialize_command_local() {
 
   CMD2_ANY_V("system.shutdown.normal", [](const auto&, const auto&) {
     return control->receive_normal_shutdown();
-  });
+  }, false);
   CMD2_ANY_V("system.shutdown.quick", [](const auto&, const auto&) {
     return control->receive_quick_shutdown();
-  });
+  }, false);
   CMD2_REDIRECT_GENERIC_NO_EXPORT("system.shutdown", "system.shutdown.normal");
 
   CMD2_ANY("system.cwd",
@@ -375,7 +375,7 @@ initialize_command_local() {
 
   CMD2_ANY_V("session.save", [dList](const auto&, const auto&) {
     return dList->session_save();
-  });
+  }, false);
 
 #define CMD2_EXECUTE(key, flags)                                               \
   CMD2_ANY(key, [](const auto&, const auto& rawArgs) {                         \
@@ -415,16 +415,16 @@ initialize_command_local() {
   *rpc::command_base::argument(3) = "placeholder.3";
   CMD2_ANY_P("argument.0", [](const auto&, const auto&) {
     return rpc::command_base::argument_ref(0);
-  });
+  }, true);
   CMD2_ANY_P("argument.1", [](const auto&, const auto&) {
     return rpc::command_base::argument_ref(1);
-  });
+  }, true);
   CMD2_ANY_P("argument.2", [](const auto&, const auto&) {
     return rpc::command_base::argument_ref(2);
-  });
+  }, true);
   CMD2_ANY_P("argument.3", [](const auto&, const auto&) {
     return rpc::command_base::argument_ref(3);
-  });
+  }, true);
 
   CMD2_ANY_LIST("group.insert", [](const auto&, const auto& args) {
     return group_insert(args);
