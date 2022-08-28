@@ -470,13 +470,13 @@ initialize_command_dynamic() {
 
   CMD2_ANY_STRING("method.erase", [](const auto&, const auto& args) {
     return system_method_erase(args);
-  });
+  }, false);
   CMD2_ANY_LIST("method.redirect", [](const auto&, const auto& args) {
     return system_method_redirect(args);
   });
   CMD2_ANY_STRING("method.get", [](const auto&, const auto& str) {
     return control->object_storage()->get_str(str);
-  });
+  }, false);
   CMD2_ANY_LIST("method.set", [](const auto&, const auto& args) {
     return system_method_set_function(args);
   });
@@ -484,7 +484,7 @@ initialize_command_dynamic() {
   CMD2_ANY_STRING("method.const", [](const auto&, const auto& key) {
     return control->object_storage()->has_flag_str(
       key, rpc::object_storage::flag_constant);
-  });
+  }, false);
   CMD2_ANY_STRING_V("method.const.enable", [](const auto&, const auto& key) {
     return control->object_storage()->enable_flag_str(
       key, rpc::object_storage::flag_constant);
@@ -498,11 +498,11 @@ initialize_command_dynamic() {
   });
   CMD2_ANY_STRING("method.list_keys", [](const auto&, const auto& args) {
     return system_method_list_keys(args);
-  });
+  }, false);
 
   CMD2_ANY_STRING("method.rlookup", [](const auto&, const auto& cmd_key) {
     return control->object_storage()->rlookup_obj_list(cmd_key);
-  });
+  }, false);
   CMD2_ANY_STRING_V("method.rlookup.clear",
                     [](const auto&, const auto& cmd_key) {
                       return control->object_storage()->rlookup_clear(cmd_key);

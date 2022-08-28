@@ -180,10 +180,10 @@ initialize_command_logging() {
 
   CMD2_ANY_STRING("log.execute", [](const auto&, const auto& arg) {
     return apply_log(arg, 0);
-  });
+  }, false);
   CMD2_ANY_STRING("log.vmmap.dump", [](const auto&, const auto& str) {
     return log_vmmap_dump(str);
-  });
+  }, false);
   CMD2_ANY_STRING_V("log.rpc", [](const auto&, const auto& filename) {
     return worker_thread->set_rpc_log(filename);
   });

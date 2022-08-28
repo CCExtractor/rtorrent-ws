@@ -266,15 +266,15 @@ initialize_command_throttle() {
 
   CMD2_ANY_STRING("throttle.up.max", [](const auto&, const auto& name) {
     return retrieve_throttle_info(name, throttle_info_up | throttle_info_max);
-  });
+  }, true);
   CMD2_ANY_STRING("throttle.up.rate", [](const auto&, const auto& name) {
     return retrieve_throttle_info(name, throttle_info_up | throttle_info_rate);
-  });
+  }, true);
   CMD2_ANY_STRING("throttle.down.max", [](const auto&, const auto& name) {
     return retrieve_throttle_info(name, throttle_info_down | throttle_info_max);
-  });
+  }, true);
   CMD2_ANY_STRING("throttle.down.rate", [](const auto&, const auto& name) {
     return retrieve_throttle_info(name,
                                   throttle_info_down | throttle_info_rate);
-  });
+  }, true);
 }

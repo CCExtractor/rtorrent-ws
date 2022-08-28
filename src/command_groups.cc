@@ -340,7 +340,7 @@ initialize_command_groups() {
            [](const auto&, const auto&) { return apply_cg_list(); }, true);
   CMD2_ANY_STRING("choke_group.insert", [](const auto&, const auto& arg) {
     return apply_cg_insert(arg);
-  });
+  }, false);
 
 #if USE_CHOKE_GROUP
   CMD2_ANY("choke_group.size", [](const auto&, const auto&) {
@@ -356,7 +356,7 @@ initialize_command_groups() {
            [](const auto&, const auto&) { return cg_list_hack.size(); }, true);
   CMD2_ANY_STRING("choke_group.index_of", [](const auto&, const auto& arg) {
     return apply_cg_index_of(arg);
-  });
+  }, false);
 #endif
 
   // Commands specific for a group. Supports as the first argument the

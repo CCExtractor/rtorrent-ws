@@ -245,7 +245,7 @@ initialize_command_local() {
            }, true);
 
   CMD2_ANY_STRING("system.env",
-                  [](const auto&, const auto& arg) { return system_env(arg); });
+                  [](const auto&, const auto& arg) { return system_env(arg); }, false);
 
   CMD2_ANY("system.time",
            [](const auto&, const auto&) { return cachedTime.seconds(); }, true);
@@ -273,7 +273,7 @@ initialize_command_local() {
            [](const auto&, const auto&) { return system_get_cwd(); }, true);
   CMD2_ANY_STRING("system.cwd.set", [](const auto&, const auto& rawArgs) {
     return system_set_cwd(rawArgs);
-  });
+  }, false);
 
   CMD2_ANY("pieces.sync.always_safe", [chunkManager](const auto&, const auto&) {
     return chunkManager->safe_sync();

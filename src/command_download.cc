@@ -853,10 +853,10 @@ initialize_command_download() {
 
   CMD2_DL_LIST("d.create_link", [](const auto& download, const auto& args) {
     return apply_d_change_link(download, args, 0);
-  });
+  }, false);
   CMD2_DL_LIST("d.delete_link", [](const auto& download, const auto& args) {
     return apply_d_change_link(download, args, 1);
-  });
+  }, false);
   CMD2_DL("d.delete_tied", [](const auto& download, const auto&) {
     return apply_d_delete_tied(download);
   }, false);
@@ -940,16 +940,16 @@ initialize_command_download() {
   });
   CMD2_DL_LIST("d.custom.set", [](const auto& download, const auto& args) {
     return apply_d_custom(download, args);
-  });
+  }, false);
   CMD2_DL_LIST("d.custom.if_z", [](const auto& download, const auto& args) {
     return retrieve_d_custom_if_z(download, args);
-  });
+  }, false);
   CMD2_DL_LIST("d.custom.keys", [](const auto& download, const auto& args) {
     return retrieve_d_custom_map(download, true, args);
-  });
+  }, false);
   CMD2_DL_LIST("d.custom.items", [](const auto& download, const auto& args) {
     return retrieve_d_custom_map(download, false, args);
-  });
+  }, false);
 
   CMD2_DL_VAR_STRING_PUBLIC("d.custom1", "rtorrent", "custom1");
   CMD2_DL_VAR_STRING_PUBLIC("d.custom2", "rtorrent", "custom2");
@@ -1204,7 +1204,7 @@ initialize_command_download() {
 
   CMD2_DL_LIST("d.tracker.insert", [](const auto& download, const auto& args) {
     return download_tracker_insert(download, args);
-  });
+  }, false);
   CMD2_DL_VALUE_V("d.tracker.send_scrape",
                   [](const auto& download, const auto& v) {
                     return download->tracker_controller()->scrape_request(v);
@@ -1243,13 +1243,13 @@ initialize_command_download() {
 
   CMD2_DL_LIST("f.multicall", [](const auto& download, const auto& args) {
     return f_multicall(download, args);
-  });
+  }, false);
   CMD2_DL_LIST("p.multicall", [](const auto& download, const auto& args) {
     return p_multicall(download, args);
-  });
+  }, false);
   CMD2_DL_LIST("t.multicall", [](const auto& download, const auto& args) {
     return t_multicall(download, args);
-  });
+  }, false);
 
   CMD2_ANY_LIST("p.call_target", [](const auto&, const auto& args) {
     return p_call_target(args);

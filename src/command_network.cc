@@ -255,7 +255,7 @@ initialize_command_network() {
 
   CMD2_ANY_STRING("encoding.add", [](const auto&, const auto& arg) {
     return apply_encoding_list(arg);
-  });
+  }, false);
 
   // Isn't port_open used?
   CMD2_VAR_BOOL("network.port_open", true);
@@ -351,7 +351,7 @@ initialize_command_network() {
                      return cm->set_receive_buffer_size(v);
                    });
   CMD2_ANY_STRING("network.tos.set",
-                  [](const auto&, const auto& arg) { return apply_tos(arg); });
+                  [](const auto&, const auto& arg) { return apply_tos(arg); }, false);
 
   CMD2_ANY("network.bind_address", [](const auto&, const auto&) {
     return control->core()->bind_address();
@@ -398,16 +398,16 @@ initialize_command_network() {
 
   CMD2_ANY_STRING("network.scgi.open_port", [](const auto&, const auto& arg) {
     return apply_scgi(arg, 1);
-  });
+  }, false);
   CMD2_ANY_STRING("network.scgi.open_local", [](const auto&, const auto& arg) {
     return apply_scgi(arg, 2);
-  });
+  }, false);
   CMD2_ANY_STRING("network.websockets.open_port", [](const auto&, const auto& arg) {
       return apply_websockets(arg, 1);
-  });
+  }, false);
   CMD2_ANY_STRING("network.websockets.open_local", [](const auto&, const auto& arg) {
       return apply_websockets(arg, 2);
-  });
+  }, false);
   CMD2_VAR_BOOL("network.scgi.dont_route", false);
 
   CMD2_ANY("network.xmlrpc.size_limit", [](const auto&, const auto&) {

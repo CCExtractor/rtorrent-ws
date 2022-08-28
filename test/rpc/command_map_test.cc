@@ -28,13 +28,13 @@ cmd_test_any_string(rpc::target_type, const std::string&) {
 }
 
 TEST_F(CommandMapTest, test_basics) {
-  CMD2_ANY("test_a", &cmd_test_map_a);
+  CMD2_ANY("test_a", &cmd_test_map_a, false);
   CMD2_ANY("test_b",
            std::bind(&cmd_test_map_b,
                      std::placeholders::_1,
                      std::placeholders::_2,
-                     (uint64_t)2));
-  CMD2_ANY_STRING("any_string", &cmd_test_any_string);
+                     (uint64_t)2), false);
+  CMD2_ANY_STRING("any_string", &cmd_test_any_string, false);
 
   ASSERT_TRUE(m_map.call_command("test_a", (int64_t)1).as_value() == 1);
   ASSERT_TRUE(m_map.call_command("test_b", (int64_t)1).as_value() == 2);

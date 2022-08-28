@@ -231,10 +231,10 @@ initialize_command_tracker() {
   CMD2_VAR_VALUE("dht.port", int64_t(6881));
   CMD2_ANY_STRING("dht.add_bootstrap", [](const auto&, const auto& arg) {
     return apply_dht_add_bootstrap(arg);
-  });
+  }, false);
   CMD2_ANY_STRING("dht.add_node", [](const auto&, const auto& arg) {
     return apply_dht_add_node(arg);
-  });
+  }, false);
   CMD2_ANY("dht.statistics", [](const auto&, const auto&) {
     return control->dht_manager()->dht_statistics();
   }, true);

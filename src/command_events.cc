@@ -409,7 +409,7 @@ void
 initialize_command_events() {
   CMD2_ANY_STRING("on_ratio", [](const auto&, const auto& rawArgs) {
     return apply_on_ratio(rawArgs);
-  });
+  }, false);
 
   CMD2_ANY("start_tied",
            [](const auto&, const auto&) { return apply_start_tied(); }, true);

@@ -51,14 +51,14 @@ initialize_command_fs() {
 
   CMD2_ANY_STRING("fs.mkdir", [](const auto&, const auto& path) {
     return mkdir(path, false, false);
-  });
+  }, false);
   CMD2_ANY_STRING("fs.mkdir.nothrow", [](const auto&, const auto& path) {
     return mkdir(path, true, true);
-  });
+  }, false);
   CMD2_ANY_STRING("fs.mkdir.recursive", [](const auto&, const auto& path) {
     return mkdir(path, true, false);
-  });
+  }, false);
   CMD2_ANY_STRING(
     "fs.mkdir.recursive.nothrow",
-    [](const auto&, const auto& path) { return mkdir(path, true, true); });
+    [](const auto&, const auto& path) { return mkdir(path, true, true); }, false);
 }

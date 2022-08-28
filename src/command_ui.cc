@@ -206,7 +206,7 @@ initialize_command_ui() {
   CMD2_ANY_STRING("view.add",
                   object_convert_void([](const auto&, const auto& name) {
                     return control->view_manager()->insert_throw(name);
-                  }));
+                  }), false);
 
   CMD2_ANY_L("view.list",
              [](const auto&, const auto&) { return apply_view_list(); });
@@ -247,13 +247,13 @@ initialize_command_ui() {
 
   CMD2_ANY_STRING("view.size", [](const auto&, const auto& args) {
     return cmd_view_size(args);
-  });
+  }, false);
   CMD2_ANY_STRING("view.size_not_visible", [](const auto&, const auto& args) {
     return cmd_view_size_not_visible(args);
-  });
+  }, false);
   CMD2_ANY_STRING("view.persistent", [](const auto&, const auto& args) {
     return cmd_view_persistent(args);
-  });
+  }, false);
 
   CMD2_ANY_STRING_V("view.filter_all", [](const auto&, const auto& args) {
     control->view_manager()->find_ptr_throw(args)->filter();
@@ -280,7 +280,7 @@ initialize_command_ui() {
            [](const auto&, const auto&) { return cmd_ui_current_view(); }, true);
   CMD2_ANY_STRING("ui.current_view.set", [](const auto&, const auto& args) {
     return cmd_ui_set_view(args);
-  });
+  }, false);
 
   CMD2_ANY("ui.input.history.size", [](const auto&, const auto&) {
     return control->ui()->get_input_history_size();
