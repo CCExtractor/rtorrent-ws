@@ -1,3 +1,9 @@
+# Description
+This repo is about a Google Summer of Code (2022) project: Introduce WebSockets into rTorrent, which can be seen from [here](https://summerofcode.withgoogle.com/programs/2022/projects/Qr45UY5M). The goal here is to introduce a modern network protocol into rTorrent to allow bidirectional communication between client and server, so clients receive notifications when topics they subscribe to occur; what's more, we also want to replace the global mutex with shared_mutex, which improve concurrency granularity. Now we have almost accomplished all of these, and I had post some blogs about this project (may add more later):
+- [GSoC 2022 Series - 1](https://young-flash.github.io/2022/05/21/GSoC%202022%20Series%201/)
+- [GSoC 2022 Series - 2](https://young-flash.github.io/2022/05/23/GSoC%202022%20Series%202/)
+- [GSoC 2022 Series - 3](https://young-flash.github.io/2022/07/02/GSoC%202022%20Series%203/)
+
 # RTorrent BitTorrent Client
 
 rTorrent is a stable, high-performance and low resource consumption BitTorrent client.
