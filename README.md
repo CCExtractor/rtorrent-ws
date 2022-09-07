@@ -1,212 +1,26 @@
-# Description
-This repo is about a Google Summer of Code (2022) project: Introduce WebSockets into rTorrent, which can be seen from [here](https://summerofcode.withgoogle.com/programs/2022/projects/Qr45UY5M). The goal here is to introduce a modern network protocol into rTorrent to allow bidirectional communication between client and server, so clients receive notifications when topics they subscribe to occur; what's more, we also want to replace the global mutex with shared_mutex, which improve concurrency granularity. Now we have almost accomplished all of these, and I had post some blogs about this project (may add more later):
-- [GSoC 2022 Series - 1](https://young-flash.github.io/2022/05/21/GSoC%202022%20Series%201/)
-- [GSoC 2022 Series - 2](https://young-flash.github.io/2022/05/23/GSoC%202022%20Series%202/)
-- [GSoC 2022 Series - 3](https://young-flash.github.io/2022/07/02/GSoC%202022%20Series%203/)
-
-# RTorrent BitTorrent Client
-
-rTorrent is a stable, high-performance and low resource consumption BitTorrent client.
-
-This distribution focuses on additional user-facing features, optimizations and better integrations with modern users of RPC interfaces. One of the long-term goal of this project is to switch from antique XML-RPC to modern protocols with bidirectional capabilities such as gRPC, JSON-RPC over WebSocket or GraphQL, which allows real-time events, less serialization/transfer overheads, better security, etc.
-
-There is NO CHANGE in consensus-layer (BitTorrent protocol). As such, this distribution will behave exactly the same as [vanilla rTorrent](https://github.com/rakshasa/rtorrent) in the swarm, and there will not be any compatibility issue with certain trackers, if rTorrent 0.9.8 is supported.
-
-## Getting started
-
-### Installation
-
-Fully static binaries are available at [Releases](https://github.com/jesec/rtorrent/releases).
-
-```sh
-# Install rTorrent to /usr/local/bin/rtorrent
-# rtorrent-linux-amd64 and rtorrent-linux-arm64 are available
-sudo wget https://github.com/jesec/rtorrent/releases/latest/download/rtorrent-linux-amd64 -O /usr/local/bin/rtorrent
-
-# Make it executable
-sudo chmod +x /usr/local/bin/rtorrent
-
-# Default configuration
-sudo mkdir -p /etc/rtorrent
-sudo wget https://github.com/jesec/rtorrent/releases/latest/download/rtorrent.rc -O /etc/rtorrent/rtorrent.rc
-
-# Install as a systemd service (optional)
-# This example uses "download" user. Replace it with the an existing user that rTorrent should run with.
-sudo wget https://github.com/jesec/rtorrent/releases/latest/download/rtorrent@.service -O /etc/systemd/system/rtorrent@.service
-sudo systemctl daemon-reload
-sudo systemctl enable rtorrent@download
-sudo systemctl start rtorrent@download
-```
-
-Or [install with APT repository](https://deb.jesec.io/)
-
-Or [run with Docker](https://github.com/jesec/rtorrent#docker)
-
-Or [build from source](https://github.com/jesec/rtorrent#build)
-
-### Use
-
-Run `rtorrent`
-
-You can execute rTorrent [commands](https://rtorrent-docs.readthedocs.io/en/latest/cmd-ref.html) to set port, set announced IP, etc.
-
-For example, to launch rTorrent with port `6881` and DHT disabled, `rtorrent -o network.port_range.set=6881-6881,dht.mode.set=disable`.
-
-Checkout [Flood](https://flood.js.org), a modern Web UI for rTorrent.
-
-To learn how to use rTorrent visit the [Wiki](https://github.com/rakshasa/rtorrent/wiki).
-
-### Configuration
-
-Default configuration file is available at [doc/rtorrent.rc](https://github.com/jesec/rtorrent/blob/master/doc/rtorrent.rc). It is often installed to `/etc/rtorrent/rtorrent.rc`.
-
-You may modify the configuration file to fit your needs. Alternatively, use `-o`, as documented above, to override some configurations but keep using the loaded configuration file.
-
-It is recommended to expand upon the default configuration if user-specific config files (usually placed to `$HOME/.rtorrent.rc`) are used:
-
-```
-## Import default configurations
-import = /etc/rtorrent/rtorrent.rc
-
-## Your configurations
-...
-```
-
-rTorrent tries to load **a** configuration file from several locations:
-
-- $XDG_CONFIG_HOME/rtorrent/rtorrent.rc (highest priority)
-- $HOME/.config/rtorrent/rtorrent.rc
-- $HOME/.rtorrent.rc
-- /etc/rtorrent/rtorrent.rc (lowest priority)
-
-Or, use `-n` argument to prevent rTorrent from loading any configuration file. Then you can use `-o try_import=<path>` to load a config file from an arbitrary location.
-
-## Build
-
-### Bazel
-
-Bazel 3 or later is required.
-
-Bazel manages most dependencies.
-
-Dependencies are specified by the `WORKSPACE` file. Sometimes you may want to override a specific dependency with a local repository for easier development. To do that, use `override_repository` Bazel command line argument. For example, `--override_repository=libtorrent=/path/to/local/libtorrent`.
-
-Unmanaged dependencies:
-
-- GCC/Clang compiler toolchain and C/C++ development files (C++17 support required)
-
-```sh
-# Install Bazel
-# Use the build of your system and architecture
-# bazelisk-linux-arm64 and bazelisk-darwin-amd64 are also available
-sudo wget https://github.com/bazelbuild/bazelisk/releases/latest/download/bazelisk-linux-amd64 -O /usr/local/bin/bazel
-sudo chmod +x /usr/local/bin/bazel
-
-# Install unmanaged dependencies and build tools
-# Use the package manager of your distribution
-sudo apt install build-essential
-
-# Clone repository
-git clone https://github.com/jesec/rtorrent.git
-cd rtorrent
-
-# Build
-# By default, the executable is self contained, yet it depends on C/C++ standard libraries of system.
-# To generate a fully static executable, use --features=fully_static_link argument.
-# Note that glibc have issues that make static executables unreliable.
-# If you want fully static, reproducible, portable and stable executable, build with Dockerfile.
-bazel build rtorrent
-
-# Binary available at bazel-bin/rtorrent
-```
-
-### CMake
-
-CMake 3.5 or later is required.
-
-You have to install dependencies manually to system or let CMake know where to find them.
-
-Dependencies:
-
-- GCC/Clang compiler toolchain and C/C++ development files (C++17 support required)
-- [libtorrent](https://github.com/jesec/libtorrent) with development files (core dependency, matching version required)
-- libcurl with development files
-- libncurses/libncursesw with development files (for terminal UI)
-- libxmlrpc-c with development files (optional if USE_XMLRPC=OFF, for XML-RPC support)
-- nlohmann/json with development files (optional if USE_JSONRPC=OFF, for JSON-RPC support)
-- googletest with development files (optional, for unit tests)
-- [uWebSockets](https://github.com/Young-Flash/uWebSockets) and [uSockets](https://github.com/Young-Flash/uSockets)
-
-```sh
-# Install uWebSockets and uSockets into PATH
-
-# Clone repository
-git clone https://github.com/Young-Flash/uWebSockets
-cd uWebSockets
-rm -rf uSockets
-git clone https://github.com/Young-Flash/uSockets
-
-# Build
-make
-
-# Install header files and lib for uSockets
-cd uSockets/src
-sudo cp libusockets.h /usr/local/include/libusockets.h
-
-cd ../
-sudo cp uSockets.a /usr/lib/x86_64-linux-gnu/libuSockets.a
-
-# Install header files for uWebSockets
-cd ../
-sudo make install
-```
-
-```sh
-# Compile and install libtorrent (matching version required)
-# Check README of libtorrent for instructions
-
-# Install dependencies and build tools
-# Use the package manager of your distribution
-sudo apt install build-essential cmake libc6-dev libcurl4-openssl-dev libncursesw5-dev libxmlrpc-c++8-dev libgtest-dev nlohmann-json3-dev
-
-# Clone repository
-git clone https://github.com/jesec/rtorrent.git
-cd rtorrent
-
-# Configure and generate Makefile
-cmake .
-
-# Build
-# By default, shared binaries are generated
-make
-
-# Binary available at ./rtorrent
-
-# Install (optional)
-sudo make install
-```
-
-## Docker
-
-[Dockerfile](https://github.com/jesec/rtorrent/blob/master/Dockerfile)
-
-To test: `docker run -it jesec/rtorrent`
-
-Note that you have to expose BitTorrent port (e.g. `-p 50000:50000`) and map folders (e.g. `-v /home/download:/home/download`) yourself.
-
-By default, rTorrent's files are located in `$HOME/.local/share/rtorrent`. Check [doc/rtorrent.rc](https://github.com/jesec/rtorrent/blob/master/doc/rtorrent.rc) to know more about the default configurations.
-
-To integrate with [Flood](https://flood.js.org), see [discussions](https://github.com/jesec/flood/discussions/120).
-
-## Donate to rTorrent development
-
-[![Donate](https://rakshasa.github.io/rtorrent/donate_paypal_green.svg)](https://paypal.me/jarisundell)
-
-- [Paypal](https://paypal.me/jarisundelljp)
-- [Patreon](https://www.patreon.com/rtorrent)
-- [SubscribeStar](https://www.subscribestar.com/rtorrent)
-- BitCoin: 1MpmXm5AHtdBoDaLZstJw8nupJJaeKu8V8
-- Etherium: 0x9AB1e3C3d8a875e870f161b3e9287Db0E6DAfF78
-- LiteCoin: LdyaVR67LBnTf6mAT4QJnjSG2Zk67qxmfQ
-
-Help keep rTorrent development going by donating to its creator.
+# GSoC final report
+- project: [Introduce WebSockets into rTorrent](https://summerofcode.withgoogle.com/programs/2022/projects/Qr45UY5M)
+- Organization: [CCExtractor Development](https://ccextractor.org/)
+- Contributor: [Dongyang Zheng](https://github.com/Young-Flash)
+- mentor: [jesec](https://github.com/jesec)
+
+
+# Introduction
+This GSoC project will replace the antique SCGI protocol in rTorrent with Websocket, which will allows real-time events, less serialization/transfer overheads, better security, etc. There isn't a modern c++ websockets library that supports unix domain socket, we will add this important feature into uWebsockets. And we also replace the global mutex in libtorrent with shared_mutex to improve concurrency.
+
+# What has done
+- introduce websocket into rTorrent and implement "server push", that is, client can subscribe some specific topics, once the event occurs,server will push the notification to client automatically
+  ![](https://young-flash.github.io/img/blog_pic/2022/ws_postman_screenshot.png)
+- add unix domain socket support for uWebSockets, now websocket can listen on unix domain socket, with better security.
+- replace global mutex in libtorrent with shared_mutex
+
+# Link to work
+- [qualification task before get selected](https://github.com/Young-Flash/translator)
+- [unix domain socket support for uWebsocket](https://github.com/Young-Flash/uWebSockets)
+- [replace mutex with shared_mutex in libtorrent](https://github.com/Young-Flash/libtorrent)
+- [project code repo](https://github.com/CCExtractor/rtorrent-ws)
+- [code commits](https://github.com/CCExtractor/rtorrent-ws/commits/master)
+- [related blogs (records of the development process)](https://young-flash.github.io/2022/05/21/GSoC%202022%20Series%201/)
+
+# Acknowledgements
+Not only technical things I have learned but also the ability to think and tackle problems. Mentor jesec is very great, he gave me a lot of guidance and inspiration in the process of completing the project, work with jesec is wonderful, thanks jesec for help. Thanks Google and GSoC program and CCExtractor Development community provided such a good activity.
