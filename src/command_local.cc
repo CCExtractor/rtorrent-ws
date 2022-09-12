@@ -228,8 +228,8 @@ initialize_command_local() {
   }, false);
 
   CMD2_VAR_BOOL("file.prioritize_toc", 0, false);
-  CMD2_VAR_LIST("file.prioritize_toc.first");
-  CMD2_VAR_LIST("file.prioritize_toc.last");
+  CMD2_VAR_LIST("file.prioritize_toc.first", false);
+  CMD2_VAR_LIST("file.prioritize_toc.last", false);
 
   CMD2_ANY("system.files.opened_counter",
            [fileManager](const auto&, const auto&) {
