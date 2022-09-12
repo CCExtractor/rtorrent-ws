@@ -257,7 +257,7 @@ initialize_command_local() {
   }, true);
 
   CMD2_ANY_VALUE_V("system.umask.set",
-                   [](const auto&, const auto& mode) { return umask(mode); });
+                   [](const auto&, const auto& mode) { return umask(mode); }, false);
 
   CMD2_VAR_BOOL("system.daemon", false);
 
@@ -281,7 +281,7 @@ initialize_command_local() {
   CMD2_ANY_VALUE_V("pieces.sync.always_safe.set",
                    [chunkManager](const auto&, const auto& state) {
                      return chunkManager->set_safe_sync(state);
-                   });
+                   }, false);
   CMD2_ANY("pieces.sync.safe_free_diskspace",
            [chunkManager](const auto&, const auto&) {
              return chunkManager->safe_free_diskspace();
@@ -292,7 +292,7 @@ initialize_command_local() {
   CMD2_ANY_VALUE_V("pieces.sync.timeout.set",
                    [chunkManager](const auto&, const auto& seconds) {
                      return chunkManager->set_timeout_sync(seconds);
-                   });
+                   }, false);
   CMD2_ANY("pieces.sync.timeout_safe",
            [chunkManager](const auto&, const auto&) {
              return chunkManager->timeout_safe_sync();
@@ -300,7 +300,7 @@ initialize_command_local() {
   CMD2_ANY_VALUE_V("pieces.sync.timeout_safe.set",
                    [chunkManager](const auto&, const auto& seconds) {
                      return chunkManager->set_timeout_safe_sync(seconds);
-                   });
+                   }, false);
   CMD2_ANY("pieces.sync.queue_size", [chunkManager](const auto&, const auto&) {
     return chunkManager->sync_queue_size();
   }, true);
@@ -311,21 +311,21 @@ initialize_command_local() {
   CMD2_ANY_VALUE_V("pieces.preload.type.set",
                    [chunkManager](const auto&, const auto& t) {
                      return chunkManager->set_preload_type(t);
-                   });
+                   }, false);
   CMD2_ANY("pieces.preload.min_size", [chunkManager](const auto&, const auto&) {
     return chunkManager->preload_min_size();
   }, true);
   CMD2_ANY_VALUE_V("pieces.preload.min_size.set",
                    [chunkManager](const auto&, const auto& bytes) {
                      return chunkManager->set_preload_min_size(bytes);
-                   });
+                   }, false);
   CMD2_ANY("pieces.preload.min_rate", [chunkManager](const auto&, const auto&) {
     return chunkManager->preload_required_rate();
   }, true);
   CMD2_ANY_VALUE_V("pieces.preload.min_rate.set",
                    [chunkManager](const auto&, const auto& bytes) {
                      return chunkManager->set_preload_required_rate(bytes);
-                   });
+                   }, false);
 
   CMD2_ANY("pieces.memory.current", [chunkManager](const auto&, const auto&) {
     return chunkManager->memory_usage();
@@ -344,7 +344,7 @@ initialize_command_local() {
   CMD2_ANY_VALUE_V("pieces.memory.max.set",
                    [chunkManager](const auto&, const auto& bytes) {
                      return chunkManager->set_max_memory_usage(bytes);
-                   });
+                   }, false);
   CMD2_ANY("pieces.stats_preloaded", [chunkManager](const auto&, const auto&) {
     return chunkManager->stats_preloaded();
   }, true);

@@ -227,7 +227,7 @@ initialize_command_throttle() {
   CMD2_ANY_VALUE_V("throttle.global_up.max_rate.set",
                    [](const auto&, const auto& throttle) {
                      return control->ui()->set_up_throttle_i64(throttle);
-                   });
+                   }, false);
   CMD2_ANY_VALUE_KB("throttle.global_up.max_rate.set_kb",
                     [](const auto&, const auto& throttle) {
                       return control->ui()->set_up_throttle_i64(throttle);
@@ -246,7 +246,7 @@ initialize_command_throttle() {
   CMD2_ANY_VALUE_V("throttle.global_down.max_rate.set",
                    [](const auto&, const auto& throttle) {
                      return control->ui()->set_down_throttle_i64(throttle);
-                   });
+                   }, false);
   CMD2_ANY_VALUE_KB("throttle.global_down.max_rate.set_kb",
                     [](const auto&, const auto& throttle) {
                       return control->ui()->set_down_throttle_i64(throttle);

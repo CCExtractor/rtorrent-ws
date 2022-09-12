@@ -74,12 +74,16 @@ cleanup_commands();
             key, command_base_call_value<rpc::target_type>, slot, "i:i", "")   \
     } while (0)                                                                \
 
-#define CMD2_ANY_VALUE_V(key, slot)                                            \
-  CMD2_A_FUNCTION(key,                                                         \
+#define CMD2_ANY_VALUE_V(key, slot, is_readonly)                               \
+  do {                                                                         \
+    if (is_readonly) rpc::readonly_command.insert(key);                        \
+    CMD2_A_FUNCTION(key,                                                       \
                   command_base_call_value<rpc::target_type>,                   \
                   object_convert_void(slot),                                   \
                   "i:i",                                                       \
-                  "")
+                  "")                                                          \
+  } while (0)                                                                  \
+
 #define CMD2_ANY_VALUE_KB(key, slot)                                           \
   CMD2_A_FUNCTION(key,                                                         \
                   command_base_call_value_kb<rpc::target_type>,                \

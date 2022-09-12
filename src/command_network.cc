@@ -268,7 +268,7 @@ initialize_command_network() {
            [cm](const auto&, const auto&) { return cm->listen_backlog(); }, true);
   CMD2_ANY_VALUE_V(
     "network.listen.backlog.set",
-    [cm](const auto&, const auto& v) { return cm->set_listen_backlog(v); });
+    [cm](const auto&, const auto& v) { return cm->set_listen_backlog(v); }, false);
 
   CMD2_VAR_BOOL("protocol.pex", true);
   CMD2_ANY_LIST("protocol.encryption.set", [](const auto&, const auto& args) {
@@ -303,7 +303,7 @@ initialize_command_network() {
   CMD2_ANY_VALUE_V("network.http.dns_cache_timeout.set",
                    [httpStack](const auto&, const auto& timeout) {
                      return httpStack->set_dns_timeout(timeout);
-                   });
+                   }, false);
   CMD2_ANY("network.http.current_open", [httpStack](const auto&, const auto&) {
     return httpStack->active();
   }, true);
@@ -313,7 +313,7 @@ initialize_command_network() {
   CMD2_ANY_VALUE_V("network.http.max_open.set",
                    [httpStack](const auto&, const auto& a) {
                      return httpStack->set_max_active(a);
-                   });
+                   }, false);
   CMD2_ANY("network.http.proxy_address", [httpStack](const auto&, const auto&) {
     return httpStack->http_proxy();
   }, true);
@@ -328,7 +328,7 @@ initialize_command_network() {
   CMD2_ANY_VALUE_V("network.http.ssl_verify_host.set",
                    [httpStack](const auto&, const auto& v) {
                      return httpStack->set_ssl_verify_host(v);
-                   });
+                   }, false);
   CMD2_ANY("network.http.ssl_verify_peer",
            [httpStack](const auto&, const auto&) {
              return httpStack->ssl_verify_peer();
@@ -336,20 +336,20 @@ initialize_command_network() {
   CMD2_ANY_VALUE_V("network.http.ssl_verify_peer.set",
                    [httpStack](const auto&, const auto& v) {
                      return httpStack->set_ssl_verify_peer(v);
-                   });
+                   }, false);
 
   CMD2_ANY("network.send_buffer.size",
            [cm](const auto&, const auto&) { return cm->send_buffer_size(); }, true);
   CMD2_ANY_VALUE_V(
     "network.send_buffer.size.set",
-    [cm](const auto&, const auto& v) { return cm->set_send_buffer_size(v); });
+    [cm](const auto&, const auto& v) { return cm->set_send_buffer_size(v); }, false);
   CMD2_ANY("network.receive_buffer.size", [cm](const auto&, const auto&) {
     return cm->receive_buffer_size();
   }, true);
   CMD2_ANY_VALUE_V("network.receive_buffer.size.set",
                    [cm](const auto&, const auto& v) {
                      return cm->set_receive_buffer_size(v);
-                   });
+                   }, false);
   CMD2_ANY_STRING("network.tos.set",
                   [](const auto&, const auto& arg) { return apply_tos(arg); }, false);
 
@@ -384,7 +384,7 @@ initialize_command_network() {
   CMD2_ANY_VALUE_V("network.max_open_files.set",
                    [fileManager](const auto&, const auto& v) {
                      return fileManager->set_max_open_files(v);
-                   });
+                   }, false);
   CMD2_ANY("network.total_handshakes", [](const auto&, const auto&) {
     return torrent::total_handshakes();
   }, true);
@@ -394,7 +394,7 @@ initialize_command_network() {
            [cm](const auto&, const auto&) { return cm->max_size(); }, true);
   CMD2_ANY_VALUE_V(
     "network.max_open_sockets.set",
-    [cm](const auto&, const auto& v) { return cm->set_max_size(v); });
+    [cm](const auto&, const auto& v) { return cm->set_max_size(v); }, false);
 
   CMD2_ANY_STRING("network.scgi.open_port", [](const auto&, const auto& arg) {
     return apply_scgi(arg, 1);

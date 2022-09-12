@@ -288,7 +288,7 @@ initialize_command_ui() {
   CMD2_ANY_VALUE_V("ui.input.history.size.set",
                    [](const auto&, const auto& size) {
                      return control->ui()->set_input_history_size(size);
-                   });
+                   }, false);
   CMD2_ANY_V("ui.input.history.clear", [](const auto&, const auto&) {
     return control->ui()->clear_input_history();
   }, false);
