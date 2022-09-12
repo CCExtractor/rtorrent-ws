@@ -223,7 +223,7 @@ initialize_command_tracker() {
     return apply_enable_trackers(int64_t(0));
   }, false);
   CMD2_VAR_VALUE("trackers.numwant", -1, false);
-  CMD2_VAR_BOOL("trackers.use_udp", true);
+  CMD2_VAR_BOOL("trackers.use_udp", true, false);
 
   CMD2_ANY_STRING_V("dht.mode.set", [](const auto&, const auto& arg) {
     return control->dht_manager()->set_mode(arg);

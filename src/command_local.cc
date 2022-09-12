@@ -212,9 +212,9 @@ initialize_command_local() {
            [](const auto&, const auto&) { return system_hostname(); }, true);
   CMD2_ANY("system.pid", [](const auto&, const auto&) { return getpid(); }, true);
 
-  CMD2_VAR_C_STRING("system.api_version", (int64_t)RT_API_VERSION);
-  CMD2_VAR_C_STRING("system.client_version", RT_VERSION);
-  CMD2_VAR_C_STRING("system.library_version", torrent::version());
+  CMD2_VAR_C_STRING("system.api_version", (int64_t)RT_API_VERSION, true);
+  CMD2_VAR_C_STRING("system.client_version", RT_VERSION, true);
+  CMD2_VAR_C_STRING("system.library_version", torrent::version(), true);
   CMD2_VAR_VALUE("system.file.allocate", 0, false);
   CMD2_VAR_VALUE("system.file.max_size", (int64_t)512 << 30, false);
   CMD2_VAR_VALUE("system.file.split_size", -1, false);
@@ -227,7 +227,7 @@ initialize_command_local() {
     return control->core()->file_status_cache()->prune();
   }, false);
 
-  CMD2_VAR_BOOL("file.prioritize_toc", 0);
+  CMD2_VAR_BOOL("file.prioritize_toc", 0, false);
   CMD2_VAR_LIST("file.prioritize_toc.first");
   CMD2_VAR_LIST("file.prioritize_toc.last");
 
@@ -259,7 +259,7 @@ initialize_command_local() {
   CMD2_ANY_VALUE_V("system.umask.set",
                    [](const auto&, const auto& mode) { return umask(mode); }, false);
 
-  CMD2_VAR_BOOL("system.daemon", false);
+  CMD2_VAR_BOOL("system.daemon", false, false);
 
   CMD2_ANY_V("system.shutdown.normal", [](const auto&, const auto&) {
     return control->receive_normal_shutdown();
@@ -359,13 +359,13 @@ initialize_command_local() {
 
   CMD2_ANY("pieces.hash.queue_size",
            [](const auto&, const auto&) { return torrent::hash_queue_size(); }, true);
-  CMD2_VAR_BOOL("pieces.hash.on_completion", false);
+  CMD2_VAR_BOOL("pieces.hash.on_completion", false, false);
 
   CMD2_VAR_STRING("directory.default", "./", false);
 
   CMD2_VAR_STRING("session.name", "", false);
-  CMD2_VAR_BOOL("session.use_lock", true);
-  CMD2_VAR_BOOL("session.on_completion", true);
+  CMD2_VAR_BOOL("session.use_lock", true, false);
+  CMD2_VAR_BOOL("session.on_completion", true, false);
 
   CMD2_ANY("session.path",
            [dStore](const auto&, const auto&) { return dStore->path(); }, true);

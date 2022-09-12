@@ -258,8 +258,8 @@ initialize_command_network() {
   }, false);
 
   // Isn't port_open used?
-  CMD2_VAR_BOOL("network.port_open", true);
-  CMD2_VAR_BOOL("network.port_random", true);
+  CMD2_VAR_BOOL("network.port_open", true, false);
+  CMD2_VAR_BOOL("network.port_random", true, false);
   CMD2_VAR_STRING("network.port_range", "6881-6999", false);
 
   CMD2_ANY("network.listen.port",
@@ -270,7 +270,7 @@ initialize_command_network() {
     "network.listen.backlog.set",
     [cm](const auto&, const auto& v) { return cm->set_listen_backlog(v); }, false);
 
-  CMD2_VAR_BOOL("protocol.pex", true);
+  CMD2_VAR_BOOL("protocol.pex", true, false);
   CMD2_ANY_LIST("protocol.encryption.set", [](const auto&, const auto& args) {
     return apply_encryption(args);
   }, false);
@@ -408,7 +408,7 @@ initialize_command_network() {
   CMD2_ANY_STRING("network.websockets.open_local", [](const auto&, const auto& arg) {
       return apply_websockets(arg, 2);
   }, false);
-  CMD2_VAR_BOOL("network.scgi.dont_route", false);
+  CMD2_VAR_BOOL("network.scgi.dont_route", false, false);
 
   CMD2_ANY("network.xmlrpc.size_limit", [](const auto&, const auto&) {
     return std::numeric_limits<size_t>::max();

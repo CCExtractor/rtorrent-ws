@@ -224,7 +224,7 @@ initialize_command_ui() {
     return apply_view_event(&core::ViewManager::set_filter_temp, args);
   }, false);
   CMD2_VAR_STRING("view.filter.temp.excluded", "default,started,stopped", false);
-  CMD2_VAR_BOOL("view.filter.temp.log", 0);
+  CMD2_VAR_BOOL("view.filter.temp.log", 0, false);
 
   CMD2_ANY_LIST("view.sort", [](const auto&, const auto& args) {
     return apply_view_sort(args);

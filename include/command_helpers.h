@@ -212,21 +212,23 @@ cleanup_commands();
                   "i:i",                                                       \
                   "")
 
-#define CMD2_VAR_BOOL(key, value)                                              \
+#define CMD2_VAR_BOOL(key, value, is_readonly)                                 \
+  do {                                                                         \
   control->object_storage()->insert_c_str(                                     \
     key, int64_t(value), rpc::object_storage::flag_bool_type);                 \
                                                                                \
   CMD2_ANY(key,                                                                \
-           ([storage = control->object_storage(),                              \
-             raw_key = torrent::raw_string::from_c_str(key)](                  \
-              const auto&, const auto&) { return storage->get(raw_key); }), false);   \
+     ([storage = control->object_storage(),                                    \
+       raw_key = torrent::raw_string::from_c_str(key)](                        \
+        const auto&, const auto&) { return storage->get(raw_key); }), false);  \
                                                                                \
   CMD2_ANY_VALUE(key ".set",                                                   \
                  ([storage = control->object_storage(),                        \
                    raw_key = torrent::raw_string::from_c_str(key)](            \
                     const auto&, const auto& object) {                         \
                    return storage->set_bool(raw_key, object);                  \
-                 }), false);
+                 }), false);                                                   \
+  } while (0)                                                                  \
 
 #define CMD2_VAR_VALUE(key, value, is_readonly)                                \
   do {                                                                         \
@@ -266,14 +268,16 @@ cleanup_commands();
                   }), false);                                                  \
   } while (0)                                                                  \
 
-#define CMD2_VAR_C_STRING(key, value)                                          \
+#define CMD2_VAR_C_STRING(key, value, is_readonly)                             \
+  do {                                                                         \
   control->object_storage()->insert_c_str(                                     \
     key, value, rpc::object_storage::flag_string_type);                        \
                                                                                \
   CMD2_ANY(key,                                                                \
-           ([storage = control->object_storage(),                              \
-             raw_key = torrent::raw_string::from_c_str(key)](                  \
-              const auto&, const auto&) { return storage->get(raw_key); }), true);
+     ([storage = control->object_storage(),                                    \
+       raw_key = torrent::raw_string::from_c_str(key)](                        \
+        const auto&, const auto&) { return storage->get(raw_key); }), true);   \
+  } while (0)                                                                  \
 
 #define CMD2_VAR_LIST(key)                                                     \
   control->object_storage()->insert_c_str(                                     \
