@@ -372,7 +372,7 @@ initialize_command_groups() {
   CMD2_ANY_LIST("choke_group.tracker.mode.set",
                 [](const auto&, const auto& args) {
                   return apply_cg_tracker_mode_set(args);
-                });
+                }, false);
 
   CMD2_ANY("choke_group.up.rate", [](const auto&, const auto& raw_args) {
     return cg_get_group(raw_args)->up_rate();
@@ -390,7 +390,7 @@ initialize_command_groups() {
   }, true);
   CMD2_ANY_LIST("choke_group.up.max.set", [](const auto&, const auto& args) {
     return apply_cg_max_set(args, true);
-  });
+  }, false);
 
   CMD2_ANY("choke_group.up.total", [](const auto&, const auto& raw_args) {
     return cg_get_group(raw_args)->up_queue()->size_total();
@@ -409,7 +409,7 @@ initialize_command_groups() {
   CMD2_ANY_LIST("choke_group.up.heuristics.set",
                 [](const auto&, const auto& args) {
                   return apply_cg_heuristics_set(args, true);
-                });
+                }, false);
 
   CMD2_ANY("choke_group.down.max.unlimited",
            [](const auto&, const auto& raw_args) {
@@ -420,7 +420,7 @@ initialize_command_groups() {
   }, true);
   CMD2_ANY_LIST("choke_group.down.max.set", [](const auto&, const auto& args) {
     return apply_cg_max_set(args, false);
-  });
+  }, false);
 
   CMD2_ANY("choke_group.down.total", [](const auto&, const auto& raw_args) {
     return cg_get_group(raw_args)->down_queue()->size_total();
@@ -440,7 +440,7 @@ initialize_command_groups() {
   CMD2_ANY_LIST("choke_group.down.heuristics.set",
                 [](const auto&, const auto& args) {
                   return apply_cg_heuristics_set(args, false);
-                });
+                }, false);
 }
 
 void

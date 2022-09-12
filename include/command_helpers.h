@@ -108,8 +108,12 @@ cleanup_commands();
                   "")                                                          \
     } while (0)                                                                \
 
-#define CMD2_ANY_LIST(key, slot)                                               \
-  CMD2_A_FUNCTION(key, command_base_call_list<rpc::target_type>, slot, "i:", "")
+#define CMD2_ANY_LIST(key, slot, is_readonly)                                  \
+  do {                                                                         \
+    if (is_readonly) rpc::readonly_command.insert(key);                        \
+    CMD2_A_FUNCTION(key,                                                       \
+      command_base_call_list<rpc::target_type>, slot, "i:", "")                \
+  } while (0)                                                                  \
 
 #define CMD2_DL(key, slot, is_readonly)                                        \
   do {                                                                         \
@@ -283,7 +287,7 @@ cleanup_commands();
                   raw_key = torrent::raw_string::from_c_str(key)](             \
                    const auto&, const auto& object) {                          \
                   return storage->set_list(raw_key, object);                   \
-                }));                                                           \
+                }), false);                                                           \
                                                                                \
   CMD2_ANY_VOID(key ".push_back",                                              \
                 ([storage = control->object_storage(),                         \

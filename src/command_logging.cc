@@ -153,22 +153,22 @@ void
 initialize_command_logging() {
   CMD2_ANY_LIST("log.open_file", [](const auto&, const auto& args) {
     return apply_log_open(0, args);
-  });
+  }, false);
   CMD2_ANY_LIST("log.open_gz_file", [](const auto&, const auto& args) {
     return apply_log_open(log_flag_use_gz, args);
-  });
+  }, false);
   CMD2_ANY_LIST("log.open_file_pid", [](const auto&, const auto& args) {
     return apply_log_open(log_flag_append_pid, args);
-  });
+  }, false);
   CMD2_ANY_LIST("log.open_gz_file_pid", [](const auto&, const auto& args) {
     return apply_log_open(log_flag_append_pid | log_flag_use_gz, args);
-  });
+  }, false);
   CMD2_ANY_LIST("log.append_file", [](const auto&, const auto& args) {
     return apply_log_open(log_flag_append_file, args);
-  });
+  }, false);
   CMD2_ANY_LIST("log.append_gz_file", [](const auto&, const auto& args) {
     return apply_log_open(log_flag_append_file, args);
-  });
+  }, false);
 
   CMD2_ANY_STRING_V("log.close", [](const auto&, const auto& name) {
     return torrent::log_close_output_str(name);
@@ -176,7 +176,7 @@ initialize_command_logging() {
 
   CMD2_ANY_LIST("log.add_output", [](const auto&, const auto& args) {
     return apply_log_add_output(args);
-  });
+  }, false);
 
   CMD2_ANY_STRING("log.execute", [](const auto&, const auto& arg) {
     return apply_log(arg, 0);

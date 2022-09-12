@@ -1253,5 +1253,5 @@ initialize_command_download() {
 
   CMD2_ANY_LIST("p.call_target", [](const auto&, const auto& args) {
     return p_call_target(args);
-  });
+  }, false);
 }

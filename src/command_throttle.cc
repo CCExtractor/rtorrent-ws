@@ -256,13 +256,13 @@ initialize_command_throttle() {
   // than kB.
   CMD2_ANY_LIST("throttle.up", [](const auto&, const auto& args) {
     return apply_throttle(args, true);
-  });
+  }, true);
   CMD2_ANY_LIST("throttle.down", [](const auto&, const auto& args) {
     return apply_throttle(args, false);
-  });
+  }, true);
   CMD2_ANY_LIST("throttle.ip", [](const auto&, const auto& args) {
     return apply_address_throttle(args);
-  });
+  }, true);
 
   CMD2_ANY_STRING("throttle.up.max", [](const auto&, const auto& name) {
     return retrieve_throttle_info(name, throttle_info_up | throttle_info_max);

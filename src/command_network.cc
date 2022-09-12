@@ -273,7 +273,7 @@ initialize_command_network() {
   CMD2_VAR_BOOL("protocol.pex", true);
   CMD2_ANY_LIST("protocol.encryption.set", [](const auto&, const auto& args) {
     return apply_encryption(args);
-  });
+  }, false);
 
   CMD2_VAR_STRING("protocol.connection.leech", "leech");
   CMD2_VAR_STRING("protocol.connection.seed", "seed");

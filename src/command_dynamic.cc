@@ -431,7 +431,7 @@ cmd_catch(rpc::target_type target, const torrent::Object& args) {
 #define CMD2_METHOD_INSERT(key, flags)                                         \
   CMD2_ANY_LIST(key, [](const auto&, const auto& args) {                       \
     return system_method_insert_object(args, flags);                           \
-  });
+  }, false);
 
 void
 initialize_command_dynamic() {
@@ -440,23 +440,23 @@ initialize_command_dynamic() {
 
   CMD2_ANY_LIST("method.insert", [](const auto&, const auto& args) {
     return system_method_insert(args);
-  });
+  }, false);
   CMD2_ANY_LIST("method.insert.value", [](const auto&, const auto& args) {
     return system_method_insert_object(args,
                                        rpc::object_storage::flag_value_type);
-  });
+  }, false);
   CMD2_ANY_LIST("method.insert.bool", [](const auto&, const auto& args) {
     return system_method_insert_object(args,
                                        rpc::object_storage::flag_bool_type);
-  });
+  }, false);
   CMD2_ANY_LIST("method.insert.string", [](const auto&, const auto& args) {
     return system_method_insert_object(args,
                                        rpc::object_storage::flag_string_type);
-  });
+  }, false);
   CMD2_ANY_LIST("method.insert.list", [](const auto&, const auto& args) {
     return system_method_insert_object(args,
                                        rpc::object_storage::flag_list_type);
-  });
+  }, false);
 
   CMD2_METHOD_INSERT("method.insert.simple",
                      rpc::object_storage::flag_function_type);
@@ -473,13 +473,13 @@ initialize_command_dynamic() {
   }, false);
   CMD2_ANY_LIST("method.redirect", [](const auto&, const auto& args) {
     return system_method_redirect(args);
-  });
+  }, false);
   CMD2_ANY_STRING("method.get", [](const auto&, const auto& str) {
     return control->object_storage()->get_str(str);
   }, false);
   CMD2_ANY_LIST("method.set", [](const auto&, const auto& args) {
     return system_method_set_function(args);
-  });
+  }, false);
 
   CMD2_ANY_STRING("method.const", [](const auto&, const auto& key) {
     return control->object_storage()->has_flag_str(
@@ -492,10 +492,10 @@ initialize_command_dynamic() {
 
   CMD2_ANY_LIST("method.has_key", [](const auto&, const auto& args) {
     return system_method_has_key(args);
-  });
+  }, false);
   CMD2_ANY_LIST("method.set_key", [](const auto&, const auto& args) {
     return system_method_set_key(args);
-  });
+  }, false);
   CMD2_ANY_STRING("method.list_keys", [](const auto&, const auto& args) {
     return system_method_list_keys(args);
   }, false);

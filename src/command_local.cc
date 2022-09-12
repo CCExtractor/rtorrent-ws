@@ -406,7 +406,7 @@ initialize_command_local() {
 
   CMD2_ANY_LIST("file.append", [](const auto&, const auto& args) {
     return cmd_file_append(args);
-  });
+  }, false);
 
   // TODO: Convert to new command types:
   *rpc::command_base::argument(0) = "placeholder.0";
@@ -428,5 +428,5 @@ initialize_command_local() {
 
   CMD2_ANY_LIST("group.insert", [](const auto&, const auto& args) {
     return group_insert(args);
-  });
+  }, false);
 }

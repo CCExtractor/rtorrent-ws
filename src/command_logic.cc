@@ -673,7 +673,7 @@ apply_arith_other(const char* op, const torrent::Object::list_type& args) {
 void
 initialize_command_logic() {
   CMD2_ANY("cat", &apply_cat, true);
-  CMD2_ANY_LIST("value", &apply_value);
+  CMD2_ANY_LIST("value", &apply_value, true);
   CMD2_ANY("try", &apply_try, true);
   CMD2_ANY("if", [](const auto& target, const auto& rawArgs) {
     return apply_if(target, rawArgs, 0);
@@ -690,11 +690,11 @@ initialize_command_logic() {
     return apply_if(target, rawArgs, 1);
   }, true);
 
-  CMD2_ANY_LIST("less", &apply_less);
-  CMD2_ANY_LIST("greater", &apply_greater);
-  CMD2_ANY_LIST("equal", &apply_equal);
-  CMD2_ANY_LIST("compare", &apply_compare);
-  CMD2_ANY_LIST("match", &apply_match);
+  CMD2_ANY_LIST("less", &apply_less, true);
+  CMD2_ANY_LIST("greater", &apply_greater, true);
+  CMD2_ANY_LIST("equal", &apply_equal, true);
+  CMD2_ANY_LIST("compare", &apply_compare, true);
+  CMD2_ANY_LIST("match", &apply_match, true);
 
   CMD2_ANY_VALUE("convert.gm_time", [](const auto&, const auto& rawArgs) {
     return apply_to_time(rawArgs, 0);
@@ -726,39 +726,39 @@ initialize_command_logic() {
 
   CMD2_ANY_LIST("math.add", [](const auto&, const auto& args) {
     return apply_math_basic("math.add", std::plus<>(), args);
-  });
+  }, true);
   CMD2_ANY_LIST("math.sub", [](const auto&, const auto& args) {
     return apply_math_basic("math.sub", std::minus<>(), args);
-  });
+  }, true);
   CMD2_ANY_LIST("math.mul", [](const auto&, const auto& args) {
     return apply_math_basic("math.mul", std::multiplies<>(), args);
-  });
+  }, true);
   CMD2_ANY_LIST("math.div", [](const auto&, const auto& args) {
     return apply_math_basic("math.div", std::divides<>(), args);
-  });
+  }, true);
   CMD2_ANY_LIST("math.mod", [](const auto&, const auto& args) {
     return apply_math_basic("math.mod", std::modulus<>(), args);
-  });
+  }, true);
   CMD2_ANY_LIST("math.min", [](const auto&, const auto& args) {
     return apply_arith_basic(std::less<>(), args);
-  });
+  }, true);
   CMD2_ANY_LIST("math.max", [](const auto&, const auto& args) {
     return apply_arith_basic(std::greater<>(), args);
-  });
+  }, true);
   CMD2_ANY_LIST("math.cnt", [](const auto&, const auto& args) {
     return apply_arith_count(args);
-  });
+  }, true);
   CMD2_ANY_LIST("math.avg", [](const auto&, const auto& args) {
     return apply_arith_other("average", args);
-  });
+  }, true);
   CMD2_ANY_LIST("math.med", [](const auto&, const auto& args) {
     return apply_arith_other("median", args);
-  });
+  }, true);
 
   CMD2_ANY_LIST("elapsed.less", [](const auto&, const auto& args) {
     return apply_elapsed_less(args);
-  });
+  }, true);
   CMD2_ANY_LIST("elapsed.greater", [](const auto&, const auto& args) {
     return apply_elapsed_greater(args);
-  });
+  }, true);
 }

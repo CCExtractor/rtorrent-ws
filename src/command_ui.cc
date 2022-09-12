@@ -212,36 +212,36 @@ initialize_command_ui() {
              [](const auto&, const auto&) { return apply_view_list(); });
   CMD2_ANY_LIST("view.set", [](const auto&, const auto& args) {
     return apply_view_set(args);
-  });
+  }, false);
 
   CMD2_ANY_LIST("view.filter", [](const auto&, const auto& args) {
     return apply_view_event(&core::ViewManager::set_filter, args);
-  });
+  }, false);
   CMD2_ANY_LIST("view.filter_on", [](const auto&, const auto& args) {
     return apply_view_filter_on(args);
-  });
+  }, false);
   CMD2_ANY_LIST("view.filter.temp", [](const auto&, const auto& args) {
     return apply_view_event(&core::ViewManager::set_filter_temp, args);
-  });
+  }, false);
   CMD2_VAR_STRING("view.filter.temp.excluded", "default,started,stopped");
   CMD2_VAR_BOOL("view.filter.temp.log", 0);
 
   CMD2_ANY_LIST("view.sort", [](const auto&, const auto& args) {
     return apply_view_sort(args);
-  });
+  }, false);
   CMD2_ANY_LIST("view.sort_new", [](const auto&, const auto& args) {
     return apply_view_event(&core::ViewManager::set_sort_new, args);
-  });
+  }, false);
   CMD2_ANY_LIST("view.sort_current", [](const auto&, const auto& args) {
     return apply_view_event(&core::ViewManager::set_sort_current, args);
-  });
+  }, false);
 
   CMD2_ANY_LIST("view.event_added", [](const auto&, const auto& args) {
     return apply_view_event(&core::ViewManager::set_event_added, args);
-  });
+  }, false);
   CMD2_ANY_LIST("view.event_removed", [](const auto&, const auto& args) {
     return apply_view_event(&core::ViewManager::set_event_removed, args);
-  });
+  }, false);
 
   // Cleanup and add . to view.
 
@@ -299,11 +299,11 @@ initialize_command_ui() {
 
   CMD2_ANY_LIST("ui.status.throttle.up.set", [](const auto&, const auto& args) {
     return cmd_status_throttle_names(true, args);
-  });
+  }, false);
   CMD2_ANY_LIST("ui.status.throttle.down.set",
                 [](const auto&, const auto& args) {
                   return cmd_status_throttle_names(false, args);
-                });
+                }, false);
 
   // TODO: Add 'option_string' for rtorrent-specific options.
   CMD2_VAR_STRING("ui.torrent_list.layout", "full");
