@@ -67,9 +67,13 @@ cleanup_commands();
 #define CMD2_ANY_L(key, slot)                                                  \
   CMD2_A_FUNCTION(key, command_base_call_list<rpc::target_type>, slot, "A:", "")
 
-#define CMD2_ANY_VALUE(key, slot)                                              \
-  CMD2_A_FUNCTION(                                                             \
-    key, command_base_call_value<rpc::target_type>, slot, "i:i", "")
+#define CMD2_ANY_VALUE(key, slot, is_readonly)                                 \
+    do {                                                                       \
+        if (is_readonly) rpc::readonly_command.insert(key);                    \
+        CMD2_A_FUNCTION(                                                       \
+            key, command_base_call_value<rpc::target_type>, slot, "i:i", "")   \
+    } while (0)                                                                \
+
 #define CMD2_ANY_VALUE_V(key, slot)                                            \
   CMD2_A_FUNCTION(key,                                                         \
                   command_base_call_value<rpc::target_type>,                   \
@@ -211,23 +215,26 @@ cleanup_commands();
                    raw_key = torrent::raw_string::from_c_str(key)](            \
                     const auto&, const auto& object) {                         \
                    return storage->set_bool(raw_key, object);                  \
-                 }));
+                 }), false);
 
-#define CMD2_VAR_VALUE(key, value)                                             \
-  control->object_storage()->insert_c_str(                                     \
+#define CMD2_VAR_VALUE(key, value, is_readonly)                                \
+  do {                                                                         \
+    if (is_readonly) rpc::readonly_command.insert(key);                        \
+    control->object_storage()->insert_c_str(                                   \
     key, int64_t(value), rpc::object_storage::flag_value_type);                \
                                                                                \
-  CMD2_ANY(key,                                                                \
-           ([storage = control->object_storage(),                              \
-             raw_key = torrent::raw_string::from_c_str(key)](                  \
-              const auto&, const auto&) { return storage->get(raw_key); }), false);   \
+    CMD2_ANY(key,                                                              \
+       ([storage = control->object_storage(),                                  \
+         raw_key = torrent::raw_string::from_c_str(key)](                      \
+          const auto&, const auto&) { return storage->get(raw_key); }), false);\
                                                                                \
-  CMD2_ANY_VALUE(key ".set",                                                   \
+    CMD2_ANY_VALUE(key ".set",                                                 \
                  ([storage = control->object_storage(),                        \
                    raw_key = torrent::raw_string::from_c_str(key)](            \
                     const auto&, const auto& object) {                         \
                    return storage->set_value(raw_key, object);                 \
-                 }));
+                 }), false);                                                          \
+  } while (0)                                                                  \
 
 #define CMD2_VAR_STRING(key, value)                                            \
   control->object_storage()->insert_c_str(                                     \

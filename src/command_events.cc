@@ -479,7 +479,7 @@ initialize_command_events() {
 
   CMD2_ANY_VALUE("close_low_diskspace", [](const auto&, const auto& arg) {
     return apply_close_low_diskspace(arg);
-  });
+  }, false);
 
   CMD2_ANY_LIST("download_list", [](const auto&, const auto& args) {
     return apply_download_list(args);

@@ -436,7 +436,7 @@ cmd_catch(rpc::target_type target, const torrent::Object& args) {
 void
 initialize_command_dynamic() {
   CMD2_VAR_BOOL("method.use_deprecated", true);
-  CMD2_VAR_VALUE("method.use_intermediate", 1);
+  CMD2_VAR_VALUE("method.use_intermediate", 1, false);
 
   CMD2_ANY_LIST("method.insert", [](const auto&, const auto& args) {
     return system_method_insert(args);

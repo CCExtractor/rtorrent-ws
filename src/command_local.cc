@@ -215,9 +215,9 @@ initialize_command_local() {
   CMD2_VAR_C_STRING("system.api_version", (int64_t)RT_API_VERSION);
   CMD2_VAR_C_STRING("system.client_version", RT_VERSION);
   CMD2_VAR_C_STRING("system.library_version", torrent::version());
-  CMD2_VAR_VALUE("system.file.allocate", 0);
-  CMD2_VAR_VALUE("system.file.max_size", (int64_t)512 << 30);
-  CMD2_VAR_VALUE("system.file.split_size", -1);
+  CMD2_VAR_VALUE("system.file.allocate", 0, false);
+  CMD2_VAR_VALUE("system.file.max_size", (int64_t)512 << 30, false);
+  CMD2_VAR_VALUE("system.file.split_size", -1, false);
   CMD2_VAR_STRING("system.file.split_suffix", ".part");
 
   CMD2_ANY("system.file_status_cache.size", [](const auto&, const auto&) {

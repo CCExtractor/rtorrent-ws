@@ -698,31 +698,31 @@ initialize_command_logic() {
 
   CMD2_ANY_VALUE("convert.gm_time", [](const auto&, const auto& rawArgs) {
     return apply_to_time(rawArgs, 0);
-  });
+  }, true);
   CMD2_ANY_VALUE("convert.gm_date", [](const auto&, const auto& rawArgs) {
     return apply_to_time(rawArgs, 0x2);
-  });
+  }, true);
   CMD2_ANY_VALUE("convert.time", [](const auto&, const auto& rawArgs) {
     return apply_to_time(rawArgs, 0x1);
-  });
+  }, true);
   CMD2_ANY_VALUE("convert.date", [](const auto&, const auto& rawArgs) {
     return apply_to_time(rawArgs, 0x1 | 0x2);
-  });
+  }, true);
   CMD2_ANY_VALUE("convert.elapsed_time", [](const auto&, const auto& rawArgs) {
     return apply_to_elapsed_time(rawArgs);
-  });
+  }, true);
   CMD2_ANY_VALUE("convert.kb", [](const auto&, const auto& rawArgs) {
     return apply_to_kb(rawArgs);
-  });
+  }, true);
   CMD2_ANY_VALUE("convert.mb", [](const auto&, const auto& rawArgs) {
     return apply_to_mb(rawArgs);
-  });
+  }, true);
   CMD2_ANY_VALUE("convert.xb", [](const auto&, const auto& rawArgs) {
     return apply_to_xb(rawArgs);
-  });
+  }, true);
   CMD2_ANY_VALUE("convert.throttle", [](const auto&, const auto& rawArgs) {
     return apply_to_throttle(rawArgs);
-  });
+  }, true);
 
   CMD2_ANY_LIST("math.add", [](const auto&, const auto& args) {
     return apply_math_basic("math.add", std::plus<>(), args);

@@ -88,7 +88,7 @@ cmd_scheduler_simple_update(core::Download*) {
 
 void
 initialize_command_scheduler() {
-  CMD2_VAR_VALUE("scheduler.max_active", int64_t(-1));
+  CMD2_VAR_VALUE("scheduler.max_active", int64_t(-1), false);
 
   CMD2_DL("scheduler.simple.added", [](const auto& download, const auto&) {
     return cmd_scheduler_simple_added(download);

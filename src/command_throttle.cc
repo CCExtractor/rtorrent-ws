@@ -174,20 +174,20 @@ initialize_command_throttle() {
     return torrent::resource_manager()->max_download_unchoked();
   }, true);
 
-  CMD2_VAR_VALUE("throttle.min_peers.normal", 100);
-  CMD2_VAR_VALUE("throttle.max_peers.normal", 200);
-  CMD2_VAR_VALUE("throttle.min_peers.seed", -1);
-  CMD2_VAR_VALUE("throttle.max_peers.seed", -1);
+  CMD2_VAR_VALUE("throttle.min_peers.normal", 100, false);
+  CMD2_VAR_VALUE("throttle.max_peers.normal", 200, false);
+  CMD2_VAR_VALUE("throttle.min_peers.seed", -1, false);
+  CMD2_VAR_VALUE("throttle.max_peers.seed", -1, false);
 
-  CMD2_VAR_VALUE("throttle.min_uploads", 0);
-  CMD2_VAR_VALUE("throttle.max_uploads", 50);
-  CMD2_VAR_VALUE("throttle.min_downloads", 0);
-  CMD2_VAR_VALUE("throttle.max_downloads", 50);
+  CMD2_VAR_VALUE("throttle.min_uploads", 0, false);
+  CMD2_VAR_VALUE("throttle.max_uploads", 50, false);
+  CMD2_VAR_VALUE("throttle.min_downloads", 0, false);
+  CMD2_VAR_VALUE("throttle.max_downloads", 50, false);
 
-  CMD2_VAR_VALUE("throttle.max_uploads.div._val", 1);
-  CMD2_VAR_VALUE("throttle.max_uploads.global._val", 0);
-  CMD2_VAR_VALUE("throttle.max_downloads.div._val", 1);
-  CMD2_VAR_VALUE("throttle.max_downloads.global._val", 0);
+  CMD2_VAR_VALUE("throttle.max_uploads.div._val", 1, false);
+  CMD2_VAR_VALUE("throttle.max_uploads.global._val", 0, false);
+  CMD2_VAR_VALUE("throttle.max_downloads.div._val", 1, false);
+  CMD2_VAR_VALUE("throttle.max_downloads.global._val", 0, false);
 
   CMD2_REDIRECT_GENERIC("throttle.max_uploads.div",
                         "throttle.max_uploads.div._val");
@@ -201,19 +201,19 @@ initialize_command_throttle() {
   CMD2_ANY_VALUE(
     "throttle.max_uploads.div.set", [](const auto&, const auto& value) {
       return throttle_update("throttle.max_uploads.div._val.set", value);
-    });
+    }, false);
   CMD2_ANY_VALUE(
     "throttle.max_uploads.global.set", [](const auto&, const auto& value) {
       return throttle_update("throttle.max_uploads.global._val.set", value);
-    });
+    }, false);
   CMD2_ANY_VALUE(
     "throttle.max_downloads.div.set", [](const auto&, const auto& value) {
       return throttle_update("throttle.max_downloads.div._val.set", value);
-    });
+    }, false);
   CMD2_ANY_VALUE(
     "throttle.max_downloads.global.set", [](const auto&, const auto& value) {
       return throttle_update("throttle.max_downloads.global._val.set", value);
-    });
+    }, false);
 
   // TODO: Move the logic into some libtorrent function.
   CMD2_ANY("throttle.global_up.rate",

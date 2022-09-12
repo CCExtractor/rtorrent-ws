@@ -218,17 +218,17 @@ initialize_command_tracker() {
 
   CMD2_ANY_VALUE("trackers.enable", [](const auto&, const auto&) {
     return apply_enable_trackers(int64_t(1));
-  });
+  }, false);
   CMD2_ANY_VALUE("trackers.disable", [](const auto&, const auto&) {
     return apply_enable_trackers(int64_t(0));
-  });
-  CMD2_VAR_VALUE("trackers.numwant", -1);
+  }, false);
+  CMD2_VAR_VALUE("trackers.numwant", -1, false);
   CMD2_VAR_BOOL("trackers.use_udp", true);
 
   CMD2_ANY_STRING_V("dht.mode.set", [](const auto&, const auto& arg) {
     return control->dht_manager()->set_mode(arg);
   });
-  CMD2_VAR_VALUE("dht.port", int64_t(6881));
+  CMD2_VAR_VALUE("dht.port", int64_t(6881), false);
   CMD2_ANY_STRING("dht.add_bootstrap", [](const auto&, const auto& arg) {
     return apply_dht_add_bootstrap(arg);
   }, false);

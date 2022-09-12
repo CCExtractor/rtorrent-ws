@@ -293,9 +293,9 @@ initialize_command_ui() {
     return control->ui()->clear_input_history();
   }, false);
 
-  CMD2_VAR_VALUE("ui.throttle.global.step.small", 5);
-  CMD2_VAR_VALUE("ui.throttle.global.step.medium", 50);
-  CMD2_VAR_VALUE("ui.throttle.global.step.large", 500);
+  CMD2_VAR_VALUE("ui.throttle.global.step.small", 5, false);
+  CMD2_VAR_VALUE("ui.throttle.global.step.medium", 50, false);
+  CMD2_VAR_VALUE("ui.throttle.global.step.large", 500, false);
 
   CMD2_ANY_LIST("ui.status.throttle.up.set", [](const auto&, const auto& args) {
     return cmd_status_throttle_names(true, args);
