@@ -488,7 +488,7 @@ initialize_command_dynamic() {
   CMD2_ANY_STRING_V("method.const.enable", [](const auto&, const auto& key) {
     return control->object_storage()->enable_flag_str(
       key, rpc::object_storage::flag_constant);
-  });
+  }, false);
 
   CMD2_ANY_LIST("method.has_key", [](const auto&, const auto& args) {
     return system_method_has_key(args);
@@ -506,7 +506,7 @@ initialize_command_dynamic() {
   CMD2_ANY_STRING_V("method.rlookup.clear",
                     [](const auto&, const auto& cmd_key) {
                       return control->object_storage()->rlookup_clear(cmd_key);
-                    });
+                    }, false);
 
   CMD2_ANY("catch", [](const auto& target, const auto& args) {
     return cmd_catch(target, args);

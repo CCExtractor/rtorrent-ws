@@ -289,14 +289,14 @@ initialize_command_network() {
   CMD2_ANY_STRING_V("network.http.cacert.set",
                     [httpStack](const auto&, const auto& s) {
                       return httpStack->set_http_cacert(s);
-                    });
+                    }, false);
   CMD2_ANY("network.http.capath", [httpStack](const auto&, const auto&) {
     return httpStack->http_capath();
   }, true);
   CMD2_ANY_STRING_V("network.http.capath.set",
                     [httpStack](const auto&, const auto& s) {
                       return httpStack->set_http_capath(s);
-                    });
+                    }, false);
   CMD2_ANY(
     "network.http.dns_cache_timeout",
     [httpStack](const auto&, const auto&) { return httpStack->dns_timeout(); }, true);
@@ -320,7 +320,7 @@ initialize_command_network() {
   CMD2_ANY_STRING_V("network.http.proxy_address.set",
                     [httpStack](const auto&, const auto& s) {
                       return httpStack->set_http_proxy(s);
-                    });
+                    }, false);
   CMD2_ANY("network.http.ssl_verify_host",
            [httpStack](const auto&, const auto&) {
              return httpStack->ssl_verify_host();
@@ -359,21 +359,21 @@ initialize_command_network() {
   CMD2_ANY_STRING_V("network.bind_address.set",
                     [](const auto&, const auto& addr) {
                       return control->core()->set_bind_address(addr);
-                    });
+                    }, false);
   CMD2_ANY("network.local_address", [](const auto&, const auto&) {
     return control->core()->local_address();
   }, true);
   CMD2_ANY_STRING_V("network.local_address.set",
                     [](const auto&, const auto& addr) {
                       return control->core()->set_local_address(addr);
-                    });
+                    }, false);
   CMD2_ANY("network.proxy_address", [](const auto&, const auto&) {
     return control->core()->proxy_address();
   }, true);
   CMD2_ANY_STRING_V("network.proxy_address.set",
                     [](const auto&, const auto& addr) {
                       return control->core()->set_proxy_address(addr);
-                    });
+                    }, false);
 
   CMD2_ANY("network.open_files", [fileManager](const auto&, const auto&) {
     return fileManager->open_files();

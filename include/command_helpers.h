@@ -98,12 +98,15 @@ cleanup_commands();
     key, command_base_call_string<rpc::target_type>, slot, "i:s", "")          \
   } while (0)                                                                  \
 
-#define CMD2_ANY_STRING_V(key, slot)                                           \
-  CMD2_A_FUNCTION(key,                                                         \
+#define CMD2_ANY_STRING_V(key, slot, is_readonly)                              \
+    do {                                                                       \
+      if (is_readonly) rpc::readonly_command.insert(key);                      \
+      CMD2_A_FUNCTION(key,                                                     \
                   command_base_call_string<rpc::target_type>,                  \
                   object_convert_void(slot),                                   \
                   "i:s",                                                       \
-                  "")
+                  "")                                                          \
+    } while (0)                                                                \
 
 #define CMD2_ANY_LIST(key, slot)                                               \
   CMD2_A_FUNCTION(key, command_base_call_list<rpc::target_type>, slot, "i:", "")

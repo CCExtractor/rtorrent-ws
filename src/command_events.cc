@@ -425,13 +425,13 @@ initialize_command_events() {
   });
   CMD2_ANY_STRING_V("schedule_remove2", [](const auto&, const auto& key) {
     control->command_scheduler()->erase_str(key);
-  });
+  }, false);
 
   CMD2_ANY_STRING_V(
-    "import", [](const auto&, const auto& path) { return apply_import(path); });
+    "import", [](const auto&, const auto& path) { return apply_import(path); }, false);
   CMD2_ANY_STRING_V("try_import", [](const auto&, const auto& path) {
     return apply_try_import(path);
-  });
+  }, false);
 
   CMD2_ANY_LIST("load.normal", [](const auto&, const auto& args) {
     return apply_load(args,

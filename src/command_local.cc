@@ -371,7 +371,7 @@ initialize_command_local() {
            [dStore](const auto&, const auto&) { return dStore->path(); }, true);
   CMD2_ANY_STRING_V(
     "session.path.set",
-    [dStore](const auto&, const auto& path) { return dStore->set_path(path); });
+    [dStore](const auto&, const auto& path) { return dStore->set_path(path); }, false);
 
   CMD2_ANY_V("session.save", [dList](const auto&, const auto&) {
     return dList->session_save();

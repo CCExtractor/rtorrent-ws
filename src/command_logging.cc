@@ -172,7 +172,7 @@ initialize_command_logging() {
 
   CMD2_ANY_STRING_V("log.close", [](const auto&, const auto& name) {
     return torrent::log_close_output_str(name);
-  });
+  }, false);
 
   CMD2_ANY_LIST("log.add_output", [](const auto&, const auto& args) {
     return apply_log_add_output(args);
@@ -186,5 +186,5 @@ initialize_command_logging() {
   }, false);
   CMD2_ANY_STRING_V("log.rpc", [](const auto&, const auto& filename) {
     return worker_thread->set_rpc_log(filename);
-  });
+  }, false);
 }

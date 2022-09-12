@@ -257,7 +257,7 @@ initialize_command_ui() {
 
   CMD2_ANY_STRING_V("view.filter_all", [](const auto&, const auto& args) {
     control->view_manager()->find_ptr_throw(args)->filter();
-  });
+  }, false);
 
   CMD2_DL_STRING("view.filter_download",
                  [](const auto& download, const auto& args) {

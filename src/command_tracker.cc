@@ -227,7 +227,7 @@ initialize_command_tracker() {
 
   CMD2_ANY_STRING_V("dht.mode.set", [](const auto&, const auto& arg) {
     return control->dht_manager()->set_mode(arg);
-  });
+  }, false);
   CMD2_VAR_VALUE("dht.port", int64_t(6881), false);
   CMD2_ANY_STRING("dht.add_bootstrap", [](const auto&, const auto& arg) {
     return apply_dht_add_bootstrap(arg);
@@ -244,5 +244,5 @@ initialize_command_tracker() {
   CMD2_ANY_STRING_V(
     "dht.throttle.name.set", [](const auto&, const auto& throttleName) {
       return control->dht_manager()->set_throttle_name(throttleName);
-    });
+    }, false);
 }
