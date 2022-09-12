@@ -201,7 +201,7 @@ cmd_status_throttle_names(bool up, const torrent::Object::list_type& args) {
 
 void
 initialize_command_ui() {
-  CMD2_VAR_STRING("keys.layout", "qwerty");
+  CMD2_VAR_STRING("keys.layout", "qwerty", false);
 
   CMD2_ANY_STRING("view.add",
                   object_convert_void([](const auto&, const auto& name) {
@@ -223,7 +223,7 @@ initialize_command_ui() {
   CMD2_ANY_LIST("view.filter.temp", [](const auto&, const auto& args) {
     return apply_view_event(&core::ViewManager::set_filter_temp, args);
   }, false);
-  CMD2_VAR_STRING("view.filter.temp.excluded", "default,started,stopped");
+  CMD2_VAR_STRING("view.filter.temp.excluded", "default,started,stopped", false);
   CMD2_VAR_BOOL("view.filter.temp.log", 0);
 
   CMD2_ANY_LIST("view.sort", [](const auto&, const auto& args) {
@@ -306,7 +306,7 @@ initialize_command_ui() {
                 }, false);
 
   // TODO: Add 'option_string' for rtorrent-specific options.
-  CMD2_VAR_STRING("ui.torrent_list.layout", "full");
+  CMD2_VAR_STRING("ui.torrent_list.layout", "full", false);
 
   CMD2_ANY("print", &apply_print, true);
 }

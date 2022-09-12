@@ -244,25 +244,27 @@ cleanup_commands();
                    raw_key = torrent::raw_string::from_c_str(key)](            \
                     const auto&, const auto& object) {                         \
                    return storage->set_value(raw_key, object);                 \
-                 }), false);                                                          \
+                 }), false);                                                   \
   } while (0)                                                                  \
 
-#define CMD2_VAR_STRING(key, value)                                            \
-  control->object_storage()->insert_c_str(                                     \
+#define CMD2_VAR_STRING(key, value, is_readonly)                               \
+  do {                                                                         \
+    if (is_readonly) rpc::readonly_command.insert(key);                        \
+    control->object_storage()->insert_c_str(                                   \
     key, value, rpc::object_storage::flag_string_type);                        \
                                                                                \
-  CMD2_ANY(key,                                                                \
-           ([storage = control->object_storage(),                              \
-             raw_key = torrent::raw_string::from_c_str(key)](                  \
-              const auto&, const auto&)                                        \
-              { return storage->get(raw_key); }), false);                      \
-                                                                               \
-  CMD2_ANY_STRING(key ".set",                                                  \
-                  ([storage = control->object_storage(),                       \
-                    raw_key = torrent::raw_string::from_c_str(key)](           \
+    CMD2_ANY(key,                                                              \
+             ([storage = control->object_storage(),                            \
+               raw_key = torrent::raw_string::from_c_str(key)](                \
+                const auto&, const auto&)                                      \
+                { return storage->get(raw_key); }), false);                    \
+    CMD2_ANY_STRING(key ".set",                                                \
+                    ([storage = control->object_storage(),                     \
+                      raw_key = torrent::raw_string::from_c_str(key)](         \
                      const auto&, const auto& object) {                        \
                     return storage->set_string(raw_key, object);               \
-                  }), false);
+                  }), false);                                                  \
+  } while (0)                                                                  \
 
 #define CMD2_VAR_C_STRING(key, value)                                          \
   control->object_storage()->insert_c_str(                                     \

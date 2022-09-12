@@ -218,7 +218,7 @@ initialize_command_local() {
   CMD2_VAR_VALUE("system.file.allocate", 0, false);
   CMD2_VAR_VALUE("system.file.max_size", (int64_t)512 << 30, false);
   CMD2_VAR_VALUE("system.file.split_size", -1, false);
-  CMD2_VAR_STRING("system.file.split_suffix", ".part");
+  CMD2_VAR_STRING("system.file.split_suffix", ".part", false);
 
   CMD2_ANY("system.file_status_cache.size", [](const auto&, const auto&) {
     return control->core()->file_status_cache()->size();
@@ -361,9 +361,9 @@ initialize_command_local() {
            [](const auto&, const auto&) { return torrent::hash_queue_size(); }, true);
   CMD2_VAR_BOOL("pieces.hash.on_completion", false);
 
-  CMD2_VAR_STRING("directory.default", "./");
+  CMD2_VAR_STRING("directory.default", "./", false);
 
-  CMD2_VAR_STRING("session.name", "");
+  CMD2_VAR_STRING("session.name", "", false);
   CMD2_VAR_BOOL("session.use_lock", true);
   CMD2_VAR_BOOL("session.on_completion", true);
 

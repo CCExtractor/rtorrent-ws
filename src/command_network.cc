@@ -260,7 +260,7 @@ initialize_command_network() {
   // Isn't port_open used?
   CMD2_VAR_BOOL("network.port_open", true);
   CMD2_VAR_BOOL("network.port_random", true);
-  CMD2_VAR_STRING("network.port_range", "6881-6999");
+  CMD2_VAR_STRING("network.port_range", "6881-6999", false);
 
   CMD2_ANY("network.listen.port",
            [cm](const auto&, const auto&) { return cm->listen_port(); }, true);
@@ -275,13 +275,13 @@ initialize_command_network() {
     return apply_encryption(args);
   }, false);
 
-  CMD2_VAR_STRING("protocol.connection.leech", "leech");
-  CMD2_VAR_STRING("protocol.connection.seed", "seed");
+  CMD2_VAR_STRING("protocol.connection.leech", "leech", false);
+  CMD2_VAR_STRING("protocol.connection.seed", "seed", false);
 
-  CMD2_VAR_STRING("protocol.choke_heuristics.up.leech", "upload_leech");
-  CMD2_VAR_STRING("protocol.choke_heuristics.up.seed", "upload_leech");
-  CMD2_VAR_STRING("protocol.choke_heuristics.down.leech", "download_leech");
-  CMD2_VAR_STRING("protocol.choke_heuristics.down.seed", "download_leech");
+  CMD2_VAR_STRING("protocol.choke_heuristics.up.leech", "upload_leech", false);
+  CMD2_VAR_STRING("protocol.choke_heuristics.up.seed", "upload_leech", false);
+  CMD2_VAR_STRING("protocol.choke_heuristics.down.leech", "download_leech", false);
+  CMD2_VAR_STRING("protocol.choke_heuristics.down.seed", "download_leech", false);
 
   CMD2_ANY("network.http.cacert", [httpStack](const auto&, const auto&) {
     return httpStack->http_cacert();
