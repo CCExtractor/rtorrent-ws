@@ -34,19 +34,19 @@ cleanup_commands();
     key, slot, &rpc::function, rpc::CommandMap::flag_dont_delete, NULL, NULL);
 
 #define CMD2_ANY(key, slot, is_readonly)                                       \
-  do                                                                           \
-  {                                                                            \
-    if (is_readonly) rpc::readonly_command.insert(key);                        \
+  do {                                                                         \
+    if (is_readonly)                                                           \
+      rpc::readonly_command.insert(key);                                       \
     CMD2_A_FUNCTION(key, command_base_call<rpc::target_type>, slot, "i:", "")  \
-  } while (0)                                                                  \
+  } while (0)
 
 #define CMD2_ANY_P(key, slot, is_readonly)                                     \
-    do {                                                                       \
-      if (is_readonly) rpc::readonly_command.insert(key);                      \
-      CMD2_A_FUNCTION_PRIVATE(                                                 \
-        key, command_base_call<rpc::target_type>, slot, "i:", "")              \
-    } while (0)                                                                \
-
+  do {                                                                         \
+    if (is_readonly)                                                           \
+      rpc::readonly_command.insert(key);                                       \
+    CMD2_A_FUNCTION_PRIVATE(                                                   \
+      key, command_base_call<rpc::target_type>, slot, "i:", "")                \
+  } while (0)
 
 #define CMD2_ANY_VOID(key, slot)                                               \
   CMD2_A_FUNCTION(key,                                                         \
@@ -55,34 +55,37 @@ cleanup_commands();
                   "i:",                                                        \
                   "")
 #define CMD2_ANY_V(key, slot, is_readonly)                                     \
-    do {                                                                       \
-      if (is_readonly) rpc::readonly_command.insert(key);                      \
-      CMD2_A_FUNCTION(key,                                                     \
-                  command_base_call_list<rpc::target_type>,                    \
-                  object_convert_void(slot),                                   \
-                  "i:",                                                        \
-                  "")                                                          \
-    } while (0)                                                                \
+  do {                                                                         \
+    if (is_readonly)                                                           \
+      rpc::readonly_command.insert(key);                                       \
+    CMD2_A_FUNCTION(key,                                                       \
+                    command_base_call_list<rpc::target_type>,                  \
+                    object_convert_void(slot),                                 \
+                    "i:",                                                      \
+                    "")                                                        \
+  } while (0)
 
 #define CMD2_ANY_L(key, slot)                                                  \
   CMD2_A_FUNCTION(key, command_base_call_list<rpc::target_type>, slot, "A:", "")
 
 #define CMD2_ANY_VALUE(key, slot, is_readonly)                                 \
-    do {                                                                       \
-        if (is_readonly) rpc::readonly_command.insert(key);                    \
-        CMD2_A_FUNCTION(                                                       \
-            key, command_base_call_value<rpc::target_type>, slot, "i:i", "")   \
-    } while (0)                                                                \
+  do {                                                                         \
+    if (is_readonly)                                                           \
+      rpc::readonly_command.insert(key);                                       \
+    CMD2_A_FUNCTION(                                                           \
+      key, command_base_call_value<rpc::target_type>, slot, "i:i", "")         \
+  } while (0)
 
 #define CMD2_ANY_VALUE_V(key, slot, is_readonly)                               \
   do {                                                                         \
-    if (is_readonly) rpc::readonly_command.insert(key);                        \
+    if (is_readonly)                                                           \
+      rpc::readonly_command.insert(key);                                       \
     CMD2_A_FUNCTION(key,                                                       \
-                  command_base_call_value<rpc::target_type>,                   \
-                  object_convert_void(slot),                                   \
-                  "i:i",                                                       \
-                  "")                                                          \
-  } while (0)                                                                  \
+                    command_base_call_value<rpc::target_type>,                 \
+                    object_convert_void(slot),                                 \
+                    "i:i",                                                     \
+                    "")                                                        \
+  } while (0)
 
 #define CMD2_ANY_VALUE_KB(key, slot)                                           \
   CMD2_A_FUNCTION(key,                                                         \
@@ -93,44 +96,48 @@ cleanup_commands();
 
 #define CMD2_ANY_STRING(key, slot, is_readonly)                                \
   do {                                                                         \
-    if (is_readonly) rpc::readonly_command.insert(key);                        \
+    if (is_readonly)                                                           \
+      rpc::readonly_command.insert(key);                                       \
     CMD2_A_FUNCTION(                                                           \
-    key, command_base_call_string<rpc::target_type>, slot, "i:s", "")          \
-  } while (0)                                                                  \
+      key, command_base_call_string<rpc::target_type>, slot, "i:s", "")        \
+  } while (0)
 
 #define CMD2_ANY_STRING_V(key, slot, is_readonly)                              \
-    do {                                                                       \
-      if (is_readonly) rpc::readonly_command.insert(key);                      \
-      CMD2_A_FUNCTION(key,                                                     \
-                  command_base_call_string<rpc::target_type>,                  \
-                  object_convert_void(slot),                                   \
-                  "i:s",                                                       \
-                  "")                                                          \
-    } while (0)                                                                \
+  do {                                                                         \
+    if (is_readonly)                                                           \
+      rpc::readonly_command.insert(key);                                       \
+    CMD2_A_FUNCTION(key,                                                       \
+                    command_base_call_string<rpc::target_type>,                \
+                    object_convert_void(slot),                                 \
+                    "i:s",                                                     \
+                    "")                                                        \
+  } while (0)
 
 #define CMD2_ANY_LIST(key, slot, is_readonly)                                  \
   do {                                                                         \
-    if (is_readonly) rpc::readonly_command.insert(key);                        \
-    CMD2_A_FUNCTION(key,                                                       \
-      command_base_call_list<rpc::target_type>, slot, "i:", "")                \
-  } while (0)                                                                  \
+    if (is_readonly)                                                           \
+      rpc::readonly_command.insert(key);                                       \
+    CMD2_A_FUNCTION(                                                           \
+      key, command_base_call_list<rpc::target_type>, slot, "i:", "")           \
+  } while (0)
 
 #define CMD2_DL(key, slot, is_readonly)                                        \
   do {                                                                         \
-    if (is_readonly) rpc::readonly_command.insert(key);                        \
+    if (is_readonly)                                                           \
+      rpc::readonly_command.insert(key);                                       \
     CMD2_A_FUNCTION(key, command_base_call<core::Download*>, slot, "i:", "")   \
-  } while (0)                                                                  \
+  } while (0)
 
 #define CMD2_DL_V(key, slot, is_readonly)                                      \
   do {                                                                         \
-    if (is_readonly) rpc::readonly_command.insert(key);                        \
+    if (is_readonly)                                                           \
+      rpc::readonly_command.insert(key);                                       \
     CMD2_A_FUNCTION(key,                                                       \
-                  command_base_call<core::Download*>,                          \
-                  object_convert_void(slot),                                   \
-                  "i:",                                                        \
-                  "")                                                          \
-  } while (0)                                                                  \
-
+                    command_base_call<core::Download*>,                        \
+                    object_convert_void(slot),                                 \
+                    "i:",                                                      \
+                    "")                                                        \
+  } while (0)
 
 #define CMD2_DL_VALUE(key, slot)                                               \
   CMD2_A_FUNCTION(key, command_base_call_value<core::Download*>, slot, "i:", "")
@@ -151,10 +158,11 @@ cleanup_commands();
                   "")
 #define CMD2_DL_LIST(key, slot, is_readonly)                                   \
   do {                                                                         \
-    if (is_readonly) rpc::readonly_command.insert(key);                        \
-    CMD2_A_FUNCTION(key,                                                       \
-        command_base_call_list<core::Download*>, slot, "i:", "")               \
-  } while (0)                                                                  \
+    if (is_readonly)                                                           \
+      rpc::readonly_command.insert(key);                                       \
+    CMD2_A_FUNCTION(                                                           \
+      key, command_base_call_list<core::Download*>, slot, "i:", "")            \
+  } while (0)
 
 #define CMD2_DL_VALUE_P(key, slot)                                             \
   CMD2_A_FUNCTION_PRIVATE(                                                     \
@@ -214,104 +222,119 @@ cleanup_commands();
 
 #define CMD2_VAR_BOOL(key, value, is_readonly)                                 \
   do {                                                                         \
-  control->object_storage()->insert_c_str(                                     \
-    key, int64_t(value), rpc::object_storage::flag_bool_type);                 \
-                                                                               \
-  CMD2_ANY(key,                                                                \
-     ([storage = control->object_storage(),                                    \
-       raw_key = torrent::raw_string::from_c_str(key)](                        \
-        const auto&, const auto&) { return storage->get(raw_key); }), false);  \
-                                                                               \
-  CMD2_ANY_VALUE(key ".set",                                                   \
-                 ([storage = control->object_storage(),                        \
-                   raw_key = torrent::raw_string::from_c_str(key)](            \
-                    const auto&, const auto& object) {                         \
-                   return storage->set_bool(raw_key, object);                  \
-                 }), false);                                                   \
-  } while (0)                                                                  \
-
-#define CMD2_VAR_VALUE(key, value, is_readonly)                                \
-  do {                                                                         \
-    if (is_readonly) rpc::readonly_command.insert(key);                        \
     control->object_storage()->insert_c_str(                                   \
-    key, int64_t(value), rpc::object_storage::flag_value_type);                \
-                                                                               \
-    CMD2_ANY(key,                                                              \
-       ([storage = control->object_storage(),                                  \
-         raw_key = torrent::raw_string::from_c_str(key)](                      \
-          const auto&, const auto&) { return storage->get(raw_key); }), false);\
-                                                                               \
-    CMD2_ANY_VALUE(key ".set",                                                 \
-                 ([storage = control->object_storage(),                        \
-                   raw_key = torrent::raw_string::from_c_str(key)](            \
-                    const auto&, const auto& object) {                         \
-                   return storage->set_value(raw_key, object);                 \
-                 }), false);                                                   \
-  } while (0)                                                                  \
-
-#define CMD2_VAR_STRING(key, value, is_readonly)                               \
-  do {                                                                         \
-    if (is_readonly) rpc::readonly_command.insert(key);                        \
-    control->object_storage()->insert_c_str(                                   \
-    key, value, rpc::object_storage::flag_string_type);                        \
+      key, int64_t(value), rpc::object_storage::flag_bool_type);               \
                                                                                \
     CMD2_ANY(key,                                                              \
              ([storage = control->object_storage(),                            \
                raw_key = torrent::raw_string::from_c_str(key)](                \
-                const auto&, const auto&)                                      \
-                { return storage->get(raw_key); }), false);                    \
-    CMD2_ANY_STRING(key ".set",                                                \
-                    ([storage = control->object_storage(),                     \
-                      raw_key = torrent::raw_string::from_c_str(key)](         \
-                     const auto&, const auto& object) {                        \
-                    return storage->set_string(raw_key, object);               \
-                  }), false);                                                  \
-  } while (0)                                                                  \
+                const auto&, const auto&) { return storage->get(raw_key); }),  \
+             false);                                                           \
+                                                                               \
+    CMD2_ANY_VALUE(key ".set",                                                 \
+                   ([storage = control->object_storage(),                      \
+                     raw_key = torrent::raw_string::from_c_str(key)](          \
+                      const auto&, const auto& object) {                       \
+                     return storage->set_bool(raw_key, object);                \
+                   }),                                                         \
+                   false);                                                     \
+  } while (0)
 
-#define CMD2_VAR_C_STRING(key, value, is_readonly)                             \
+#define CMD2_VAR_VALUE(key, value, is_readonly)                                \
   do {                                                                         \
-    if (is_readonly) rpc::readonly_command.insert(key);                        \
+    if (is_readonly)                                                           \
+      rpc::readonly_command.insert(key);                                       \
+    control->object_storage()->insert_c_str(                                   \
+      key, int64_t(value), rpc::object_storage::flag_value_type);              \
+                                                                               \
+    CMD2_ANY(key,                                                              \
+             ([storage = control->object_storage(),                            \
+               raw_key = torrent::raw_string::from_c_str(key)](                \
+                const auto&, const auto&) { return storage->get(raw_key); }),  \
+             false);                                                           \
+                                                                               \
+    CMD2_ANY_VALUE(key ".set",                                                 \
+                   ([storage = control->object_storage(),                      \
+                     raw_key = torrent::raw_string::from_c_str(key)](          \
+                      const auto&, const auto& object) {                       \
+                     return storage->set_value(raw_key, object);               \
+                   }),                                                         \
+                   false);                                                     \
+  } while (0)
+
+#define CMD2_VAR_STRING(key, value, is_readonly)                               \
+  do {                                                                         \
+    if (is_readonly)                                                           \
+      rpc::readonly_command.insert(key);                                       \
     control->object_storage()->insert_c_str(                                   \
       key, value, rpc::object_storage::flag_string_type);                      \
                                                                                \
     CMD2_ANY(key,                                                              \
-     ([storage = control->object_storage(),                                    \
-       raw_key = torrent::raw_string::from_c_str(key)](                        \
-        const auto&, const auto&) { return storage->get(raw_key); }), true);   \
-  } while (0)                                                                  \
+             ([storage = control->object_storage(),                            \
+               raw_key = torrent::raw_string::from_c_str(key)](                \
+                const auto&, const auto&) { return storage->get(raw_key); }),  \
+             false);                                                           \
+    CMD2_ANY_STRING(key ".set",                                                \
+                    ([storage = control->object_storage(),                     \
+                      raw_key = torrent::raw_string::from_c_str(key)](         \
+                       const auto&, const auto& object) {                      \
+                      return storage->set_string(raw_key, object);             \
+                    }),                                                        \
+                    false);                                                    \
+  } while (0)
+
+#define CMD2_VAR_C_STRING(key, value, is_readonly)                             \
+  do {                                                                         \
+    if (is_readonly)                                                           \
+      rpc::readonly_command.insert(key);                                       \
+    control->object_storage()->insert_c_str(                                   \
+      key, value, rpc::object_storage::flag_string_type);                      \
+                                                                               \
+    CMD2_ANY(key,                                                              \
+             ([storage = control->object_storage(),                            \
+               raw_key = torrent::raw_string::from_c_str(key)](                \
+                const auto&, const auto&) { return storage->get(raw_key); }),  \
+             true);                                                            \
+  } while (0)
 
 #define CMD2_VAR_LIST(key, is_readonly)                                        \
   do {                                                                         \
-    if (is_readonly) rpc::readonly_command.insert(key);                        \
+    if (is_readonly)                                                           \
+      rpc::readonly_command.insert(key);                                       \
     control->object_storage()->insert_c_str(                                   \
-    key, torrent::Object::create_list(), rpc::object_storage::flag_list_type); \
+      key,                                                                     \
+      torrent::Object::create_list(),                                          \
+      rpc::object_storage::flag_list_type);                                    \
                                                                                \
     CMD2_ANY(key,                                                              \
-     ([storage = control->object_storage(),                                    \
-       raw_key = torrent::raw_string::from_c_str(key)](                        \
-        const auto&, const auto&) { return storage->get(raw_key); }), false);  \
+             ([storage = control->object_storage(),                            \
+               raw_key = torrent::raw_string::from_c_str(key)](                \
+                const auto&, const auto&) { return storage->get(raw_key); }),  \
+             false);                                                           \
                                                                                \
     CMD2_ANY_LIST(key ".set",                                                  \
-      ([storage = control->object_storage(),                                   \
-        raw_key = torrent::raw_string::from_c_str(key)](                       \
-         const auto&, const auto& object) {                                    \
-        return storage->set_list(raw_key, object);                             \
-      }), false);                                                              \
+                  ([storage = control->object_storage(),                       \
+                    raw_key = torrent::raw_string::from_c_str(key)](           \
+                     const auto&, const auto& object) {                        \
+                    return storage->set_list(raw_key, object);                 \
+                  }),                                                          \
+                  false);                                                      \
                                                                                \
     CMD2_ANY_VOID(key ".push_back",                                            \
-      ([storage = control->object_storage(),                                   \
-        raw_key = torrent::raw_string::from_c_str(key)](                       \
-         const auto&, const auto& object) {                                    \
-        return storage->list_push_back(raw_key, object);                       \
-      }));                                                                     \
-  } while (0)                                                                  \
+                  ([storage = control->object_storage(),                       \
+                    raw_key = torrent::raw_string::from_c_str(key)](           \
+                     const auto&, const auto& object) {                        \
+                    return storage->list_push_back(raw_key, object);           \
+                  }));                                                         \
+  } while (0)
 
-#define CMD2_FUNC_SINGLE(key, cmds)                                            \
+#define CMD2_FUNC_SINGLE(key, cmds, is_readonly)                               \
   CMD2_ANY(key,                                                                \
            ([raw_cmds = torrent::Object(torrent::raw_string::from_c_str(       \
                cmds))](const auto& target, const auto& args) {                 \
              return rpc::command_function_call_object(raw_cmds, target, args); \
-           }), false);
+           }),                                                                 \
+           is_readonly);
 
 #define CMD2_REDIRECT(from_key, to_key)                                        \
   rpc::commands.create_redirect(from_key,                                      \

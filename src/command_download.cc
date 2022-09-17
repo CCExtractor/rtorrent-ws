@@ -862,16 +862,16 @@ initialize_command_download() {
   }, false);
 
   CMD2_FUNC_SINGLE("d.start",
-                   "d.hashing_failed.set=0 ;view.set_visible=started");
-  CMD2_FUNC_SINGLE("d.stop", "view.set_visible=stopped");
+                   "d.hashing_failed.set=0 ;view.set_visible=started", false);
+  CMD2_FUNC_SINGLE("d.stop", "view.set_visible=stopped", false);
   CMD2_FUNC_SINGLE("d.try_start",
                    "branch=\"or={d.hashing_failed=,d.ignore_commands=}\",{},{"
-                   "view.set_visible=started}");
+                   "view.set_visible=started}", false);
   CMD2_FUNC_SINGLE("d.try_stop",
-                   "branch=d.ignore_commands=, {}, {view.set_visible=stopped}");
+                   "branch=d.ignore_commands=, {}, {view.set_visible=stopped}", false);
   CMD2_FUNC_SINGLE(
     "d.try_close",
-    "branch=d.ignore_commands=, {}, {view.set_visible=stopped, d.close=}");
+    "branch=d.ignore_commands=, {}, {view.set_visible=stopped, d.close=}", false);
 
   //
   // Control functinos:
@@ -962,7 +962,7 @@ initialize_command_download() {
   CMD2_DL_VAR_VALUE("d.state", "rtorrent", "state");
   CMD2_DL_VAR_VALUE("d.complete", "rtorrent", "complete");
 
-  CMD2_FUNC_SINGLE("d.incomplete", "not=(d.complete)");
+  CMD2_FUNC_SINGLE("d.incomplete", "not=(d.complete)", false);
 
   // 0 off
   // 1 scheduled, being controlled by a download scheduler. Includes a priority.
