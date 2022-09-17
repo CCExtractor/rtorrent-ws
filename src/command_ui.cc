@@ -209,7 +209,7 @@ initialize_command_ui() {
                   }), false);
 
   CMD2_ANY_L("view.list",
-             [](const auto&, const auto&) { return apply_view_list(); });
+             [](const auto&, const auto&) { return apply_view_list(); }, false);
   CMD2_ANY_LIST("view.set", [](const auto&, const auto& args) {
     return apply_view_set(args);
   }, false);
@@ -262,15 +262,15 @@ initialize_command_ui() {
   CMD2_DL_STRING("view.filter_download",
                  [](const auto& download, const auto& args) {
                    return cmd_view_filter_download(download, args);
-                 });
+                 }, false);
   CMD2_DL_STRING("view.set_visible",
                  [](const auto& download, const auto& args) {
                    return cmd_view_set_visible(download, args);
-                 });
+                 }, false);
   CMD2_DL_STRING("view.set_not_visible",
                  [](const auto& download, const auto& args) {
                    return cmd_view_set_not_visible(download, args);
-                 });
+                 }, false);
 
   // Commands that affect the default rtorrent UI.
   CMD2_DL("ui.unfocus_download", [](const auto& download, const auto&) {

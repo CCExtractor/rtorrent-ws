@@ -75,80 +75,80 @@ retrieve_p_completed_percent(torrent::Peer* peer) {
 void
 initialize_command_peer() {
   CMD2_PEER("p.id",
-            [](const auto& peer, const auto&) { return retrieve_p_id(peer); });
+            [](const auto& peer, const auto&) { return retrieve_p_id(peer); }, true);
   CMD2_PEER("p.id_html", [](const auto& peer, const auto&) {
     return retrieve_p_id_html(peer);
-  });
+  }, true);
   CMD2_PEER("p.client_version", [](const auto& peer, const auto&) {
     return retrieve_p_client_version(peer);
-  });
+  }, true);
 
   CMD2_PEER("p.options_str", [](const auto& peer, const auto&) {
     return retrieve_p_options_str(peer);
-  });
+  }, true);
 
   CMD2_PEER("p.is_encrypted",
-            [](const auto& peer, const auto&) { return peer->is_encrypted(); });
+            [](const auto& peer, const auto&) { return peer->is_encrypted(); }, true);
   CMD2_PEER("p.is_incoming",
-            [](const auto& peer, const auto&) { return peer->is_incoming(); });
+            [](const auto& peer, const auto&) { return peer->is_incoming(); }, true);
   CMD2_PEER("p.is_obfuscated", [](const auto& peer, const auto&) {
     return peer->is_obfuscated();
-  });
+  }, true);
   CMD2_PEER("p.is_snubbed",
-            [](const auto& peer, const auto&) { return peer->is_snubbed(); });
+            [](const auto& peer, const auto&) { return peer->is_snubbed(); }, true);
 
   CMD2_PEER("p.is_unwanted", [](const auto& peer, const auto&) {
     return peer->peer_info()->is_unwanted();
-  });
+  }, true);
   CMD2_PEER("p.is_preferred", [](const auto& peer, const auto&) {
     return peer->peer_info()->is_preferred();
-  });
+  }, true);
 
   CMD2_PEER("p.address", [](const auto& peer, const auto&) {
     return retrieve_p_address(peer);
-  });
+  }, true);
   CMD2_PEER("p.port", [](const auto& peer, const auto&) {
     return retrieve_p_port(peer);
-  });
+  }, true);
 
   CMD2_PEER("p.completed_percent", [](const auto& peer, const auto&) {
     return retrieve_p_completed_percent(peer);
-  });
+  }, true);
 
   CMD2_PEER("p.up_rate", [](const auto& peer, const auto&) {
     return peer->up_rate()->rate();
-  });
+  }, true);
   CMD2_PEER("p.up_total", [](const auto& peer, const auto&) {
     return peer->up_rate()->total();
-  });
+  }, true);
   CMD2_PEER("p.down_rate", [](const auto& peer, const auto&) {
     return peer->down_rate()->rate();
-  });
+  }, true);
   CMD2_PEER("p.down_total", [](const auto& peer, const auto&) {
     return peer->down_rate()->total();
-  });
+  }, true);
   CMD2_PEER("p.peer_rate", [](const auto& peer, const auto&) {
     return peer->peer_rate()->rate();
-  });
+  }, true);
   CMD2_PEER("p.peer_total", [](const auto& peer, const auto&) {
     return peer->peer_rate()->total();
-  });
+  }, true);
 
   CMD2_PEER("p.snubbed",
-            [](const auto& peer, const auto&) { return peer->is_snubbed(); });
+            [](const auto& peer, const auto&) { return peer->is_snubbed(); }, true);
   CMD2_PEER_VALUE_V("p.snubbed.set", [](const auto& peer, const auto& v) {
     return peer->set_snubbed(v);
-  });
+  }, false);
   CMD2_PEER("p.banned",
-            [](const auto& peer, const auto&) { return peer->is_banned(); });
+            [](const auto& peer, const auto&) { return peer->is_banned(); }, true);
   CMD2_PEER_VALUE_V("p.banned.set", [](const auto& peer, const auto& v) {
     return peer->set_banned(v);
-  });
+  }, false);
 
   CMD2_PEER_V("p.disconnect", [](const auto& peer, const auto&) {
     return peer->disconnect(0);
-  });
+  }, false);
   CMD2_PEER_V("p.disconnect_delayed", [](const auto& peer, const auto&) {
     return peer->disconnect(torrent::ConnectionList::disconnect_delayed);
-  });
+  }, false);
 }

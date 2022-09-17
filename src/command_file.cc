@@ -72,94 +72,94 @@ apply_fi_filename_last(torrent::FileListIterator* itr) {
 void
 initialize_command_file() {
   CMD2_FILE("f.is_created",
-            [](const auto& file, const auto&) { return file->is_created(); });
+            [](const auto& file, const auto&) { return file->is_created(); }, true);
   CMD2_FILE("f.is_open",
-            [](const auto& file, const auto&) { return file->is_open(); });
+            [](const auto& file, const auto&) { return file->is_open(); }, true);
 
   CMD2_FILE("f.is_create_queued", [](const auto& file, const auto&) {
     return file->is_create_queued();
-  });
+  }, true);
   CMD2_FILE("f.is_resize_queued", [](const auto& file, const auto&) {
     return file->is_resize_queued();
-  });
+  }, true);
 
   CMD2_FILE_VALUE_V("f.set_create_queued", [](const auto& file, const auto&) {
     return file->set_flags(torrent::File::flag_create_queued);
-  });
+  }, false);
   CMD2_FILE_VALUE_V("f.set_resize_queued", [](const auto& file, const auto&) {
     return file->set_flags(torrent::File::flag_resize_queued);
-  });
+  }, false);
   CMD2_FILE_VALUE_V("f.unset_create_queued", [](const auto& file, const auto&) {
     return file->unset_flags(torrent::File::flag_create_queued);
-  });
+  }, false);
   CMD2_FILE_VALUE_V("f.unset_resize_queued", [](const auto& file, const auto&) {
     return file->unset_flags(torrent::File::flag_resize_queued);
-  });
+  }, false);
 
   CMD2_FILE("f.prioritize_first", [](const auto& file, const auto&) {
     return file->has_flags(torrent::File::flag_prioritize_first);
-  });
+  }, true);
   CMD2_FILE_V("f.prioritize_first.enable", [](const auto& file, const auto&) {
     return file->set_flags(torrent::File::flag_prioritize_first);
-  });
+  }, false);
   CMD2_FILE_V("f.prioritize_first.disable", [](const auto& file, const auto&) {
     return file->unset_flags(torrent::File::flag_prioritize_first);
-  });
+  }, false);
   CMD2_FILE("f.prioritize_last", [](const auto& file, const auto&) {
     return file->has_flags(torrent::File::flag_prioritize_last);
-  });
+  }, true);
   CMD2_FILE_V("f.prioritize_last.enable", [](const auto& file, const auto&) {
     return file->set_flags(torrent::File::flag_prioritize_last);
-  });
+  }, false);
   CMD2_FILE_V("f.prioritize_last.disable", [](const auto& file, const auto&) {
     return file->unset_flags(torrent::File::flag_prioritize_last);
-  });
+  }, false);
 
   CMD2_FILE("f.size_bytes",
-            [](const auto& file, const auto&) { return file->size_bytes(); });
+            [](const auto& file, const auto&) { return file->size_bytes(); }, true);
   CMD2_FILE("f.size_chunks",
-            [](const auto& file, const auto&) { return file->size_chunks(); });
+            [](const auto& file, const auto&) { return file->size_chunks(); }, true);
   CMD2_FILE("f.completed_chunks", [](const auto& file, const auto&) {
     return file->completed_chunks();
-  });
+  }, true);
 
   CMD2_FILE("f.offset",
-            [](const auto& file, const auto&) { return file->offset(); });
+            [](const auto& file, const auto&) { return file->offset(); }, true);
   CMD2_FILE("f.range_first",
-            [](const auto& file, const auto&) { return file->range_first(); });
+            [](const auto& file, const auto&) { return file->range_first(); }, true);
   CMD2_FILE("f.range_second",
-            [](const auto& file, const auto&) { return file->range_second(); });
+            [](const auto& file, const auto&) { return file->range_second(); }, true);
 
   CMD2_FILE("f.priority",
-            [](const auto& file, const auto&) { return file->priority(); });
+            [](const auto& file, const auto&) { return file->priority(); }, true);
   CMD2_FILE_VALUE_V("f.priority.set", [](const auto& file, const auto& v) {
     return apply_f_set_priority(file, v);
-  });
+  }, false);
 
   CMD2_FILE("f.path",
-            [](const auto& file, const auto&) { return apply_f_path(file); });
+            [](const auto& file, const auto&) { return apply_f_path(file); }, true);
   CMD2_FILE("f.path_components", [](const auto& file, const auto&) {
     return apply_f_path_components(file);
-  });
+  }, true);
   CMD2_FILE("f.path_depth", [](const auto& file, const auto&) {
     return apply_f_path_depth(file);
-  });
+  }, true);
   CMD2_FILE("f.frozen_path",
-            [](const auto& file, const auto&) { return file->frozen_path(); });
+            [](const auto& file, const auto&) { return file->frozen_path(); }, true);
 
   CMD2_FILE("f.match_depth_prev", [](const auto& file, const auto&) {
     return file->match_depth_prev();
-  });
+  }, true);
   CMD2_FILE("f.match_depth_next", [](const auto& file, const auto&) {
     return file->match_depth_next();
-  });
+  }, true);
 
   CMD2_FILE("f.last_touched",
-            [](const auto& file, const auto&) { return file->last_touched(); });
+            [](const auto& file, const auto&) { return file->last_touched(); }, true);
 
   CMD2_FILEITR("fi.filename_last", [](const auto& file, const auto&) {
     return apply_fi_filename_last(file);
-  });
+  }, true);
   CMD2_FILEITR("fi.is_file",
-               [](const auto& file, const auto&) { return file->is_file(); });
+               [](const auto& file, const auto&) { return file->is_file(); }, true);
 }

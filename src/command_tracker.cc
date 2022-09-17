@@ -113,108 +113,108 @@ void
 initialize_command_tracker() {
   CMD2_TRACKER("t.is_open", [](const auto& tracker, const auto&) {
     return tracker->is_busy();
-  });
+  }, false);
   CMD2_TRACKER("t.is_enabled", [](const auto& tracker, const auto&) {
     return tracker->is_enabled();
-  });
+  }, false);
   CMD2_TRACKER("t.is_usable", [](const auto& tracker, const auto&) {
     return tracker->is_usable();
-  });
+  }, false);
   CMD2_TRACKER("t.is_busy", [](const auto& tracker, const auto&) {
     return tracker->is_busy();
-  });
+  }, false);
   CMD2_TRACKER("t.is_extra_tracker", [](const auto& tracker, const auto&) {
     return tracker->is_extra_tracker();
-  });
+  }, false);
   CMD2_TRACKER("t.can_scrape", [](const auto& tracker, const auto&) {
     return tracker->can_scrape();
-  });
+  }, false);
 
   CMD2_TRACKER_V("t.enable", [](const auto& tracker, const auto&) {
     return tracker->enable();
-  });
+  }, false);
   CMD2_TRACKER_V("t.disable", [](const auto& tracker, const auto&) {
     return tracker->disable();
-  });
+  }, false);
 
   CMD2_TRACKER_VALUE_V("t.is_enabled.set",
                        [](const auto& tracker, const auto& state) {
                          return tracker_set_enabled(tracker, state);
-                       });
+                       }, false);
 
   CMD2_TRACKER("t.url",
-               [](const auto& tracker, const auto&) { return tracker->url(); });
+               [](const auto& tracker, const auto&) { return tracker->url(); }, false);
   CMD2_TRACKER("t.group", [](const auto& tracker, const auto&) {
     return tracker->group();
-  });
+  }, false);
   CMD2_TRACKER(
-    "t.type", [](const auto& tracker, const auto&) { return tracker->type(); });
+    "t.type", [](const auto& tracker, const auto&) { return tracker->type(); }, false);
   CMD2_TRACKER("t.id", [](const auto& tracker, const auto&) {
     return tracker->tracker_id();
-  });
+  }, false);
 
   CMD2_TRACKER("t.latest_event", [](const auto& tracker, const auto&) {
     return tracker->latest_event();
-  });
+  }, false);
   CMD2_TRACKER("t.latest_new_peers", [](const auto& tracker, const auto&) {
     return tracker->latest_new_peers();
-  });
+  }, false);
   CMD2_TRACKER("t.latest_sum_peers", [](const auto& tracker, const auto&) {
     return tracker->latest_sum_peers();
-  });
+  }, false);
 
   // Time since last connection, connection attempt.
 
   CMD2_TRACKER("t.normal_interval", [](const auto& tracker, const auto&) {
     return tracker->normal_interval();
-  });
+  }, false);
   CMD2_TRACKER("t.min_interval", [](const auto& tracker, const auto&) {
     return tracker->min_interval();
-  });
+  }, false);
 
   CMD2_TRACKER("t.activity_time_next", [](const auto& tracker, const auto&) {
     return tracker->activity_time_next();
-  });
+  }, false);
   CMD2_TRACKER("t.activity_time_last", [](const auto& tracker, const auto&) {
     return tracker->activity_time_last();
-  });
+  }, false);
 
   CMD2_TRACKER("t.success_time_next", [](const auto& tracker, const auto&) {
     return tracker->success_time_next();
-  });
+  }, false);
   CMD2_TRACKER("t.success_time_last", [](const auto& tracker, const auto&) {
     return tracker->success_time_last();
-  });
+  }, false);
   CMD2_TRACKER("t.success_counter", [](const auto& tracker, const auto&) {
     return tracker->success_counter();
-  });
+  }, false);
 
   CMD2_TRACKER("t.failed_time_next", [](const auto& tracker, const auto&) {
     return tracker->failed_time_next();
-  });
+  }, false);
   CMD2_TRACKER("t.failed_time_last", [](const auto& tracker, const auto&) {
     return tracker->failed_time_last();
-  });
+  }, false);
   CMD2_TRACKER("t.failed_counter", [](const auto& tracker, const auto&) {
     return tracker->failed_counter();
-  });
+  }, false);
 
   CMD2_TRACKER("t.scrape_time_last", [](const auto& tracker, const auto&) {
     return tracker->scrape_time_last();
-  });
+  }, false);
   CMD2_TRACKER("t.scrape_counter", [](const auto& tracker, const auto&) {
     return tracker->scrape_counter();
-  });
+  }, false);
 
   CMD2_TRACKER("t.scrape_complete", [](const auto& tracker, const auto&) {
     return tracker->scrape_complete();
-  });
+  }, false);
   CMD2_TRACKER("t.scrape_incomplete", [](const auto& tracker, const auto&) {
     return tracker->scrape_incomplete();
-  });
+  }, false);
   CMD2_TRACKER("t.scrape_downloaded", [](const auto& tracker, const auto&) {
     return tracker->scrape_downloaded();
-  });
+  }, false);
 
   CMD2_ANY_VALUE("trackers.enable", [](const auto&, const auto&) {
     return apply_enable_trackers(int64_t(1));

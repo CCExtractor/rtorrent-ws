@@ -48,12 +48,13 @@ cleanup_commands();
       key, command_base_call<rpc::target_type>, slot, "i:", "")                \
   } while (0)
 
-#define CMD2_ANY_VOID(key, slot)                                               \
+#define CMD2_ANY_VOID(key, slot, is_readonly)                                  \
   CMD2_A_FUNCTION(key,                                                         \
                   command_base_call<rpc::target_type>,                         \
                   object_convert_void(slot),                                   \
                   "i:",                                                        \
                   "")
+
 #define CMD2_ANY_V(key, slot, is_readonly)                                     \
   do {                                                                         \
     if (is_readonly)                                                           \
@@ -65,7 +66,7 @@ cleanup_commands();
                     "")                                                        \
   } while (0)
 
-#define CMD2_ANY_L(key, slot)                                                  \
+#define CMD2_ANY_L(key, slot, is_readonly)                                     \
   CMD2_A_FUNCTION(key, command_base_call_list<rpc::target_type>, slot, "A:", "")
 
 #define CMD2_ANY_VALUE(key, slot, is_readonly)                                 \
@@ -87,7 +88,7 @@ cleanup_commands();
                     "")                                                        \
   } while (0)
 
-#define CMD2_ANY_VALUE_KB(key, slot)                                           \
+#define CMD2_ANY_VALUE_KB(key, slot, is_readonly)                              \
   CMD2_A_FUNCTION(key,                                                         \
                   command_base_call_value_kb<rpc::target_type>,                \
                   object_convert_void(slot),                                   \
@@ -139,18 +140,21 @@ cleanup_commands();
                     "")                                                        \
   } while (0)
 
-#define CMD2_DL_VALUE(key, slot)                                               \
+#define CMD2_DL_VALUE(key, slot, is_readonly)                                  \
   CMD2_A_FUNCTION(key, command_base_call_value<core::Download*>, slot, "i:", "")
-#define CMD2_DL_VALUE_V(key, slot)                                             \
+
+#define CMD2_DL_VALUE_V(key, slot, is_readonly)                                \
   CMD2_A_FUNCTION(key,                                                         \
                   command_base_call_value<core::Download*>,                    \
                   object_convert_void(slot),                                   \
                   "i:",                                                        \
                   "")
-#define CMD2_DL_STRING(key, slot)                                              \
+
+#define CMD2_DL_STRING(key, slot, is_readonly)                                 \
   CMD2_A_FUNCTION(                                                             \
     key, command_base_call_string<core::Download*>, slot, "i:", "")
-#define CMD2_DL_STRING_V(key, slot)                                            \
+
+#define CMD2_DL_STRING_V(key, slot, is_readonly)                               \
   CMD2_A_FUNCTION(key,                                                         \
                   command_base_call_string<core::Download*>,                   \
                   object_convert_void(slot),                                   \
@@ -164,56 +168,63 @@ cleanup_commands();
       key, command_base_call_list<core::Download*>, slot, "i:", "")            \
   } while (0)
 
-#define CMD2_DL_VALUE_P(key, slot)                                             \
+#define CMD2_DL_VALUE_P(key, slot, is_readonly)                                \
   CMD2_A_FUNCTION_PRIVATE(                                                     \
     key, command_base_call_value<core::Download*>, slot, "i:", "")
-#define CMD2_DL_STRING_P(key, slot)                                            \
+
+#define CMD2_DL_STRING_P(key, slot, is_readonly)                               \
   CMD2_A_FUNCTION_PRIVATE(                                                     \
     key, command_base_call_string<core::Download*>, slot, "i:", "")
 
-#define CMD2_FILE(key, slot)                                                   \
+#define CMD2_FILE(key, slot, is_readonly)                                      \
   CMD2_A_FUNCTION(key, command_base_call<torrent::File*>, slot, "i:", "")
-#define CMD2_FILE_V(key, slot)                                                 \
+
+#define CMD2_FILE_V(key, slot, is_readonly)                                    \
   CMD2_A_FUNCTION(key,                                                         \
                   command_base_call<torrent::File*>,                           \
                   object_convert_void(slot),                                   \
                   "i:",                                                        \
                   "")
-#define CMD2_FILE_VALUE_V(key, slot)                                           \
+
+#define CMD2_FILE_VALUE_V(key, slot, is_readonly)                              \
   CMD2_A_FUNCTION(key,                                                         \
                   command_base_call_value<torrent::File*>,                     \
                   object_convert_void(slot),                                   \
                   "i:i",                                                       \
                   "")
 
-#define CMD2_FILEITR(key, slot)                                                \
+#define CMD2_FILEITR(key, slot, is_readonly)                                   \
   CMD2_A_FUNCTION(                                                             \
     key, command_base_call<torrent::FileListIterator*>, slot, "i:", "")
 
-#define CMD2_PEER(key, slot)                                                   \
+#define CMD2_PEER(key, slot, is_readonly)                                      \
   CMD2_A_FUNCTION(key, command_base_call<torrent::Peer*>, slot, "i:", "")
-#define CMD2_PEER_V(key, slot)                                                 \
+
+#define CMD2_PEER_V(key, slot, is_readonly)                                    \
   CMD2_A_FUNCTION(key,                                                         \
                   command_base_call<torrent::Peer*>,                           \
                   object_convert_void(slot),                                   \
                   "i:",                                                        \
                   "")
-#define CMD2_PEER_VALUE_V(key, slot)                                           \
+
+#define CMD2_PEER_VALUE_V(key, slot, is_readonly)                              \
   CMD2_A_FUNCTION(key,                                                         \
                   command_base_call_value<torrent::Peer*>,                     \
                   object_convert_void(slot),                                   \
                   "i:i",                                                       \
                   "")
 
-#define CMD2_TRACKER(key, slot)                                                \
+#define CMD2_TRACKER(key, slot, is_readonly)                                   \
   CMD2_A_FUNCTION(key, command_base_call<torrent::Tracker*>, slot, "i:", "")
-#define CMD2_TRACKER_V(key, slot)                                              \
+
+#define CMD2_TRACKER_V(key, slot, is_readonly)                                 \
   CMD2_A_FUNCTION(key,                                                         \
                   command_base_call<torrent::Tracker*>,                        \
                   object_convert_void(slot),                                   \
                   "i:",                                                        \
                   "")
-#define CMD2_TRACKER_VALUE_V(key, slot)                                        \
+
+#define CMD2_TRACKER_VALUE_V(key, slot, is_readonly)                           \
   CMD2_A_FUNCTION(key,                                                         \
                   command_base_call_value<torrent::Tracker*>,                  \
                   object_convert_void(slot),                                   \
@@ -325,7 +336,8 @@ cleanup_commands();
                     raw_key = torrent::raw_string::from_c_str(key)](           \
                      const auto&, const auto& object) {                        \
                     return storage->list_push_back(raw_key, object);           \
-                  }));                                                         \
+                  }),                                                          \
+                  false);                                                      \
   } while (0)
 
 #define CMD2_FUNC_SINGLE(key, cmds, is_readonly)                               \

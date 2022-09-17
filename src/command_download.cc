@@ -743,52 +743,87 @@ d_list_remove(core::Download*        download,
     return download->file_list()->func();                                      \
   }
 
-#define  CMD2_DL_VAR_VALUE(key, first_key, second_key)                          \
-  CMD2_DL(key, [](const auto& download, const auto&) {                         \
-    return download_get_variable(download, first_key, second_key);             \
-  }, false);                                                                          \
-  CMD2_DL_VALUE_P(key ".set", [](const auto& download, const auto& args) {     \
-    return download_set_variable_value(download, args, first_key, second_key); \
-  });
+#define CMD2_DL_VAR_VALUE(key, first_key, second_key)                          \
+  CMD2_DL(                                                                     \
+    key,                                                                       \
+    [](const auto& download, const auto&) {                                    \
+      return download_get_variable(download, first_key, second_key);           \
+    },                                                                         \
+    false);                                                                    \
+  CMD2_DL_VALUE_P(                                                             \
+    key ".set",                                                                \
+    [](const auto& download, const auto& args) {                               \
+      return download_set_variable_value(                                      \
+        download, args, first_key, second_key);                                \
+    },                                                                         \
+    false);
 
 #define CMD2_DL_VAR_VALUE_PUBLIC(key, first_key, second_key)                   \
-  CMD2_DL(key, [](const auto& download, const auto&) {                         \
-    return download_get_variable(download, first_key, second_key);             \
-  }, false);                                                                          \
-  CMD2_DL_VALUE(key ".set", [](const auto& download, const auto& args) {       \
-    return download_set_variable_value(download, args, first_key, second_key); \
-  });
+  CMD2_DL(                                                                     \
+    key,                                                                       \
+    [](const auto& download, const auto&) {                                    \
+      return download_get_variable(download, first_key, second_key);           \
+    },                                                                         \
+    false);                                                                    \
+  CMD2_DL_VALUE(                                                               \
+    key ".set",                                                                \
+    [](const auto& download, const auto& args) {                               \
+      return download_set_variable_value(                                      \
+        download, args, first_key, second_key);                                \
+    },                                                                         \
+    false);
 
 #define CMD2_DL_TIMESTAMP(key, first_key, second_key)                          \
-  CMD2_DL(key, [](const auto& download, const auto&) {                         \
-    return download_get_variable(download, first_key, second_key);             \
-  }, true);                                                                          \
-  CMD2_DL_VALUE_P(key ".set", [](const auto& download, const auto& args) {     \
-    return download_set_variable_value(download, args, first_key, second_key); \
-  });                                                                          \
-  CMD2_DL_VALUE_P(key ".set_if_z",                                             \
-                  [](const auto& download, const auto& args) {                 \
-                    return download_set_variable_value_ifz(                    \
-                      download, args, first_key, second_key);                  \
-                  });
+  CMD2_DL(                                                                     \
+    key,                                                                       \
+    [](const auto& download, const auto&) {                                    \
+      return download_get_variable(download, first_key, second_key);           \
+    },                                                                         \
+    true);                                                                     \
+  CMD2_DL_VALUE_P(                                                             \
+    key ".set",                                                                \
+    [](const auto& download, const auto& args) {                               \
+      return download_set_variable_value(                                      \
+        download, args, first_key, second_key);                                \
+    },                                                                         \
+    false);                                                                    \
+  CMD2_DL_VALUE_P(                                                             \
+    key ".set_if_z",                                                           \
+    [](const auto& download, const auto& args) {                               \
+      return download_set_variable_value_ifz(                                  \
+        download, args, first_key, second_key);                                \
+    },                                                                         \
+    false);
 
 #define CMD2_DL_VAR_STRING(key, first_key, second_key)                         \
-  CMD2_DL(key, [](const auto& download, const auto&) {                         \
-    return download_get_variable(download, first_key, second_key);             \
-  }, false);                                                                          \
-  CMD2_DL_STRING_P(key ".set", [](const auto& download, const auto& args) {    \
-    return download_set_variable_string(                                       \
-      download, args, first_key, second_key);                                  \
-  });
+  CMD2_DL(                                                                     \
+    key,                                                                       \
+    [](const auto& download, const auto&) {                                    \
+      return download_get_variable(download, first_key, second_key);           \
+    },                                                                         \
+    false);                                                                    \
+  CMD2_DL_STRING_P(                                                            \
+    key ".set",                                                                \
+    [](const auto& download, const auto& args) {                               \
+      return download_set_variable_string(                                     \
+        download, args, first_key, second_key);                                \
+    },                                                                         \
+    false);
 
 #define CMD2_DL_VAR_STRING_PUBLIC(key, first_key, second_key)                  \
-  CMD2_DL(key, [](const auto& download, const auto&) {                         \
-    return download_get_variable(download, first_key, second_key);             \
-  }, false);                                                                          \
-  CMD2_DL_STRING(key ".set", [](const auto& download, const auto& args) {      \
-    return download_set_variable_string(                                       \
-      download, args, first_key, second_key);                                  \
-  });
+  CMD2_DL(                                                                     \
+    key,                                                                       \
+    [](const auto& download, const auto&) {                                    \
+      return download_get_variable(download, first_key, second_key);           \
+    },                                                                         \
+    false);                                                                    \
+  CMD2_DL_STRING(                                                              \
+    key ".set",                                                                \
+    [](const auto& download, const auto& args) {                               \
+      return download_set_variable_string(                                     \
+        download, args, first_key, second_key);                                \
+    },                                                                         \
+    false);
 
 int64_t
 cg_d_group(core::Download* download);
@@ -799,24 +834,42 @@ cg_d_group_set(core::Download* download, const torrent::Object& arg);
 
 void
 initialize_command_download() {
-  CMD2_DL("d.hash", [](const auto& download, const auto&) {
-    return torrent::utils::transform_hex_str(download->info()->hash());
-  }, true);
-  CMD2_DL("d.local_id", [](const auto& download, const auto&) {
-    return torrent::utils::transform_hex_str(download->info()->local_id());
-  }, true);
-  CMD2_DL("d.local_id_html", [](const auto& download, const auto&) {
-    return torrent::utils::copy_escape_html_str(download->info()->local_id());
-  }, true);
-  CMD2_DL("d.bitfield", [](const auto& download, const auto&) {
-    return retrieve_d_bitfield(download);
-  }, true);
-  CMD2_DL("d.base_path", [](const auto& download, const auto&) {
-    return retrieve_d_base_path(download);
-  }, true);
-  CMD2_DL("d.base_filename", [](const auto& download, const auto&) {
-    return retrieve_d_base_filename(download);
-  }, true);
+  CMD2_DL(
+    "d.hash",
+    [](const auto& download, const auto&) {
+      return torrent::utils::transform_hex_str(download->info()->hash());
+    },
+    true);
+  CMD2_DL(
+    "d.local_id",
+    [](const auto& download, const auto&) {
+      return torrent::utils::transform_hex_str(download->info()->local_id());
+    },
+    true);
+  CMD2_DL(
+    "d.local_id_html",
+    [](const auto& download, const auto&) {
+      return torrent::utils::copy_escape_html_str(download->info()->local_id());
+    },
+    true);
+  CMD2_DL(
+    "d.bitfield",
+    [](const auto& download, const auto&) {
+      return retrieve_d_bitfield(download);
+    },
+    true);
+  CMD2_DL(
+    "d.base_path",
+    [](const auto& download, const auto&) {
+      return retrieve_d_base_path(download);
+    },
+    true);
+  CMD2_DL(
+    "d.base_filename",
+    [](const auto& download, const auto&) {
+      return retrieve_d_base_filename(download);
+    },
+    true);
 
   CMD2_DL("d.name", CMD2_ON_INFO(name), true);
   CMD2_DL("d.creation_date", CMD2_ON_INFO(creation_date), true);
@@ -826,52 +879,84 @@ initialize_command_download() {
   // Network related:
   //
 
-  CMD2_DL("d.up.rate", [](const auto& download, const auto&) {
-    return download->info()->up_rate()->rate();
-  }, true);
-  CMD2_DL("d.up.total", [](const auto& download, const auto&) {
-    return download->info()->up_rate()->total();
-  }, true);
-  CMD2_DL("d.down.rate", [](const auto& download, const auto&) {
-    return download->info()->down_rate()->rate();
-  }, true);
-  CMD2_DL("d.down.total", [](const auto& download, const auto&) {
-    return download->info()->down_rate()->total();
-  }, true);
-  CMD2_DL("d.skip.rate", [](const auto& download, const auto&) {
-    return download->info()->skip_rate()->rate();
-  }, true);
-  CMD2_DL("d.skip.total", [](const auto& download, const auto&) {
-    return download->info()->skip_rate()->total();
-  }, true);
+  CMD2_DL(
+    "d.up.rate",
+    [](const auto& download, const auto&) {
+      return download->info()->up_rate()->rate();
+    },
+    true);
+  CMD2_DL(
+    "d.up.total",
+    [](const auto& download, const auto&) {
+      return download->info()->up_rate()->total();
+    },
+    true);
+  CMD2_DL(
+    "d.down.rate",
+    [](const auto& download, const auto&) {
+      return download->info()->down_rate()->rate();
+    },
+    true);
+  CMD2_DL(
+    "d.down.total",
+    [](const auto& download, const auto&) {
+      return download->info()->down_rate()->total();
+    },
+    true);
+  CMD2_DL(
+    "d.skip.rate",
+    [](const auto& download, const auto&) {
+      return download->info()->skip_rate()->rate();
+    },
+    true);
+  CMD2_DL(
+    "d.skip.total",
+    [](const auto& download, const auto&) {
+      return download->info()->skip_rate()->total();
+    },
+    true);
 
   CMD2_DL("d.peer_exchange", CMD2_ON_INFO(is_pex_enabled), true);
-  CMD2_DL_VALUE_V("d.peer_exchange.set",
-                  [](const auto& download, const auto& v) {
-                    return download->download()->set_pex_enabled(v);
-                  });
+  CMD2_DL_VALUE_V(
+    "d.peer_exchange.set",
+    [](const auto& download, const auto& v) {
+      return download->download()->set_pex_enabled(v);
+    },
+    false);
 
-  CMD2_DL_LIST("d.create_link", [](const auto& download, const auto& args) {
-    return apply_d_change_link(download, args, 0);
-  }, false);
-  CMD2_DL_LIST("d.delete_link", [](const auto& download, const auto& args) {
-    return apply_d_change_link(download, args, 1);
-  }, false);
-  CMD2_DL("d.delete_tied", [](const auto& download, const auto&) {
-    return apply_d_delete_tied(download);
-  }, false);
+  CMD2_DL_LIST(
+    "d.create_link",
+    [](const auto& download, const auto& args) {
+      return apply_d_change_link(download, args, 0);
+    },
+    false);
+  CMD2_DL_LIST(
+    "d.delete_link",
+    [](const auto& download, const auto& args) {
+      return apply_d_change_link(download, args, 1);
+    },
+    false);
+  CMD2_DL(
+    "d.delete_tied",
+    [](const auto& download, const auto&) {
+      return apply_d_delete_tied(download);
+    },
+    false);
 
-  CMD2_FUNC_SINGLE("d.start",
-                   "d.hashing_failed.set=0 ;view.set_visible=started", false);
+  CMD2_FUNC_SINGLE(
+    "d.start", "d.hashing_failed.set=0 ;view.set_visible=started", false);
   CMD2_FUNC_SINGLE("d.stop", "view.set_visible=stopped", false);
   CMD2_FUNC_SINGLE("d.try_start",
                    "branch=\"or={d.hashing_failed=,d.ignore_commands=}\",{},{"
-                   "view.set_visible=started}", false);
+                   "view.set_visible=started}",
+                   false);
   CMD2_FUNC_SINGLE("d.try_stop",
-                   "branch=d.ignore_commands=, {}, {view.set_visible=stopped}", false);
+                   "branch=d.ignore_commands=, {}, {view.set_visible=stopped}",
+                   false);
   CMD2_FUNC_SINGLE(
     "d.try_close",
-    "branch=d.ignore_commands=, {}, {view.set_visible=stopped, d.close=}", false);
+    "branch=d.ignore_commands=, {}, {view.set_visible=stopped, d.close=}",
+    false);
 
   //
   // Control functinos:
@@ -879,77 +964,134 @@ initialize_command_download() {
 
   CMD2_DL("d.is_open", CMD2_ON_INFO(is_open), true);
   CMD2_DL("d.is_active", CMD2_ON_INFO(is_active), true);
-  CMD2_DL("d.is_hash_checked", [](const auto& download, const auto&) {
-    return download->download()->is_hash_checked();
-  }, true);
-  CMD2_DL("d.is_hash_checking", [](const auto& download, const auto&) {
-    return download->download()->is_hash_checking();
-  }, true);
-  CMD2_DL("d.is_multi_file", [](const auto& download, const auto&) {
-    return download->file_list()->is_multi_file();
-  }, true);
+  CMD2_DL(
+    "d.is_hash_checked",
+    [](const auto& download, const auto&) {
+      return download->download()->is_hash_checked();
+    },
+    true);
+  CMD2_DL(
+    "d.is_hash_checking",
+    [](const auto& download, const auto&) {
+      return download->download()->is_hash_checking();
+    },
+    true);
+  CMD2_DL(
+    "d.is_multi_file",
+    [](const auto& download, const auto&) {
+      return download->file_list()->is_multi_file();
+    },
+    true);
   CMD2_DL("d.is_private", CMD2_ON_INFO(is_private), true);
   CMD2_DL("d.is_pex_active", CMD2_ON_INFO(is_pex_active), true);
   CMD2_DL("d.is_partially_done", CMD2_ON_DATA(is_partially_done), true);
   CMD2_DL("d.is_not_partially_done", CMD2_ON_DATA(is_not_partially_done), true);
   CMD2_DL("d.is_meta", CMD2_ON_INFO(is_meta_download), true);
 
-  CMD2_DL_V("d.resume", [](const auto& download, const auto&) {
-    return control->core()->download_list()->resume_default(download);
-  }, false);
-  CMD2_DL_V("d.pause", [](const auto& download, const auto&) {
-    return control->core()->download_list()->pause_default(download);
-  }, false);
-  CMD2_DL_V("d.open", [](const auto& download, const auto&) {
-    return control->core()->download_list()->open_throw(download);
-  }, false);
-  CMD2_DL_V("d.close", [](const auto& download, const auto&) {
-    return control->core()->download_list()->close_throw(download);
-  }, false);
-  CMD2_DL_V("d.close.directly", [](const auto& download, const auto&) {
-    return control->core()->download_list()->close_directly(download);
-  }, false);
-  CMD2_DL_V("d.erase", [](const auto& download, const auto&) {
-    return control->core()->download_list()->erase_ptr(download);
-  }, false);
-  CMD2_DL_V("d.check_hash", [](const auto& download, const auto&) {
-    return control->core()->download_list()->check_hash(download);
-  }, false);
-  CMD2_DL("d.save_resume", [](const auto& download, const auto&) {
-    return control->core()->download_store()->save_resume(download);
-  }, false);
-  CMD2_DL("d.save_full_session", [](const auto& download, const auto&) {
-    return control->core()->download_store()->save_full(download);
-  }, false);
+  CMD2_DL_V(
+    "d.resume",
+    [](const auto& download, const auto&) {
+      return control->core()->download_list()->resume_default(download);
+    },
+    false);
+  CMD2_DL_V(
+    "d.pause",
+    [](const auto& download, const auto&) {
+      return control->core()->download_list()->pause_default(download);
+    },
+    false);
+  CMD2_DL_V(
+    "d.open",
+    [](const auto& download, const auto&) {
+      return control->core()->download_list()->open_throw(download);
+    },
+    false);
+  CMD2_DL_V(
+    "d.close",
+    [](const auto& download, const auto&) {
+      return control->core()->download_list()->close_throw(download);
+    },
+    false);
+  CMD2_DL_V(
+    "d.close.directly",
+    [](const auto& download, const auto&) {
+      return control->core()->download_list()->close_directly(download);
+    },
+    false);
+  CMD2_DL_V(
+    "d.erase",
+    [](const auto& download, const auto&) {
+      return control->core()->download_list()->erase_ptr(download);
+    },
+    false);
+  CMD2_DL_V(
+    "d.check_hash",
+    [](const auto& download, const auto&) {
+      return control->core()->download_list()->check_hash(download);
+    },
+    false);
+  CMD2_DL(
+    "d.save_resume",
+    [](const auto& download, const auto&) {
+      return control->core()->download_store()->save_resume(download);
+    },
+    false);
+  CMD2_DL(
+    "d.save_full_session",
+    [](const auto& download, const auto&) {
+      return control->core()->download_store()->save_full(download);
+    },
+    false);
 
   CMD2_DL_V("d.update_priorities", CMD2_ON_DL(update_priorities), false);
 
-  CMD2_DL_STRING_V("add_peer", [](const auto& download, const auto& arg) {
-    return apply_d_add_peer(download, arg);
-  });
+  CMD2_DL_STRING_V(
+    "add_peer",
+    [](const auto& download, const auto& arg) {
+      return apply_d_add_peer(download, arg);
+    },
+    false);
 
   //
   // Custom settings:
   //
 
-  CMD2_DL_STRING("d.custom", [](const auto& download, const auto& key) {
-    return retrieve_d_custom(download, key);
-  });
-  CMD2_DL_STRING("d.custom_throw", [](const auto& download, const auto& key) {
-    return retrieve_d_custom_throw(download, key);
-  });
-  CMD2_DL_LIST("d.custom.set", [](const auto& download, const auto& args) {
-    return apply_d_custom(download, args);
-  }, false);
-  CMD2_DL_LIST("d.custom.if_z", [](const auto& download, const auto& args) {
-    return retrieve_d_custom_if_z(download, args);
-  }, false);
-  CMD2_DL_LIST("d.custom.keys", [](const auto& download, const auto& args) {
-    return retrieve_d_custom_map(download, true, args);
-  }, false);
-  CMD2_DL_LIST("d.custom.items", [](const auto& download, const auto& args) {
-    return retrieve_d_custom_map(download, false, args);
-  }, false);
+  CMD2_DL_STRING(
+    "d.custom",
+    [](const auto& download, const auto& key) {
+      return retrieve_d_custom(download, key);
+    },
+    false);
+  CMD2_DL_STRING(
+    "d.custom_throw",
+    [](const auto& download, const auto& key) {
+      return retrieve_d_custom_throw(download, key);
+    },
+    false);
+  CMD2_DL_LIST(
+    "d.custom.set",
+    [](const auto& download, const auto& args) {
+      return apply_d_custom(download, args);
+    },
+    false);
+  CMD2_DL_LIST(
+    "d.custom.if_z",
+    [](const auto& download, const auto& args) {
+      return retrieve_d_custom_if_z(download, args);
+    },
+    false);
+  CMD2_DL_LIST(
+    "d.custom.keys",
+    [](const auto& download, const auto& args) {
+      return retrieve_d_custom_map(download, true, args);
+    },
+    false);
+  CMD2_DL_LIST(
+    "d.custom.items",
+    [](const auto& download, const auto& args) {
+      return retrieve_d_custom_map(download, false, args);
+    },
+    false);
 
   CMD2_DL_VAR_STRING_PUBLIC("d.custom1", "rtorrent", "custom1");
   CMD2_DL_VAR_STRING_PUBLIC("d.custom2", "rtorrent", "custom2");
@@ -996,37 +1138,52 @@ initialize_command_download() {
   CMD2_DL_TIMESTAMP(
     "d.timestamp.last_active", "rtorrent", "timestamp.last_active");
 
-  CMD2_DL("d.connection_current", [](const auto& download, const auto&) {
-    return torrent::option_as_string(torrent::OPTION_CONNECTION_TYPE,
-                                     download->download()->connection_type());
-  }, true);
-  CMD2_DL_STRING("d.connection_current.set",
-                 [](const auto& download, const auto& name) {
-                   return apply_d_connection_type(download, name);
-                 });
+  CMD2_DL(
+    "d.connection_current",
+    [](const auto& download, const auto&) {
+      return torrent::option_as_string(torrent::OPTION_CONNECTION_TYPE,
+                                       download->download()->connection_type());
+    },
+    true);
+  CMD2_DL_STRING(
+    "d.connection_current.set",
+    [](const auto& download, const auto& name) {
+      return apply_d_connection_type(download, name);
+    },
+    false);
 
   CMD2_DL_VAR_STRING_PUBLIC(
     "d.connection_leech", "rtorrent", "connection_leech");
   CMD2_DL_VAR_STRING_PUBLIC("d.connection_seed", "rtorrent", "connection_seed");
 
-  CMD2_DL("d.up.choke_heuristics", [](const auto& download, const auto&) {
-    return torrent::option_as_string(
-      torrent::OPTION_CHOKE_HEURISTICS,
-      download->download()->upload_choke_heuristic());
-  }, true);
-  CMD2_DL_STRING("d.up.choke_heuristics.set",
-                 [](const auto& download, const auto& name) {
-                   return apply_d_choke_heuristics(download, name, false);
-                 });
-  CMD2_DL("d.down.choke_heuristics", [](const auto& download, const auto&) {
-    return torrent::option_as_string(
-      torrent::OPTION_CHOKE_HEURISTICS,
-      download->download()->download_choke_heuristic());
-  }, true);
-  CMD2_DL_STRING("d.down.choke_heuristics.set",
-                 [](const auto& download, const auto& name) {
-                   return apply_d_choke_heuristics(download, name, true);
-                 });
+  CMD2_DL(
+    "d.up.choke_heuristics",
+    [](const auto& download, const auto&) {
+      return torrent::option_as_string(
+        torrent::OPTION_CHOKE_HEURISTICS,
+        download->download()->upload_choke_heuristic());
+    },
+    true);
+  CMD2_DL_STRING(
+    "d.up.choke_heuristics.set",
+    [](const auto& download, const auto& name) {
+      return apply_d_choke_heuristics(download, name, false);
+    },
+    false);
+  CMD2_DL(
+    "d.down.choke_heuristics",
+    [](const auto& download, const auto&) {
+      return torrent::option_as_string(
+        torrent::OPTION_CHOKE_HEURISTICS,
+        download->download()->download_choke_heuristic());
+    },
+    true);
+  CMD2_DL_STRING(
+    "d.down.choke_heuristics.set",
+    [](const auto& download, const auto& name) {
+      return apply_d_choke_heuristics(download, name, true);
+    },
+    false);
 
   CMD2_DL_VAR_STRING(
     "d.up.choke_heuristics.leech", "rtorrent", "choke_heuristics.up.leech");
@@ -1038,127 +1195,209 @@ initialize_command_download() {
     "d.down.choke_heuristics.seed", "rtorrent", "choke_heuristics.down.seed");
 
   CMD2_DL("d.down.sequential", CMD2_ON_DL(is_sequential_enabled), true);
-  CMD2_DL_VALUE_V("d.down.sequential.set",
-                  [](const auto& download, const auto& v) {
-                    return download->download()->set_sequential_enabled(v);
-                  });
+  CMD2_DL_VALUE_V(
+    "d.down.sequential.set",
+    [](const auto& download, const auto& v) {
+      return download->download()->set_sequential_enabled(v);
+    },
+    false);
 
-  CMD2_DL("d.hashing_failed", [](const auto& download, const auto&) {
-    return download->is_hash_failed();
-  }, true);
-  CMD2_DL_VALUE_V("d.hashing_failed.set",
-                  [](const auto& download, const auto& v) {
-                    return download->set_hash_failed(v);
-                  });
-
-  CMD2_DL("d.views", [](const auto& download, const auto&) {
-    return download_get_variable(download, "rtorrent", "views");
-  }, true);
-  CMD2_DL("d.views.has", [](const auto& download, const auto& rawArgs) {
-    return d_list_has(download, rawArgs, "rtorrent", "views");
-  }, true);
-  CMD2_DL("d.views.remove", [](const auto& download, const auto& rawArgs) {
-    return d_list_remove(download, rawArgs, "rtorrent", "views");
-  }, false);
-  CMD2_DL("d.views.push_back", [](const auto& download, const auto& rawArgs) {
-    return d_list_push_back(download, rawArgs, "rtorrent", "views");
-  }, false);
   CMD2_DL(
-    "d.views.push_back_unique", [](const auto& download, const auto& rawArgs) {
+    "d.hashing_failed",
+    [](const auto& download, const auto&) {
+      return download->is_hash_failed();
+    },
+    true);
+  CMD2_DL_VALUE_V(
+    "d.hashing_failed.set",
+    [](const auto& download, const auto& v) {
+      return download->set_hash_failed(v);
+    },
+    false);
+
+  CMD2_DL(
+    "d.views",
+    [](const auto& download, const auto&) {
+      return download_get_variable(download, "rtorrent", "views");
+    },
+    true);
+  CMD2_DL(
+    "d.views.has",
+    [](const auto& download, const auto& rawArgs) {
+      return d_list_has(download, rawArgs, "rtorrent", "views");
+    },
+    true);
+  CMD2_DL(
+    "d.views.remove",
+    [](const auto& download, const auto& rawArgs) {
+      return d_list_remove(download, rawArgs, "rtorrent", "views");
+    },
+    false);
+  CMD2_DL(
+    "d.views.push_back",
+    [](const auto& download, const auto& rawArgs) {
+      return d_list_push_back(download, rawArgs, "rtorrent", "views");
+    },
+    false);
+  CMD2_DL(
+    "d.views.push_back_unique",
+    [](const auto& download, const auto& rawArgs) {
       return d_list_push_back_unique(download, rawArgs, "rtorrent", "views");
-  }, false);
+    },
+    false);
 
   // This command really needs to be improved, so we have proper
   // logging support.
-  CMD2_DL("d.message", [](const auto& download, const auto&) {
-    return download->message();
-  }, true);
-  CMD2_DL_STRING_V("d.message.set", [](const auto& download, const auto& msg) {
-    return download->set_message(msg);
-  });
+  CMD2_DL(
+    "d.message",
+    [](const auto& download, const auto&) { return download->message(); },
+    true);
+  CMD2_DL_STRING_V(
+    "d.message.set",
+    [](const auto& download, const auto& msg) {
+      return download->set_message(msg);
+    },
+    false);
 
   CMD2_DL("d.max_file_size", CMD2_ON_FL(max_file_size), true);
-  CMD2_DL_VALUE_V("d.max_file_size.set",
-                  [](const auto& download, const auto& v) {
-                    return download->file_list()->set_max_file_size(v);
-                  });
+  CMD2_DL_VALUE_V(
+    "d.max_file_size.set",
+    [](const auto& download, const auto& v) {
+      return download->file_list()->set_max_file_size(v);
+    },
+    false);
 
-  CMD2_DL("d.peers_min", [](const auto& download, const auto&) {
-    return download->connection_list()->min_size();
-  }, true);
-  CMD2_DL_VALUE_V("d.peers_min.set", [](const auto& download, const auto& v) {
-    return download->connection_list()->set_min_size(v);
-  });
-  CMD2_DL("d.peers_max", [](const auto& download, const auto&) {
-    return download->connection_list()->max_size();
-  }, true);
-  CMD2_DL_VALUE_V("d.peers_max.set", [](const auto& download, const auto& v) {
-    return download->connection_list()->set_max_size(v);
-  });
-  CMD2_DL("d.uploads_max", [](const auto& download, const auto&) {
-    return download->download()->uploads_max();
-  }, true);
-  CMD2_DL_VALUE_V("d.uploads_max.set", [](const auto& download, const auto& v) {
-    return download->download()->set_uploads_max(v);
-  });
-  CMD2_DL("d.uploads_min", [](const auto& download, const auto&) {
-    return download->download()->uploads_min();
-  }, true);
-  CMD2_DL_VALUE_V("d.uploads_min.set", [](const auto& download, const auto& v) {
-    return download->download()->set_uploads_min(v);
-  });
-  CMD2_DL("d.downloads_max", [](const auto& download, const auto&) {
-    return download->download()->downloads_max();
-  }, true);
-  CMD2_DL_VALUE_V("d.downloads_max.set",
-                  [](const auto& download, const auto& v) {
-                    return download->download()->set_downloads_max(v);
-                  });
-  CMD2_DL("d.downloads_min", [](const auto& download, const auto&) {
-    return download->download()->downloads_min();
-  }, true);
-  CMD2_DL_VALUE_V("d.downloads_min.set",
-                  [](const auto& download, const auto& v) {
-                    return download->download()->set_downloads_min(v);
-                  });
-  CMD2_DL("d.peers_connected", [](const auto& download, const auto&) {
-    return download->connection_list()->size();
-  }, true);
-  CMD2_DL("d.peers_not_connected", [](const auto& download, const auto&) {
-    return download->c_peer_list()->available_list_size();
-  }, true);
+  CMD2_DL(
+    "d.peers_min",
+    [](const auto& download, const auto&) {
+      return download->connection_list()->min_size();
+    },
+    true);
+  CMD2_DL_VALUE_V(
+    "d.peers_min.set",
+    [](const auto& download, const auto& v) {
+      return download->connection_list()->set_min_size(v);
+    },
+    false);
+  CMD2_DL(
+    "d.peers_max",
+    [](const auto& download, const auto&) {
+      return download->connection_list()->max_size();
+    },
+    true);
+  CMD2_DL_VALUE_V(
+    "d.peers_max.set",
+    [](const auto& download, const auto& v) {
+      return download->connection_list()->set_max_size(v);
+    },
+    false);
+  CMD2_DL(
+    "d.uploads_max",
+    [](const auto& download, const auto&) {
+      return download->download()->uploads_max();
+    },
+    true);
+  CMD2_DL_VALUE_V(
+    "d.uploads_max.set",
+    [](const auto& download, const auto& v) {
+      return download->download()->set_uploads_max(v);
+    },
+    false);
+  CMD2_DL(
+    "d.uploads_min",
+    [](const auto& download, const auto&) {
+      return download->download()->uploads_min();
+    },
+    true);
+  CMD2_DL_VALUE_V(
+    "d.uploads_min.set",
+    [](const auto& download, const auto& v) {
+      return download->download()->set_uploads_min(v);
+    },
+    false);
+  CMD2_DL(
+    "d.downloads_max",
+    [](const auto& download, const auto&) {
+      return download->download()->downloads_max();
+    },
+    true);
+  CMD2_DL_VALUE_V(
+    "d.downloads_max.set",
+    [](const auto& download, const auto& v) {
+      return download->download()->set_downloads_max(v);
+    },
+    false);
+  CMD2_DL(
+    "d.downloads_min",
+    [](const auto& download, const auto&) {
+      return download->download()->downloads_min();
+    },
+    true);
+  CMD2_DL_VALUE_V(
+    "d.downloads_min.set",
+    [](const auto& download, const auto& v) {
+      return download->download()->set_downloads_min(v);
+    },
+    false);
+  CMD2_DL(
+    "d.peers_connected",
+    [](const auto& download, const auto&) {
+      return download->connection_list()->size();
+    },
+    true);
+  CMD2_DL(
+    "d.peers_not_connected",
+    [](const auto& download, const auto&) {
+      return download->c_peer_list()->available_list_size();
+    },
+    true);
 
   CMD2_DL("d.peers_complete", CMD2_ON_DL(peers_complete), true);
   CMD2_DL("d.peers_accounted", CMD2_ON_DL(peers_accounted), true);
 
-  CMD2_DL_V("d.disconnect.seeders", [](const auto& download, const auto&) {
-    return download->connection_list()->erase_seeders();
-  }, false);
+  CMD2_DL_V(
+    "d.disconnect.seeders",
+    [](const auto& download, const auto&) {
+      return download->connection_list()->erase_seeders();
+    },
+    false);
 
   CMD2_DL("d.accepting_seeders", CMD2_ON_INFO(is_accepting_seeders), true);
-  CMD2_DL_V("d.accepting_seeders.enable",
-            [](const auto& download, const auto&) {
-              return download->info()->public_set_flags(
-                torrent::DownloadInfo::flag_accepting_seeders);
-            }, false);
-  CMD2_DL_V("d.accepting_seeders.disable",
-            [](const auto& download, const auto&) {
-              return download->info()->public_unset_flags(
-                torrent::DownloadInfo::flag_accepting_seeders);
-            }, false);
+  CMD2_DL_V(
+    "d.accepting_seeders.enable",
+    [](const auto& download, const auto&) {
+      return download->info()->public_set_flags(
+        torrent::DownloadInfo::flag_accepting_seeders);
+    },
+    false);
+  CMD2_DL_V(
+    "d.accepting_seeders.disable",
+    [](const auto& download, const auto&) {
+      return download->info()->public_unset_flags(
+        torrent::DownloadInfo::flag_accepting_seeders);
+    },
+    false);
 
-  CMD2_DL("d.throttle_name", [](const auto& download, const auto&) {
-    return download_get_variable(download, "rtorrent", "throttle_name");
-  }, true);
-  CMD2_DL_STRING_V("d.throttle_name.set",
-                   [](const auto& download, const auto& name) {
-                     return download->set_throttle_name(name);
-                   });
+  CMD2_DL(
+    "d.throttle_name",
+    [](const auto& download, const auto&) {
+      return download_get_variable(download, "rtorrent", "throttle_name");
+    },
+    true);
+  CMD2_DL_STRING_V(
+    "d.throttle_name.set",
+    [](const auto& download, const auto& name) {
+      return download->set_throttle_name(name);
+    },
+    false);
 
   CMD2_DL("d.bytes_done", CMD2_ON_DL(bytes_done), true);
-  CMD2_DL("d.ratio", [](const auto& download, const auto&) {
-    return retrieve_d_ratio(download);
-  }, true);
+  CMD2_DL(
+    "d.ratio",
+    [](const auto& download, const auto&) {
+      return retrieve_d_ratio(download);
+    },
+    true);
   CMD2_DL("d.chunks_hashed", CMD2_ON_DL(chunks_hashed), true);
   CMD2_DL("d.free_diskspace", CMD2_ON_FL(free_diskspace), true);
 
@@ -1169,9 +1408,10 @@ initialize_command_download() {
   CMD2_DL("d.size_pex", CMD2_ON_DL(size_pex), true);
   CMD2_DL("d.max_size_pex", CMD2_ON_DL(max_size_pex), true);
 
-  CMD2_DL("d.chunks_seen", [](const auto& download, const auto&) {
-    return d_chunks_seen(download);
-  }, true);
+  CMD2_DL(
+    "d.chunks_seen",
+    [](const auto& download, const auto&) { return d_chunks_seen(download); },
+    true);
 
   CMD2_DL("d.completed_bytes", CMD2_ON_FL(completed_bytes), true);
   CMD2_DL("d.completed_chunks", CMD2_ON_FL(completed_chunks), true);
@@ -1180,78 +1420,126 @@ initialize_command_download() {
   CMD2_DL("d.wanted_chunks", CMD2_ON_DATA(wanted_chunks), true);
 
   // Do not exposre d.tracker_announce.force to regular users.
-  CMD2_DL_V("d.tracker_announce", [](const auto& download, const auto&) {
-    return download->download()->manual_request(false);
-  }, false);
-  CMD2_DL_V("d.tracker_announce.force", [](const auto& download, const auto&) {
-    return download->download()->manual_request(true);
-  }, false);
+  CMD2_DL_V(
+    "d.tracker_announce",
+    [](const auto& download, const auto&) {
+      return download->download()->manual_request(false);
+    },
+    false);
+  CMD2_DL_V(
+    "d.tracker_announce.force",
+    [](const auto& download, const auto&) {
+      return download->download()->manual_request(true);
+    },
+    false);
 
-  CMD2_DL("d.tracker_numwant", [](const auto& download, const auto&) {
-    return download->tracker_list()->numwant();
-  }, true);
-  CMD2_DL_VALUE_V("d.tracker_numwant.set",
-                  [](const auto& download, const auto& v) {
-                    return download->tracker_list()->set_numwant(v);
-                  });
+  CMD2_DL(
+    "d.tracker_numwant",
+    [](const auto& download, const auto&) {
+      return download->tracker_list()->numwant();
+    },
+    true);
+  CMD2_DL_VALUE_V(
+    "d.tracker_numwant.set",
+    [](const auto& download, const auto& v) {
+      return download->tracker_list()->set_numwant(v);
+    },
+    false);
   // TODO: Deprecate 'd.tracker_focus'.
-  CMD2_DL("d.tracker_focus", [](const auto& download, const auto&) {
-    return download->tracker_list_size();
-  }, true);
-  CMD2_DL("d.tracker_size", [](const auto& download, const auto&) {
-    return download->tracker_list_size();
-  }, true);
+  CMD2_DL(
+    "d.tracker_focus",
+    [](const auto& download, const auto&) {
+      return download->tracker_list_size();
+    },
+    true);
+  CMD2_DL(
+    "d.tracker_size",
+    [](const auto& download, const auto&) {
+      return download->tracker_list_size();
+    },
+    true);
 
-  CMD2_DL_LIST("d.tracker.insert", [](const auto& download, const auto& args) {
-    return download_tracker_insert(download, args);
-  }, false);
-  CMD2_DL_VALUE_V("d.tracker.send_scrape",
-                  [](const auto& download, const auto& v) {
-                    return download->tracker_controller()->scrape_request(v);
-                  });
+  CMD2_DL_LIST(
+    "d.tracker.insert",
+    [](const auto& download, const auto& args) {
+      return download_tracker_insert(download, args);
+    },
+    false);
+  CMD2_DL_VALUE_V(
+    "d.tracker.send_scrape",
+    [](const auto& download, const auto& v) {
+      return download->tracker_controller()->scrape_request(v);
+    },
+    false);
 
   CMD2_DL("d.directory", CMD2_ON_FL(root_dir), true);
-  CMD2_DL_STRING_V("d.directory.set",
-                   [](const auto& download, const auto& name) {
-                     return apply_d_directory(download, name);
-                   });
+  CMD2_DL_STRING_V(
+    "d.directory.set",
+    [](const auto& download, const auto& name) {
+      return apply_d_directory(download, name);
+    },
+    false);
   CMD2_DL("d.directory_base", CMD2_ON_FL(root_dir), true);
-  CMD2_DL_STRING_V("d.directory_base.set",
-                   [](const auto& download, const auto& name) {
-                     return download->set_root_directory(name);
-                   });
+  CMD2_DL_STRING_V(
+    "d.directory_base.set",
+    [](const auto& download, const auto& name) {
+      return download->set_root_directory(name);
+    },
+    false);
 
-  CMD2_DL("d.priority", [](const auto& download, const auto&) {
-    return download->priority();
-  }, true);
-  CMD2_DL("d.priority_str", [](const auto& download, const auto&) {
-    return retrieve_d_priority_str(download);
-  }, true);
-  CMD2_DL_VALUE_V("d.priority.set", [](const auto& download, const auto& p) {
-    return download->set_priority(p);
-  });
+  CMD2_DL(
+    "d.priority",
+    [](const auto& download, const auto&) { return download->priority(); },
+    true);
+  CMD2_DL(
+    "d.priority_str",
+    [](const auto& download, const auto&) {
+      return retrieve_d_priority_str(download);
+    },
+    true);
+  CMD2_DL_VALUE_V(
+    "d.priority.set",
+    [](const auto& download, const auto& p) {
+      return download->set_priority(p);
+    },
+    false);
 
-  CMD2_DL("d.group", [](const auto& download, const auto&) {
-    return cg_d_group(download);
-  }, true);
-  CMD2_DL("d.group.name", [](const auto& download, const auto&) {
-    return cg_d_group(download);
-  }, true);
-  CMD2_DL_V("d.group.set", [](const auto& download, const auto& arg) {
-    return cg_d_group_set(download, arg);
-  }, false);
+  CMD2_DL(
+    "d.group",
+    [](const auto& download, const auto&) { return cg_d_group(download); },
+    true);
+  CMD2_DL(
+    "d.group.name",
+    [](const auto& download, const auto&) { return cg_d_group(download); },
+    true);
+  CMD2_DL_V(
+    "d.group.set",
+    [](const auto& download, const auto& arg) {
+      return cg_d_group_set(download, arg);
+    },
+    false);
 
-  CMD2_DL_LIST("f.multicall", [](const auto& download, const auto& args) {
-    return f_multicall(download, args);
-  }, false);
-  CMD2_DL_LIST("p.multicall", [](const auto& download, const auto& args) {
-    return p_multicall(download, args);
-  }, false);
-  CMD2_DL_LIST("t.multicall", [](const auto& download, const auto& args) {
-    return t_multicall(download, args);
-  }, false);
+  CMD2_DL_LIST(
+    "f.multicall",
+    [](const auto& download, const auto& args) {
+      return f_multicall(download, args);
+    },
+    false);
+  CMD2_DL_LIST(
+    "p.multicall",
+    [](const auto& download, const auto& args) {
+      return p_multicall(download, args);
+    },
+    false);
+  CMD2_DL_LIST(
+    "t.multicall",
+    [](const auto& download, const auto& args) {
+      return t_multicall(download, args);
+    },
+    false);
 
-  CMD2_ANY_LIST("p.call_target", [](const auto&, const auto& args) {
-    return p_call_target(args);
-  }, false);
+  CMD2_ANY_LIST(
+    "p.call_target",
+    [](const auto&, const auto& args) { return p_call_target(args); },
+    false);
 }
