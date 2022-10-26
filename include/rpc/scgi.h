@@ -52,6 +52,8 @@ public:
 
   bool receive_call(SCgiTask* task, const char* buffer, uint32_t length);
 
+  static bool process_and_send(int fd, const char* data, int length, bool is_json);
+
   utils::SocketFd& get_fd() {
     return *reinterpret_cast<utils::SocketFd*>(&m_fileDesc);
   }

@@ -505,9 +505,6 @@ main(int argc, char** argv) {
     CMD2_REDIRECT("port_random", "network.port_random.set");
     CMD2_REDIRECT("proxy_address", "network.proxy_address.set");
 
-    CMD2_REDIRECT("scgi_port", "network.scgi.open_port");
-    CMD2_REDIRECT("scgi_local", "network.scgi.open_local");
-
     CMD2_REDIRECT_GENERIC("directory", "directory.default.set");
     CMD2_REDIRECT_GENERIC("session", "session.path.set");
 

@@ -3,6 +3,7 @@
 #include "globals.h"
 #include "control.h"
 #include "core/manager.h"
+#include "rpc/scgi.h"
 
 #include <torrent/utils/path.h>
 #include <fcntl.h>
@@ -67,7 +68,7 @@ WebsocketsThread::start_thread() {
       throw torrent::internal_error("Can't get listen info for websocket, please check network.websockets.open_local or network.websockets.open_port in rtorrent.rc !!!");
     }
 
-    m_websockets_app = new App();
+    m_websockets_app = new App(SocketContextOptions {}, rpc::SCgi::process_and_send);
 
     App::WebSocketBehavior<ConnectionData> behavior;
     behavior.open = [&](WebSocket<false, true, ConnectionData>* ws) {

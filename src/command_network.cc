@@ -236,10 +236,13 @@ apply_scgi(const std::string& arg, int type) {
 }
 
 torrent::Object
-apply_websockets(const std::string& arg, int type) {
+apply_websockets_scgi(const std::string& arg, int type) {
   if (worker_thread->websockets_protocol() != nullptr) {
     throw torrent::input_error("websockets RPC thread already enabled.");
   }
+
+  if (!rpc::rpc.is_initialized())
+    initialize_rpc();
 
   auto listen_info = new std::pair<std::string, int>(arg, type);
   worker_thread->set_websockets_protocol(listen_info);
@@ -396,17 +399,11 @@ initialize_command_network() {
     "network.max_open_sockets.set",
     [cm](const auto&, const auto& v) { return cm->set_max_size(v); }, false);
 
-  CMD2_ANY_STRING("network.scgi.open_port", [](const auto&, const auto& arg) {
-    return apply_scgi(arg, 1);
+  CMD2_ANY_STRING("network.websockets_scgi.open_port", [](const auto&, const auto& arg) {
+      return apply_websockets_scgi(arg, 1);
   }, false);
-  CMD2_ANY_STRING("network.scgi.open_local", [](const auto&, const auto& arg) {
-    return apply_scgi(arg, 2);
-  }, false);
-  CMD2_ANY_STRING("network.websockets.open_port", [](const auto&, const auto& arg) {
-      return apply_websockets(arg, 1);
-  }, false);
-  CMD2_ANY_STRING("network.websockets.open_local", [](const auto&, const auto& arg) {
-      return apply_websockets(arg, 2);
+  CMD2_ANY_STRING("network.websockets_scgi.open_local", [](const auto&, const auto& arg) {
+      return apply_websockets_scgi(arg, 2);
   }, false);
   CMD2_VAR_BOOL("network.scgi.dont_route", false, false);
 

@@ -52,6 +52,14 @@ SocketFd::set_reuse_address(bool state) {
 }
 
 bool
+SocketFd::set_reuse_port(bool state) {
+  check_valid();
+  int opt = state;
+
+  return setsockopt(m_fd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt)) == 0;
+}
+
+bool
 SocketFd::set_dont_route(bool state) {
   check_valid();
   int opt = state;

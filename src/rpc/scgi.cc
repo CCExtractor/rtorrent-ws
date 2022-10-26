@@ -84,7 +84,7 @@ SCgi::open_named(const std::string& filename) {
 void
 SCgi::open(void* sa, unsigned int length) {
   try {
-    if (!get_fd().set_nonblock() || !get_fd().set_reuse_address(true) ||
+    if (!get_fd().set_nonblock() || !get_fd().set_reuse_address(true) || !get_fd().set_reuse_port(true) ||
         !get_fd().bind(*reinterpret_cast<torrent::utils::socket_address*>(sa),
                        length) ||
         !get_fd().listen(max_tasks))
@@ -161,13 +161,47 @@ SCgi::receive_call(SCgiTask* task, const char* buffer, uint32_t length) {
       break;
     case SCgiTask::ContentType::XML:
     default:
-//      torrent::thread_base::acquire_global_lock();
-//      torrent::main_thread()->interrupt();
       result = rpc.dispatch(RpcManager::RPCType::XML, buffer, length, callback);
-//      torrent::thread_base::release_global_lock();
   }
 
   return result;
 }
 
+bool
+SCgi::process_and_send(int fd, const char* data, int length, bool is_json) {
+
+  static auto callback = [&](const char* buffer, uint32_t length) {
+      const auto header = is_json
+                          ? "Status: 200 OK\r\nContent-Type: "
+                            "application/json\r\nContent-Length: %i\r\n\r\n"
+                          : "Status: 200 OK\r\nContent-Type: "
+                            "text/xml\r\nContent-Length: %i\r\n\r\n";
+
+      char* data_buffer = new char[length + 256];
+      int header_size = sprintf(data_buffer, header, length);
+
+      std::memcpy(data_buffer + header_size, buffer, length);
+      ::send(fd, data_buffer, header_size + length, 0);
+      return true;
+  };
+
+  bool result = true;
+  int head_length = 0;
+
+  while (*data != ','){
+    ++data; ++head_length;
+  }
+  ++data; ++head_length;
+  length -= head_length;
+
+  if (is_json) {
+    result = rpc.dispatch(RpcManager::RPCType::JSON, data, length, callback);
+  }
+  else {
+    result = rpc.dispatch(RpcManager::RPCType::XML, data, length, callback);
+  }
+
+  return result;
 }
+
+} // namespace rpc
